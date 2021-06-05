@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- <script src="script.js"></script> -->
+    <title>TimeReminder</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="app">
+        <h1>TimeReminder</h1>
+        <div class="bottonrow">
+          <div class="section toggles">
+            <p>Remind at these times:</p>
+            <div class="timebutton timebutton1 active" id="timebutton1">:00</div>
+            <div class="timebutton timebutton2" id="timebutton2">:15</div>
+            <div class="timebutton timebutton3" id="timebutton3">:30</div>
+            <div class="timebutton timebutton4" id="timebutton4">:45</div>
+          </div>
+          <div class="section sounds">
+            <p>Remind me with this sound:</p>
+            <div class="soundbutton" id="soundbutton1">1</div>
+            <div class="soundbutton soundbutton2" id="soundbutton2">2</div>
+            <div class="soundbutton soundbutton3" id="soundbutton3">3</div>
+            <div class="soundbutton soundbutton4" id="soundbutton4">4</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <h1>Schedule Alarm</h1>
+      <input type="datetime-local" id="alarmTime" />
+      <button onclick="setAlarm(this);" id="alarmButton">Set Alarm</button>
+
+      <div id="alarmOptions" style="display:none;">
+      <button onclick="snooze();">Snooze 5 Minutes</button>
+      <button onclick="stopAlarm();">Stop Alarm</button>
+      </div>
+    </div>
+    <audio id="sound1">
+        <source src="src/chime1.wav" type="audio/wav">
+    </audio>
+    <script>
+    let soundbutton1 = document.getElementById('soundbutton1');
+
+    let sound1 = document.getElementById('sound1');
+
+      soundbutton1.onclick =
+          function() {
+              console.log('play');
+              sound1.play();
+              return false;
+          }
+      </script>
+  </body>
+</html>

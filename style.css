@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    background-color:#f4f4f4;
+    font-family: 'Lato', sans-serif;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app {
+    width: 30%;
+    margin: 0.25vh auto;
+    /* border: 2px solid #999999; */
+    border-radius: 5px;
+    padding:10px 30px;
+    box-shadow: 0px 20px 30px rgba(116,116,116.015);
+    /* position: absolute; */
+    top: 50%;
+}
+
+h1 {
+    text-align: center;
+}
+
+.buttonrow {
+    display: flex;
+}
+
+.timebutton, .soundbutton {
+    text-align: center;
+    border: 1px solid rosybrown;
+    border-radius: 6px;
+    padding:10px 15px;
+    cursor: pointer;
+}
+
+.active {
+    border: 3px solid royalblue;
+}
+
+.timebutton.active {
+    border: 3px solid rosybrown;
+}
