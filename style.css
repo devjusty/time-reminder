@@ -17,6 +17,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 30px auto;
 }
 
 .app {
@@ -30,8 +31,9 @@ body {
     top: 50%;
 }
 
-h1 {
+.app h1 {
     text-align: center;
+    letter-spacing: 0.4rem;
 }
 
 .buttonrow {
