@@ -2,6 +2,17 @@ var alarmSound = new Audio();
 alarmSound.src = "src/chime1.wav";
 var alarmTimer;
 
+// Make the Sound 1 Button Clickable to test the sound
+let soundbutton1 = document.getElementById("soundbutton1");
+let sound1 = document.getElementById("sound1");
+
+soundbutton1.onclick = function () {
+  console.log("play");
+  alarmSound.play();
+  return false;
+};
+
+
 // Get The Current Time and Display it
 setInterval(showTime, 1000);
 function showTime() {
@@ -31,65 +42,109 @@ function showTime() {
 
 showTime();
 
-// Make the Sound 1 Button Clickable to test the sound
-let soundbutton1 = document.getElementById("soundbutton1");
-let sound1 = document.getElementById("sound1");
+// Create Alarm Dropdowns 
+function addZero(time) {
+  return (time < 10) ? "0" + time : time;
+}
 
-soundbutton1.onclick = function () {
-  console.log("play");
-  alarmSound.play();
-  return false;
-};
+function hoursMenu(){
+  var select = document.getElementById('alarmhrs');
+  var hrs = 12
+  
+  for (i=1; i <= hrs; i++) {
+    select.options[select.options.length] = new Option( i < 10 ? "0" + i : i, i);
+  }
+}
+hoursMenu();
 
+function minMenu(){
+  var select = document.getElementById('alarmmins');
+  var min = 59;
+
+  for (i=0; i <= min; i++) {
+    select.options[select.options.length] = new Option(i < 10 ? "0" + i : i, i);
+  }
+}
+minMenu();
+
+function secMenu(){
+  var select = document.getElementById('alarmsecs');
+  var sec = 59;
+
+  for (i=0; i <= sec; i++) {
+    select.options[select.options.length] = new Option(i < 10 ? "0" + i : i, i);
+  }
+}
+secMenu();
+  
 // Set Alarm
-function setAlarm(button) {
-  let ms = document.getElementById("alarmTime").valueAsNumber;
-  if (isNaN(ms)) {
-    alert("Invalid Date");
-    return;
+function setAlarm() {
+  var hr = document.getElementById('alarmhrs');
+  var min = document.getElementById('alarmmins');
+  var sec = document.getElementById('alarmsecs');
+  var ap = document.getElementById('ampm');
+  
+  var selectedHour = hr.options[hr.selectedIndex].value;
+  var selectedMin = min.options[min.selectedIndex].value;
+  var selectedSec = sec.options[sec.selectedIndex].value;
+  var selectedAP = ap.options[ap.selectedIndex].value;
+  
+  var alarmTime = addZero(selectedHour) + ":" + addZero(selectedMin) + ":" + addZero(selectedSec) + selectedAP;
+  console.log('alarmTime:' + alarmTime);
+  
+  document.getElementById('alarmhrs').disabled = true;
+  document.getElementById('alarmmins').disabled = true;
+  document.getElementById('alarmsecs').disabled = true;
+  document.getElementById('ampm').disabled = true;
+
+  /*function to calcutate the current time 
+then compare it to the alarmtime and play a sound when they are equal
+*/
+
+var h2 = document.getElementById("clock");
+
+
+setInterval(function () {
+  var date = new Date();
+  var hours = 12 - date.getHours();
+  // var hours = date.getHours();
+
+  var minutes = date.getMinutes();
+  var seconds = date.getSeconds();
+  var ampm = date.getHours() < 12 ? "AM" : "PM";
+
+  //convert military time to standard time
+
+  if (hours < 0) {
+    hours = hours * -1;
+  } else if (hours == 00) {
+    hours = 12;
+  } else {
+    hours = hours;
   }
+ //   document.getElementById("clock").innerHTML = currentTime;
 
-  let alarm = new Date(ms);
-  let alarmTime = new Date(
-    alarm.getUTCFullYear(),
-    alarm.getUTCMonth(),
-    alarm.getUTCDate(),
-    alarm.getUTCHours(),
-    alarm.getUTCMinutes(),
-    alarm.getUTCSeconds()
-  );
-  let differenceInMs = alarmTime.getTime() - new Date().getTime();
+  var currentTime = (h2.textContent =
+    addZero(hours) +
+    ":" +
+    addZero(minutes) +
+    ":" +
+    addZero(seconds) +
+    "" +
+    ampm);
 
-  if (differenceInMs < 0) {
-    alert("Specified time is already passed!");
-    return;
+  if (alarmTime == currentTime) {
+    alarmSound.play();
   }
+}, 1000);
 
-  alarmTimer = setTimeout(initAlarm, differenceInMs);
-
-  button.innerText = "Cancel Alarm";
-  button.setAttribute("onclick", "cancelAlarm(this);");
+// console.log('currentTime:' + currentTime);
 }
 
-function cancelAlarm(button) {
-  button.innerText = "Set Alarm";
-  button.setAttribute = ("onclick", "setAlarm(this);");
-  clearTimeout(alarmTimer);
-}
-
-function initAlarm() {
-  alarmSound.play();
-  document.getElementById("alarmOptions").style.display = "";
-}
-
-function stopAlarm() {
-  alarmSound.pause();
-  alarmSound.currenTime = 0;
-  document.getElementById("alarmOptions").style.display = "none";
-  cancelAlarm(document.getElementById("alarmButton"));
-}
-
-function snooze() {
-  stopAlarm();
-  setTimeout(initAlarm, 36000);
+function alarmClear() {
+document.getElementById("alarmhrs").disabled = false;
+document.getElementById("alarmmins").disabled = false;
+document.getElementById("alarmsecs").disabled = false;
+document.getElementById("ampm").disabled = false;
+alarmSound.pause();
 }

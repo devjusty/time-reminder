@@ -20,6 +20,13 @@ body {
     margin: 30px auto;
 }
 
+#clock {
+    text-align: center;
+    font-size: 40px;
+    font-family: inherit;
+
+}
+
 .app {
     width: 30%;
     margin: 0.25vh auto;
@@ -31,13 +38,40 @@ body {
     top: 50%;
 }
 
-.app h1 {
+.app h1, .alarm h2 {
     text-align: center;
     letter-spacing: 0.4rem;
 }
 
 .buttonrow {
     display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+/* .timebutton {
+    display: inline;
+} */
+
+.alarm {
+    width: 30%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 10px 5px;
+    
+}
+
+#selectionHolder {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+
+#buttonHolder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .timebutton, .soundbutton {
@@ -46,6 +80,12 @@ body {
     border-radius: 6px;
     padding:10px 15px;
     cursor: pointer;
+}
+
+.timebutton {
+    width: 45%;
+    margin: 5px;
+    
 }
 
 .active {

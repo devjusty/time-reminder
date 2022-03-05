@@ -16,10 +16,10 @@
         <div class="bottonrow">
           <div class="section toggles">
             <p>Remind at these times:</p>
-            <div class="timebutton timebutton1 active" id="timebutton1">:00</div>
-            <div class="timebutton timebutton2" id="timebutton2">:15</div>
-            <div class="timebutton timebutton3" id="timebutton3">:30</div>
-            <div class="timebutton timebutton4" id="timebutton4">:45</div>
+            <div class="timebutton timebutton1 active" id="timebutton1" data-remindtime=00>:00</div>
+            <div class="timebutton timebutton2" id="timebutton2" data-remindtime=15>:15</div>
+            <div class="timebutton timebutton3" id="timebutton3" data-remindtime=30>:30</div>
+            <div class="timebutton timebutton4" id="timebutton4" data-remindtime=45>:45</div>
           </div>
           <div class="section sounds">
             <p>Remind me with this sound:</p>
@@ -31,22 +31,58 @@
         </div>
       </div>
     </div>
-    <div class="container alarm">
+    <div class="alarm">
       <h2>Schedule Alarm</h2>
       
-      <input type="datetime-local" id="alarmTime" />
-      <button onclick="setAlarm(this);" id="alarmButton">Set Alarm</button>
+      <div id="selectionHolder">
+        <label for="alarmhrs">Hr:
+        <div>
+        <select id='alarmhrs' ></select>
+        </div>
+      </label>
+      <label for="alarmmins">Min:
+        <div>
+        <select id='alarmmins' ></select>
+        </div>
+      </label>
+      <label for="alarmsecs">Sec:
+        <div>
+        <select id='alarmsecs' ></select>
+        </div>
+      </label>
+      <label for="ampm">AM/PM
+        <div>
+          <select id="ampm">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+        </div>
+      </label>
+      </div>
+
+
+      <div id='buttonHolder'>
+        <div>
+          <button  id='setButton' onClick="setAlarm();">Set Alarm</button>
+        </div>
+  
+        <div>
+          <button  id='clearButton' onClick='alarmClear()'>Clear Alarm</button>
+        </div>
+      </div>
+
+      <!-- <button onclick="setAlarm(this);" id="alarmButton">Set Alarm</button>
 
       <div id="alarmOptions" style="display:none;">
       <button onclick="snooze();">Snooze 5 Minutes</button>
       <button onclick="stopAlarm();">Stop Alarm</button>
-      </div>
+      </div> -->
     </div>
     <!-- <audio id="sound1">
         <source src="src/chime1.wav" type="audio/wav">
     </audio> -->
     <script type="text/javascript" src="script.js"></script>
-    <script>
+    <!-- <script>
     let soundbutton1 = document.getElementById('soundbutton1');
 
     let sound1 = document.getElementById('sound1');
@@ -57,6 +93,6 @@
               sound1.play();
               return false;
           }
-      </script>
+      </script> -->
   </body>
 </html>
