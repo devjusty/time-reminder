@@ -7,11 +7,9 @@ let soundbutton1 = document.getElementById("soundbutton1");
 let sound1 = document.getElementById("sound1");
 
 soundbutton1.onclick = function () {
-  console.log("play");
   alarmSound.play();
   return false;
 };
-
 
 // Get The Current Time and Display it
 setInterval(showTime, 1000);
@@ -134,6 +132,7 @@ setInterval(function () {
     ampm);
 
   if (alarmTime == currentTime) {
+    console.log(alarmTime)
     alarmSound.play();
   }
 }, 1000);
@@ -148,3 +147,32 @@ document.getElementById("alarmsecs").disabled = false;
 document.getElementById("ampm").disabled = false;
 alarmSound.pause();
 }
+
+// Add toggle to Time Buttons
+const timeButtons = document.querySelectorAll('.timebutton')
+
+timeButtons.forEach((timebutton) => {
+  timebutton.addEventListener('click', () => {
+    timebutton.classList.toggle('active')
+  })
+})
+
+// Remind 
+function timeRemind() {
+  const timebutton1 = document.getElementById('timebutton1')
+  let time = new Date();
+  let min = time.getMinutes();
+  if (timebutton1.classList.contains('active')) {
+    let toggleTime = 00;
+    if (toggleTime == min) {
+    alarmSound.play();
+    return 
+  }
+  }
+}
+setInterval(timeRemind, 1000);
+
+
+// function addZero(time) {
+//   return (time < 10) ? "0" + time : time;
+// }
