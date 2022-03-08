@@ -29,16 +29,35 @@ function showTime() {
     am_pm = "AM";
   }
 
+  // Display Analog Clock
+  const hourEl = document.querySelector('.hour')
+  const minuteEl = document.querySelector('.minute')
+  const secondEl = document.querySelector('.second')
+
+  hourEl.style.transform = `translate(-50%, -100%) rotate(${scale(hour, 0, 11, 0, 360)}deg)`
+  minuteEl.style.transform = `translate(-50%, -100%) rotate(${scale(min, 0, 59, 0, 360)}deg)`
+  secondEl.style.transform = `translate(-50%, -100%) rotate(${scale(sec, 0, 59, 0, 360)}deg)`
+
+
+  
   hour = hour < 10 ? "0" + hour : hour;
   min = min < 10 ? "0" + min : min;
   sec = sec < 10 ? "0" + sec : sec;
 
   let currentTime = hour + ":" + min + ":" + sec + am_pm;
 
-  document.getElementById("clock").innerHTML = currentTime;
-}
+  document.getElementById("digital-clock").innerHTML = currentTime;
 
+
+}
+const scale = (num, in_min, in_max, out_min, out_max) => {
+  return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
 showTime();
+
+
+
+
 
 // Create Alarm Dropdowns 
 function addZero(time) {
@@ -99,7 +118,7 @@ function setAlarm() {
 then compare it to the alarmtime and play a sound when they are equal
 */
 
-var h2 = document.getElementById("clock");
+var h2 = document.getElementById("#digital-clock");
 
 
 setInterval(function () {
@@ -150,9 +169,11 @@ alarmSound.pause();
 
 // Add toggle to Time Buttons
 const timeButtons = document.querySelectorAll('.timebutton')
+const zeroNotch = document.querySelector('.zero')
 
 timeButtons.forEach((timebutton) => {
   timebutton.addEventListener('click', () => {
+    zeroNotch.classList.toggle('active')
     timebutton.classList.toggle('active')
   })
 })

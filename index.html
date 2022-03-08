@@ -11,24 +11,33 @@
     <div class="container">
       <div class="app">
         <h1>TimeReminder</h1>
-        <div id="clock">8:10:45</div>
+        <div id="digital-clock">8:10:45</div>
+        <div class="clock-container">
+          <div class="clock">
+            <div class="zero notch active"></div>
+            <div class="needle hour"></div>
+            <div class="needle minute"></div>
+            <div class="needle second"></div>
+            <div class="center-point"></div>
+          </div>
         
-        <div class="bottonrow">
-          <div class="section toggles">
-            <p>Remind at these times:</p>
+          <p>Remind at:</p>
+
+          <div class="timetoggles">
             <div class="timebutton timebutton1 active" id="timebutton1" data-remindtime=00>:00</div>
             <div class="timebutton timebutton2" id="timebutton2" data-remindtime=15>:15</div>
             <div class="timebutton timebutton3" id="timebutton3" data-remindtime=30>:30</div>
             <div class="timebutton timebutton4" id="timebutton4" data-remindtime=45>:45</div>
           </div>
-          <div class="section sounds">
+
+          <div class="soundtoggles">
             <p>Remind me with this sound:</p>
-            <div class="soundbutton soundbutton1 active" id="soundbutton1">1</div>
-            <div class="soundbutton soundbutton2" id="soundbutton2">2</div>
-            <div class="soundbutton soundbutton3" id="soundbutton3">3</div>
-            <div class="soundbutton soundbutton4" id="soundbutton4">4</div>
+            <div class="soundbutton soundbutton1 active" id="soundbutton1">1 🔊</div>
+            <div class="soundbutton soundbutton2" id="soundbutton2">2 🔊</div>
+            <div class="soundbutton soundbutton3" id="soundbutton3">3 🔊</div>
+            <div class="soundbutton soundbutton4" id="soundbutton4">4 🔊</div>
           </div>
-        </div>
+
       </div>
     </div>
     <div class="alarm">

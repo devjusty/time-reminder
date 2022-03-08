@@ -1,15 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 
-html {
-    box-sizing: border-box;
-}
-
 *, *:before, *:after {
     box-sizing: inherit;
 }
 
+:root {
+    --primary-color: #9C27B0;
+    --dark-primary-color: #7B1FA2;
+    --light-primary-color: #E1BEE7;
+    --accent-color: #03A9F4;
+    --text-icons: #ffffff;
+    --primary-text: #212121;
+    --secondary-text: #757575;
+    --divider: #BDBDBD;
+}
+
+html {
+    transition: all 0.5s ease;
+  }
+  
+
 body {
-    background-color:#f4f4f4;
+    background-color: var(--primary-color);
     font-family: 'Lato', sans-serif;
 }
 
@@ -20,45 +32,166 @@ body {
     margin: 30px auto;
 }
 
-#clock {
+.app {
+    background-color: #fff;
+    margin: 0.25vh auto;
+    border-radius: 4rem;
+    padding:30px 30px;
+    box-shadow: .3rem .3rem .6rem var(--divider), 
+    -.2rem -.2rem .5rem var(--white);
+}
+
+.app h1, .alarm h2, .app p {
+    color: var(--secondary-text);
+    text-align: center;
+    letter-spacing: 0.3rem;
+}
+
+#digital-clock {
+    color: var(--primary-text);
     text-align: center;
     font-size: 40px;
     font-family: inherit;
 
 }
 
-.app {
-    width: 30%;
-    margin: 0.25vh auto;
-    /* border: 2px solid #999999; */
-    border-radius: 5px;
-    padding:10px 30px;
-    box-shadow: 0px 20px 30px rgba(116,116,116.015);
-    /* position: absolute; */
-    top: 50%;
-}
-
-.app h1, .alarm h2 {
-    text-align: center;
-    letter-spacing: 0.4rem;
-}
-
-.buttonrow {
+.clock-container {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: space-between
+    padding: 20px 0;
+}
+  
+  .clock {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+  
+  .needle {
+    background-color: var(--accent-color);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 65px;
+    width: 3px;
+    transform-origin: bottom center;
+    transition: all 0.5s ease-in;
+ }
+  
+  .needle.hour {
+    transform: translate(-50%, -100%) rotate(0deg);
+}
+  
+  .needle.minute {
+    transform: translate(-50%, -100%) rotate(0deg);
+    height: 100px;
+}
+  
+  .needle.second {
+    transform: translate(-50%, -100%) rotate(0deg);
+    height: 100px;
+    background-color: var(--primary-color);
+}
+  
+  .center-point {
+    background-color: var(--primary-color);
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;;
+}
+  
+  .center-point::after {
+    content: '';
+    background-color: #03A9F4;
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;;
 }
 
-/* .timebutton {
-    display: inline;
-} */
+.zero {
+    background-color: transparent;
+}
+
+.zero.active {
+    background-color: var(--light-primary-color);
+    width: 10px;
+    height: 3px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+
+
+.timetoggles {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.timebutton, .soundbutton {
+    text-align: center;
+    border-radius: 16px;
+    /* padding:10px 15px; */
+    cursor: pointer;
+}
+
+.timebutton {
+    background-color: var(--light-primary-color);
+    color: #fff;
+    /* border: 1px solid #E1BEE7; */
+    display: flex;
+    width: 100px;
+    height: 100px;
+    font-size: 36px;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    box-shadow: .3rem .3rem .6rem var(--divider), 
+    -.2rem -.2rem .5rem var(--white);
+    user-select: none;
+    /* $inner-shadow: inset .2rem .2rem .5rem var(--divider), 
+    inset -.2rem -.2rem .5rem var(--white); */
+}
+
+.soundbutton {
+    border: 1px solid var(--divider);
+    margin: 10px auto;
+    padding: 10px 0;
+    font-size: 16px;
+    width: 60%;
+}
+
+.soundbutton.active {
+    border: 3px solid var(--accent-color);
+}
+
+.timebutton.active {
+    /* border: 1px solid var(--dark-primary-color); */
+    background-color: var(--primary-color);
+}
 
 .alarm {
     width: 30%;
     margin: 0 auto;
     background-color: #fff;
-    padding: 10px 5px;
-    
+    padding: 30px 10px;
+    border-radius: 3rem;
 }
 
 #selectionHolder {
@@ -72,26 +205,4 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.timebutton, .soundbutton {
-    text-align: center;
-    border: 1px solid rosybrown;
-    border-radius: 6px;
-    padding:10px 15px;
-    cursor: pointer;
-}
-
-.timebutton {
-    width: 45%;
-    margin: 5px;
-    
-}
-
-.active {
-    border: 3px solid royalblue;
-}
-
-.timebutton.active {
-    border: 3px solid rosybrown;
 }
