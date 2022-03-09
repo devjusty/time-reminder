@@ -168,14 +168,31 @@ alarmSound.pause();
 }
 
 // Add toggle to Time Buttons
-const timeButtons = document.querySelectorAll('.timebutton')
+const timeButton1 = document.querySelector('.timebutton1')
+const timeButton2 = document.querySelector('.timebutton2')
+const timeButton3 = document.querySelector('.timebutton3')
+const timeButton4 = document.querySelector('.timebutton4')
 const zeroNotch = document.querySelector('.zero')
+const fifteenNotch = document.querySelector('.fifteen')
+const thirtyNotch = document.querySelector('.thirty')
+const fourtyfiveNotch = document.querySelector('.fourtyfive')
 
-timeButtons.forEach((timebutton) => {
-  timebutton.addEventListener('click', () => {
-    zeroNotch.classList.toggle('active')
-    timebutton.classList.toggle('active')
-  })
+
+timebutton1.addEventListener('click', () => {
+  zeroNotch.classList.toggle('active')
+  timebutton1.classList.toggle('active')
+})
+timebutton2.addEventListener('click', () => {
+  fifteenNotch.classList.toggle('active')
+  timebutton2.classList.toggle('active')
+})
+timebutton3.addEventListener('click', () => {
+  thirtyNotch.classList.toggle('active')
+  timebutton3.classList.toggle('active')
+})
+timebutton4.addEventListener('click', () => {
+  fourtyfiveNotch.classList.toggle('active')
+  timebutton4.classList.toggle('active')
 })
 
 // Remind 
@@ -183,13 +200,30 @@ function timeRemind() {
   const timebutton1 = document.getElementById('timebutton1')
   let time = new Date();
   let min = time.getMinutes();
+  let sec = time.getSeconds();
+  let current = min + ':' + sec 
   if (timebutton1.classList.contains('active')) {
-    let toggleTime = 00;
+    let toggleTime = 00 + ':' + 00;
     if (toggleTime == min) {
     alarmSound.play();
     return 
   }
   }
+  if (timebutton2.classList.contains('active')) {
+    let toggleTime = 00 + ':' + 00;
+    if (toggleTime == min) {
+    alarmSound.play();
+    return 
+  }
+  }
+
+
+
+
+
+
+
+
 }
 setInterval(timeRemind, 1000);
 

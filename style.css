@@ -29,14 +29,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 30px auto;
+    margin: 50px auto;
 }
 
 .app {
     background-color: #fff;
     margin: 0.25vh auto;
     border-radius: 4rem;
-    padding:30px 30px;
+    padding:40px 40px;
     box-shadow: .3rem .3rem .6rem var(--divider), 
     -.2rem -.2rem .5rem var(--white);
 }
@@ -44,7 +44,7 @@ body {
 .app h1, .alarm h2, .app p {
     color: var(--secondary-text);
     text-align: center;
-    letter-spacing: 0.3rem;
+    letter-spacing: 0.2rem;
 }
 
 #digital-clock {
@@ -81,15 +81,18 @@ body {
  }
   
   .needle.hour {
+    background-color: var(--dark-primary-color);
     transform: translate(-50%, -100%) rotate(0deg);
 }
   
   .needle.minute {
+    background-color: var(--primary-color);
     transform: translate(-50%, -100%) rotate(0deg);
     height: 100px;
 }
   
   .needle.second {
+    display: none;
     transform: translate(-50%, -100%) rotate(0deg);
     height: 100px;
     background-color: var(--primary-color);
@@ -123,7 +126,7 @@ body {
 }
 
 .notch.active {
-    background-color: var(--light-primary-color);
+    background-color: var(--accent-color);
     position: absolute;
     transform: translate(-50%, -50%);
 }
@@ -173,6 +176,7 @@ body {
 
 .timebutton {
     background-color: var(--light-primary-color);
+    border: 1px solid var(--light-primary-color);
     color: #fff;
     /* border: 1px solid #E1BEE7; */
     display: flex;
@@ -187,6 +191,14 @@ body {
     user-select: none;
     /* $inner-shadow: inset .2rem .2rem .5rem var(--divider), 
     inset -.2rem -.2rem .5rem var(--white); */
+}
+
+.timebutton:hover {
+    border-color: var(--divider);
+}
+
+.soundtoggles {
+    display: none;
 }
 
 .soundbutton {
@@ -207,6 +219,7 @@ body {
 }
 
 .alarm {
+    display: none;
     width: 30%;
     margin: 0 auto;
     background-color: #fff;
