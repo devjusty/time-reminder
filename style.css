@@ -118,22 +118,42 @@ body {
     border-radius: 50%;;
 }
 
-.zero {
+.notch {
     background-color: transparent;
 }
 
-.zero.active {
+.notch.active {
     background-color: var(--light-primary-color);
-    width: 10px;
-    height: 3px;
     position: absolute;
-    left: 50%;
     transform: translate(-50%, -50%);
 }
 
+.zero.active {
+    width: 10px;
+    height: 3px;
+    left: 50%;
+}
 
+.fifteen.active{
+    width: 3px;
+    height: 10px;
+    right: 0;
+    top: 50%;
+}
 
+.thirty.active {
+    width: 10px;
+    height: 3px;
+    left: 50%;
+    bottom: 0;
+}
 
+.fourtyfive.active{
+    width: 3px;
+    height: 10px;
+    left: 0;
+    top: 50%;
+}
 
 .timetoggles {
     display: grid;
