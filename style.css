@@ -1,241 +1,257 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
 
-*, *:before, *:after {
-    box-sizing: inherit;
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 :root {
-    --primary-color: #9C27B0;
-    --dark-primary-color: #7B1FA2;
-    --light-primary-color: #E1BEE7;
-    --accent-color: #03A9F4;
-    --text-icons: #ffffff;
-    --primary-text: #212121;
-    --secondary-text: #757575;
-    --divider: #BDBDBD;
+  --primary-color: #9c27b0;
+  --dark-primary-color: #7b1fa2;
+  --light-primary-color: #e1bee7;
+  --accent-color: #03a9f4;
+  --text-icons: #ffffff;
+  --primary-text: #212121;
+  --secondary-text: #757575;
+  --divider: #bdbdbd;
 }
 
 html {
-    transition: all 0.5s ease;
-  }
-  
+  transition: all 0.5s ease;
+}
 
 body {
-    background-color: var(--primary-color);
-    font-family: 'Lato', sans-serif;
+  background-color: var(--primary-color);
+  font-family: "Lato", sans-serif;
 }
 
 .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 50px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 50px auto;
 }
 
 .app {
-    background-color: #fff;
-    margin: 0.25vh auto;
-    border-radius: 4rem;
-    padding:40px 40px;
-    box-shadow: .3rem .3rem .6rem var(--divider), 
-    -.2rem -.2rem .5rem var(--white);
+  background-color: #fff;
+  margin: 0.25vh auto;
+  border-radius: 4rem;
+  padding: 40px 40px;
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--divider),
+    -0.2rem -0.2rem 0.5rem var(--white);
 }
 
-.app h1, .alarm h2, .app p {
-    color: var(--secondary-text);
-    text-align: center;
-    letter-spacing: 0.2rem;
+.app h1,
+.alarm h2,
+.app p {
+  color: var(--secondary-text);
+  text-align: center;
+  letter-spacing: 0.2rem;
 }
 
 #digital-clock {
-    color: var(--primary-text);
-    text-align: center;
-    font-size: 40px;
-    font-family: inherit;
-
+  color: var(--primary-text);
+  text-align: center;
+  font-size: 40px;
+  font-family: inherit;
 }
 
 .clock-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
 }
-  
-  .clock {
-    position: relative;
-    width: 200px;
-    height: 200px;
+
+.clock {
+  position: relative;
+  width: 200px;
+  height: 200px;
 }
-  
-  .needle {
-    background-color: var(--accent-color);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    height: 65px;
-    width: 3px;
-    transform-origin: bottom center;
-    transition: all 0.5s ease-in;
- }
-  
-  .needle.hour {
-    background-color: var(--dark-primary-color);
-    transform: translate(-50%, -100%) rotate(0deg);
+
+.needle {
+  background-color: var(--accent-color);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 65px;
+  width: 3px;
+  transform-origin: bottom center;
+  transition: all 0.5s ease-in;
 }
-  
-  .needle.minute {
-    background-color: var(--primary-color);
-    transform: translate(-50%, -100%) rotate(0deg);
-    height: 100px;
+
+.needle.hour {
+  background-color: var(--dark-primary-color);
+  transform: translate(-50%, -100%) rotate(0deg);
 }
-  
-  .needle.second {
-    display: none;
-    transform: translate(-50%, -100%) rotate(0deg);
-    height: 100px;
-    background-color: var(--primary-color);
+
+.needle.minute {
+  background-color: var(--primary-color);
+  transform: translate(-50%, -100%) rotate(0deg);
+  height: 100px;
 }
-  
-  .center-point {
-    background-color: var(--primary-color);
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;;
+
+.needle.second {
+  display: none;
+  transform: translate(-50%, -100%) rotate(0deg);
+  height: 100px;
+  background-color: var(--primary-color);
 }
-  
-  .center-point::after {
-    content: '';
-    background-color: #03A9F4;
-    width: 5px;
-    height: 5px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;;
+
+.center-point {
+  background-color: var(--primary-color);
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+.center-point::after {
+  content: "";
+  background-color: #03a9f4;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
 }
 
 .notch {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .notch.active {
-    background-color: var(--accent-color);
-    position: absolute;
-    transform: translate(-50%, -50%);
+  background-color: var(--accent-color);
+  position: absolute;
+  transform: translate(-50%, -50%);
 }
 
 .zero.active {
-    width: 10px;
-    height: 3px;
-    left: 50%;
+  width: 10px;
+  height: 3px;
+  left: 50%;
 }
 
-.fifteen.active{
-    width: 3px;
-    height: 10px;
-    right: 0;
-    top: 50%;
+.fifteen.active {
+  width: 3px;
+  height: 10px;
+  right: 0;
+  top: 50%;
 }
 
 .thirty.active {
-    width: 10px;
-    height: 3px;
-    left: 50%;
-    bottom: 0;
+  width: 10px;
+  height: 3px;
+  left: 50%;
+  bottom: 0;
 }
 
-.fourtyfive.active{
-    width: 3px;
-    height: 10px;
-    left: 0;
-    top: 50%;
+.fourtyfive.active {
+  width: 3px;
+  height: 10px;
+  left: 0;
+  top: 50%;
 }
 
 .timetoggles {
-    display: grid;
-    grid-template-columns: auto auto;
-    justify-content: center;
-    align-items: center;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  align-items: center;
 }
 
-
-
-.timebutton, .soundbutton {
-    text-align: center;
-    border-radius: 16px;
-    /* padding:10px 15px; */
-    cursor: pointer;
+.timebutton,
+.soundbutton {
+  text-align: center;
+  border-radius: 25%;
+  /* padding:10px 15px; */
+  cursor: pointer;
 }
 
 .timebutton {
-    background-color: var(--light-primary-color);
-    border: 1px solid var(--light-primary-color);
-    color: #fff;
-    /* border: 1px solid #E1BEE7; */
-    display: flex;
-    width: 100px;
-    height: 100px;
-    font-size: 36px;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
-    box-shadow: .3rem .3rem .6rem var(--divider), 
-    -.2rem -.2rem .5rem var(--white);
-    user-select: none;
-    /* $inner-shadow: inset .2rem .2rem .5rem var(--divider), 
+  background-color: var(--light-primary-color);
+  border: 1px solid var(--light-primary-color);
+  color: #fff;
+  /* border: 1px solid #E1BEE7; */
+  display: flex;
+  width: 100px;
+  height: 100px;
+  font-size: 36px;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--divider),
+    -0.2rem -0.2rem 0.5rem var(--white);
+  user-select: none;
+  /* $inner-shadow: inset .2rem .2rem .5rem var(--divider), 
     inset -.2rem -.2rem .5rem var(--white); */
 }
 
 .timebutton:hover {
-    border-color: var(--divider);
+  opacity: 0.9;
+  border-color: var(--divider);
 }
 
 .soundtoggles {
-    display: none;
+  display: none;
 }
 
 .soundbutton {
-    border: 1px solid var(--divider);
-    margin: 10px auto;
-    padding: 10px 0;
-    font-size: 16px;
-    width: 60%;
+  border: 1px solid var(--divider);
+  margin: 10px auto;
+  padding: 10px 0;
+  font-size: 16px;
+  width: 60%;
 }
 
 .soundbutton.active {
-    border: 3px solid var(--accent-color);
+  border: 3px solid var(--accent-color);
 }
 
 .timebutton.active {
-    /* border: 1px solid var(--dark-primary-color); */
-    background-color: var(--primary-color);
+  /* border: 1px solid var(--dark-primary-color); */
+  background-color: var(--primary-color);
 }
 
 .alarm {
-    display: none;
-    width: 30%;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 30px 10px;
-    border-radius: 3rem;
+  display: none;
+  width: 30%;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 30px 10px;
+  border-radius: 3rem;
 }
 
 #selectionHolder {
-    align-items: center;
-    justify-content: center;
-    display: flex;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 
-
 #buttonHolder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-row {
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon-row div {
+  border: 1px solid var(--light-primary-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
 }
