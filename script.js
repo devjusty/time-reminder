@@ -201,22 +201,35 @@ function timeRemind() {
   let time = new Date();
   let min = time.getMinutes();
   let sec = time.getSeconds();
-  let current = min + ':' + sec 
+  let present = min + ':' + sec
   if (timebutton1.classList.contains('active')) {
-    let toggleTime = 00 + ':' + 00;
-    if (toggleTime == min) {
+    let toggle1Time = 00 + ':' + 00;
+    if (toggle1Time == present) {
     alarmSound.play();
     return 
   }
   }
   if (timebutton2.classList.contains('active')) {
-    let toggleTime = 00 + ':' + 00;
-    if (toggleTime == min) {
+    let toggle2Time = 15 + ':' + 00;
+    if (toggle2Time == present) {
     alarmSound.play();
     return 
   }
   }
-
+  if (timebutton3.classList.contains('active')) {
+    let toggle3Time = 30 + ':' + 00;
+    if (toggle3Time == present) {
+    alarmSound.play();
+    return 
+  }
+  }
+  if (timebutton2.classList.contains('active')) {
+    let toggle4Time = 45 + ':' + 00;
+    if (toggle4Time == present) {
+    alarmSound.play();
+    return 
+  }
+  }
 
 
 
