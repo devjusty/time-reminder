@@ -42,6 +42,14 @@ body {
     -0.2rem -0.2rem 0.5rem var(--white);
 }
 
+.app img {
+  width: 300px;
+}
+
+h1.name {
+  display: none;
+}
+
 .app h1,
 .alarm h2,
 .app p {
