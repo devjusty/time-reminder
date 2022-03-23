@@ -1,3 +1,4 @@
+"use strict"
 var alarmSound = new Audio();
 alarmSound.src = "src/chime1.wav";
 var alarmTimer;
