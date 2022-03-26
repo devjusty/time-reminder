@@ -77,6 +77,8 @@ h1.name {
   position: relative;
   width: 200px;
   height: 200px;
+  border: 1px solid var(--light-primary-color);
+  border-radius: 50%;
 }
 
 .needle {
