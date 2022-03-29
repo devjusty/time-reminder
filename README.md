@@ -4,6 +4,7 @@ a basic app to help you keep track of time by reminding you on the the top of th
 
 # To do
 
+-Fix rotation when hand passes 12
 -Add extra sounds
 -Remember which toggles are active in local storage
 -Remove Unneccessary Alarm Functionality
