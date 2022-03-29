@@ -265,3 +265,8 @@ h1.name {
   line-height: 40px;
   text-align: center;
 }
+
+small {
+  position: absolute;
+  bottom: 20px;
+}
