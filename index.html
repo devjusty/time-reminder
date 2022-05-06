@@ -10,8 +10,11 @@
   <body>
     <div class="container">
       <div class="app">
-        <img src="img/time-reminder-logo-v1.png" alt="TimeReminder" />
         <h1 class="name">TimeReminder</h1>
+        <p class="about">
+          An alternative to typical alarms and timers, get reminders at the top
+          of the hour, bottom of the hour, or the sides.
+        </p>
         <div id="digital-clock">8:10:45</div>
         <div class="clock-container">
           <div class="clock">
@@ -68,10 +71,10 @@
             <div class="soundbutton soundbutton4" id="soundbutton4">4 🔊</div>
           </div>
         </div>
-        <div class="icon-row">
+        <!-- <div class="icon-row">
           <div class="question">❔</div>
           <div class="gear">⚙</div>
-        </div>
+        </div> -->
       </div>
       <div class="alarm">
         <h2>Schedule Alarm</h2>
@@ -123,12 +126,15 @@
       <button onclick="stopAlarm();">Stop Alarm</button>
       </div> -->
       </div>
-      <small>
-        TimeReminder is an alternative to typical alarms and timers, instead of
-        setting an alarm to go off at a specific time, or counting down after a
-        set number of minutes, you can set reminders to the top of the hour,
-        bottom of the hour, or the sides.
-      </small>
+
+      <div class="floating-button">
+        <div class="question">
+          <a href="https://github.com/justytho/TimeReminder" target="_blank"
+            >❔</a
+          >
+        </div>
+      </div>
+
       <audio id="sound1">
         <source src="src/chime1.wav" type="audio/wav" />
       </audio>

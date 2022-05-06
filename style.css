@@ -30,12 +30,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 50px auto;
+  margin: 0.2vh auto;
 }
 
 .app {
   background-color: #fff;
-  margin: 0.25vh auto;
+  margin: 0.1vh auto;
   border-radius: 4rem;
   padding: 40px 40px;
   box-shadow: 0.3rem 0.3rem 0.6rem var(--divider),
@@ -46,16 +46,18 @@ body {
   width: 300px;
 }
 
-h1.name {
-  display: none;
-}
 
 .app h1,
-.alarm h2,
-.app p {
+.alarm h2 {
   color: var(--secondary-text);
   text-align: center;
   letter-spacing: 0.2rem;
+}
+
+.about {
+  color: var(--secondary-text);
+  text-align: center;
+  max-width: 300px;
 }
 
 #digital-clock {
@@ -152,7 +154,7 @@ h1.name {
 .fifteen.active {
   width: 3px;
   height: 10px;
-  right: 0;
+  right: -1px;
   top: 50%;
 }
 
@@ -160,7 +162,7 @@ h1.name {
   width: 10px;
   height: 3px;
   left: 50%;
-  bottom: 0;
+  bottom: -1px;
 }
 
 .fourtyfive.active {
@@ -269,4 +271,22 @@ h1.name {
 small {
   position: absolute;
   bottom: 20px;
+}
+
+.floating-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--light-primary-color);
+  line-height: 50px;
+  text-align: center;
+  font-size: 25px;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 6px 0px, rgba(0, 0, 0, 0.16) 0px 2px 32px 0px;
+}
+
+.question a {
+  text-decoration: none;
 }
