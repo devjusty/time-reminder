@@ -1,4 +1,3 @@
-
 var alarmSound = new Audio();
 alarmSound.src = "src/chime1.wav";
 var alarmTimer;
@@ -7,13 +6,14 @@ var alarmTimer;
 let soundbutton1 = document.getElementById("soundbutton1");
 let sound1 = document.getElementById("sound1");
 
-soundbutton1.onclick = function () {
-  alarmSound.play();
-  return false;
-};
+// soundbutton1.onclick = function () {
+//   alarmSound.play();
+//   return false;
+// };
 
 // Get The Current Time and Display it
 setInterval(showTime, 1000);
+
 function showTime() {
   let time = new Date();
   let hour = time.getHours();
@@ -39,8 +39,6 @@ function showTime() {
   minuteEl.style.transform = `translate(-50%, -100%) rotate(${scale(min, 0, 60, 0, 360)}deg)`
   secondEl.style.transform = `translate(-50%, -100%) rotate(${scale(sec, 0, 60, 0, 360)}deg)`
 
-
-  
   hour = hour < 10 ? "0" + hour : hour;
   min = min < 10 ? "0" + min : min;
   sec = sec < 10 ? "0" + sec : sec;
@@ -48,17 +46,13 @@ function showTime() {
   let currentTime = hour + ":" + min + ":" + sec + am_pm;
 
   document.getElementById("digital-clock").innerHTML = currentTime;
-
-
 }
+
 const scale = (num, in_min, in_max, out_min, out_max) => {
   return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
+
 showTime();
-
-
-
-
 
 // Create Alarm Dropdowns 
 function addZero(time) {
@@ -116,40 +110,39 @@ function setAlarm() {
   document.getElementById('ampm').disabled = true;
 
   /*function to calcutate the current time 
-then compare it to the alarmtime and play a sound when they are equal
-*/
+  then compare it to the alarmtime and play a sound when they are equal
+  */
 
-var h2 = document.getElementById("#digital-clock");
+  var h2 = document.getElementById("#digital-clock");
 
+  setInterval(function () {
+    var date = new Date();
+    var hours = 12 - date.getHours();
+    // var hours = date.getHours();
 
-setInterval(function () {
-  var date = new Date();
-  var hours = 12 - date.getHours();
-  // var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
+    var ampm = date.getHours() < 12 ? "AM" : "PM";
 
-  var minutes = date.getMinutes();
-  var seconds = date.getSeconds();
-  var ampm = date.getHours() < 12 ? "AM" : "PM";
+    //convert military time to standard time
 
-  //convert military time to standard time
+    if (hours < 0) {
+      hours = hours * -1;
+    } else if (hours == 00) {
+      hours = 12;
+    } else {
+      hours = hours;
+    }
+    //   document.getElementById("clock").innerHTML = currentTime;
 
-  if (hours < 0) {
-    hours = hours * -1;
-  } else if (hours == 00) {
-    hours = 12;
-  } else {
-    hours = hours;
-  }
- //   document.getElementById("clock").innerHTML = currentTime;
-
-  var currentTime = (h2.textContent =
-    addZero(hours) +
-    ":" +
-    addZero(minutes) +
-    ":" +
-    addZero(seconds) +
-    "" +
-    ampm);
+    var currentTime = (h2.textContent =
+      addZero(hours) +
+      ":" +
+      addZero(minutes) +
+      ":" +
+      addZero(seconds) +
+      "" +
+      ampm);
 
   if (alarmTime == currentTime) {
     console.log(alarmTime)
@@ -161,11 +154,11 @@ setInterval(function () {
 }
 
 function alarmClear() {
-document.getElementById("alarmhrs").disabled = false;
-document.getElementById("alarmmins").disabled = false;
-document.getElementById("alarmsecs").disabled = false;
-document.getElementById("ampm").disabled = false;
-alarmSound.pause();
+  document.getElementById("alarmhrs").disabled = false;
+  document.getElementById("alarmmins").disabled = false;
+  document.getElementById("alarmsecs").disabled = false;
+  document.getElementById("ampm").disabled = false;
+  alarmSound.pause();
 }
 
 // Add toggle to Time Buttons
@@ -182,19 +175,19 @@ const fourtyfiveNotch = document.querySelector('.fourtyfive')
 timebutton1.addEventListener('click', () => {
   zeroNotch.classList.toggle('active')
   timebutton1.classList.toggle('active')
-})
+  })
 timebutton2.addEventListener('click', () => {
   fifteenNotch.classList.toggle('active')
   timebutton2.classList.toggle('active')
-})
+  })
 timebutton3.addEventListener('click', () => {
   thirtyNotch.classList.toggle('active')
   timebutton3.classList.toggle('active')
-})
+  })
 timebutton4.addEventListener('click', () => {
   fourtyfiveNotch.classList.toggle('active')
   timebutton4.classList.toggle('active')
-})
+  })
 
 // Remind 
 function timeRemind() {
@@ -231,14 +224,7 @@ function timeRemind() {
     return 
   }
   }
-
-
-
-
-
-
-
-}
+  }
 setInterval(timeRemind, 1000);
 
 
