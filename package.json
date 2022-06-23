@@ -1,0 +1,23 @@
+{
+  "name": "timereminder",
+  "version": "0.0.2",
+  "description": "remind yourself of the time at regular intervals",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devjusty/TimeReminder.git"
+  },
+  "author": "justy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devjusty/TimeReminder/issues"
+  },
+  "homepage": "https://github.com/devjusty/TimeReminder#readme",
+  "devDependencies": {
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0"
+  }
+}

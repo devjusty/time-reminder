@@ -2,7 +2,7 @@
 
 a basic app to help you keep track of time by reminding you on the the top of the hour, bottom of the hour, or sides of the hour. Built using HTML, CSS, and JS only (so far).
 
-[TimeReminder on Github Pages](https://justytho.github.io/TimeReminder/)
+[TimeReminder on Github Pages](https://devjusty.github.io/TimeReminder/)
 
 ## Planned Improvements
 
