@@ -1,10 +1,12 @@
+// TODO: Add Toggle to change source of alarmSound
 var alarmSound = new Audio();
 alarmSound.src = "src/chime1.wav";
-var alarmTimer;
+// var alarmTimer; <- Remove this line?
 
 // Make the Sound 1 Button Clickable to test the sound
 let soundbutton1 = document.getElementById("soundbutton1");
 let sound1 = document.getElementById("sound1");
+// TODO: Add other sound buttons, function to update the sound, store which sound is active in localStorage
 
 // soundbutton1.onclick = function () {
 //   alarmSound.play();
@@ -35,6 +37,7 @@ function showTime() {
   const minuteEl = document.querySelector('.minute')
   const secondEl = document.querySelector('.second')
 
+  // TODO: update this function to claen up animation
   hourEl.style.transform = `translate(-50%, -100%) rotate(${scale(hour, 0, 12, 0, 360)}deg)`
   minuteEl.style.transform = `translate(-50%, -100%) rotate(${scale(min, 0, 60, 0, 360)}deg)`
   secondEl.style.transform = `translate(-50%, -100%) rotate(${scale(sec, 0, 60, 0, 360)}deg)`
@@ -54,7 +57,7 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
 
 showTime();
 
-// Create Alarm Dropdowns 
+// Create Alarm Dropdowns <- Remove this 
 function addZero(time) {
   return (time < 10) ? "0" + time : time;
 }
@@ -89,7 +92,7 @@ function secMenu(){
 }
 secMenu();
   
-// Set Alarm
+// Set Alarm <- What do I need to save from this function? 
 function setAlarm() {
   var hr = document.getElementById('alarmhrs');
   var min = document.getElementById('alarmmins');
@@ -162,6 +165,7 @@ function alarmClear() {
 }
 
 // Add toggle to Time Buttons
+// TODO loop through these and add a better event listener
 const timeButton1 = document.querySelector('.timebutton1')
 const timeButton2 = document.querySelector('.timebutton2')
 const timeButton3 = document.querySelector('.timebutton3')
@@ -189,7 +193,7 @@ timebutton4.addEventListener('click', () => {
   timebutton4.classList.toggle('active')
   })
 
-// Remind 
+// Remind <- Just re-write all of this stuff 
 function timeRemind() {
   const timebutton1 = document.getElementById('timebutton1')
   let time = new Date();
