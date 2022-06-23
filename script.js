@@ -164,6 +164,28 @@ function alarmClear() {
   alarmSound.pause();
 }
 
+// store the state of each time button so we can store it later
+const notches = {
+  timebutton1: true,
+  timebutton2: false,
+  timebutton3: false,
+  timebutton4: false,
+}
+// we need to check the state of these from localstorage upon page load. 
+
+const timebuttons = document.querySelectorAll(".timebutton");
+
+function toggleTimebutton(e) {
+  console.log(e.target.classList[1]) 
+  notches[e.target.classList[1]] = !notches[e.target.classList[1]]
+}
+
+timebuttons.forEach(button => {
+  button.addEventListener("click", toggleTimebutton)
+})
+
+// TODO update the toggle function to change the state of the buttons and notches, and eventually save the state of the buttons in localstorage 
+
 // Add toggle to Time Buttons
 // TODO loop through these and add a better event listener
 const timeButton1 = document.querySelector('.timebutton1')
@@ -174,6 +196,11 @@ const zeroNotch = document.querySelector('.zero')
 const fifteenNotch = document.querySelector('.fifteen')
 const thirtyNotch = document.querySelector('.thirty')
 const fourtyfiveNotch = document.querySelector('.fourtyfive')
+
+// timebutton1.addEventListener('click', (e) => {
+//   console.log(e.target.classList[1]) 
+//   notches[e.target.classList[1]] = !notches[e.target.classList[1]]
+// });
 
 
 timebutton1.addEventListener('click', () => {
@@ -231,6 +258,7 @@ function timeRemind() {
   }
 setInterval(timeRemind, 1000);
 
+// reconsider how we set AM/PM previously and how we padded the zero to time
 
 // function addZero(time) {
 //   return (time < 10) ? "0" + time : time;
