@@ -173,11 +173,20 @@ const notches = {
 }
 // we need to check the state of these from localstorage upon page load. 
 
+const restoredSession = JSON.parse(localStorage.getItem('notches'));
+document.addEventListener("DOMContentLoaded", updateNotches);
+
+function updateNotches() {
+  notches = restoredSession
+}
+
 const timebuttons = document.querySelectorAll(".timebutton");
 
 function toggleTimebutton(e) {
   console.log(e.target.classList[1]) 
   notches[e.target.classList[1]] = !notches[e.target.classList[1]]
+
+  localStorage.setItem('notches', JSON.stringify(notches));
 }
 
 timebuttons.forEach(button => {
