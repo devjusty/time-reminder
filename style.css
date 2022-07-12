@@ -3,7 +3,7 @@
 *,
 *:before,
 *:after {
-  box-sizing: inherit;
+  box-sizing: border-box;
 }
 
 :root {
@@ -91,12 +91,14 @@ body {
   height: 65px;
   width: 3px;
   transform-origin: bottom center;
-  transition: all 0.5s ease-in;
+  /* transition: all 0.5s ease-in; */
+  transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
 }
 
 .needle.hour {
   background-color: var(--dark-primary-color);
   transform: translate(-50%, -100%) rotate(0deg);
+  width: 5px;
 }
 
 .needle.minute {
@@ -106,8 +108,9 @@ body {
 }
 
 .needle.second {
-  display: none;
+  /* display: none; */
   transform: translate(-50%, -100%) rotate(0deg);
+  width: 1px;
   height: 100px;
   background-color: var(--primary-color);
 }
