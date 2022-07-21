@@ -62,12 +62,15 @@ body {
 .app h1,
 .alarm h2 {
   color: var(--greyDark);
+  font-size: 32px;
   text-align: center;
   letter-spacing: 0.2rem;
+  margin: 16px;
 }
 
 .about {
   color: var(--greyDark);
+  font-size: 16px;
   text-align: center;
   max-width: 300px;
 }
@@ -84,9 +87,13 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
+  padding: 16px 0;
   color: var(--greyDark);
   font-size: 18px;
+}
+
+.clock-container p {
+  margin: 16px;
 }
 
 .clock {
@@ -189,6 +196,23 @@ body {
   top: 50%;
 }
 
+.timeSwitches input {
+  visibility: hidden;
+}
+
+.timeSwitches label {
+  cursor: pointer;
+}
+
+.timeSwitches label::before{
+  content: '';
+}
+
+.timeSwitches label::after{
+  content: '';
+}
+
+
 .timetoggles {
   display: grid;
   grid-template-columns: auto auto;
@@ -212,10 +236,10 @@ body {
   display: flex;
   width: 100px;
   height: 100px;
-  font-size: 36px;
+  font-size: 32px;
   justify-content: center;
   align-items: center;
-  margin: 10px;
+  margin: 8px;
   box-shadow: 0.3rem 0.3rem 0.6rem var(--divider),
     -0.2rem -0.2rem 0.5rem var(--white);
   user-select: none;
