@@ -10,7 +10,7 @@
   --primary-light: #8abdff;
   --primary: #6d5dfc;
   --primary-dark: #5b0eeb;
-  
+
   --white: #FFFFFF;
   --greyLight-1: #E4EBF5;
   --greyLight-2: #c8d0e7;
@@ -242,8 +242,11 @@ body {
   margin: 8px;
   box-shadow: 0.3rem 0.3rem 0.6rem var(--divider),
     -0.2rem -0.2rem 0.5rem var(--white);
-  user-select: none;
-  /* $inner-shadow: inset .2rem .2rem .5rem var(--divider), 
+    -webkit-user-select: none;
+    user-select: none;
+
+
+  /* $inner-shadow: inset .2rem .2rem .5rem var(--divider),
     inset -.2rem -.2rem .5rem var(--white); */
 }
 
