@@ -223,7 +223,7 @@ function timeRemind() {
     return
   }
   }
-  }
+}
 setInterval(timeRemind, 1000);
 
 // reconsider how we set AM/PM previously and how we padded the zero to time, and how am_pm and ampm works?
