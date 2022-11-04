@@ -54,7 +54,6 @@ if (restoredSession){
 function restoreAlarms(){
         alarms = restoredSession
         for(const alarm in alarms){
-            console.log(alarm, alarms[alarm])
             if(alarms[alarm]){
                 document.getElementById(alarm).classList.add('active')
             } else {
