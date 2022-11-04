@@ -1,233 +1,169 @@
-const scale = (num, in_min, in_max, out_min, out_max) => {
-  return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
+// Create shared variables between clock and reminders
+let minute, second, alarms
+setInterval(getTime, 1000)
 
-var alarmSound = new Audio();
-alarmSound.src = "src/chime1.wav";
+function getTime() {
+    // Get the current time
+    let time = new Date();
+    let hour = time.getHours();
+    minute = time.getMinutes();
+    second = time.getSeconds();
+    let am_pm = time.getHours() < 12 ? "AM" : "PM"
 
-// Get The Current Time and Display it
-setInterval(showTime, 1000);
-
-function showTime() {
-  let time = new Date();
-  let hour = time.getHours();
-  let min = time.getMinutes();
-  let sec = time.getSeconds();
-  am_pm = "AM";
-
-  if (hour > 12) {
-    hour -= 12;
-    am_pm = "PM";
-  }
-  if (hour == 0) {
-    hr = 12;
-    am_pm = "AM";
-  }
-
-  // Display Analog Clock
-  const hourEl = document.querySelector('.hour')
-  const minuteEl = document.querySelector('.minute')
-  const secondEl = document.querySelector('.second')
-
-  // TODO: update this function to clean up animation
-  hourEl.style.transform = `translate(-50%, -100%) rotate(${scale(hour, 0, 12, 0, 360)}deg)`
-  minuteEl.style.transform = `translate(-50%, -100%) rotate(${scale(min, 0, 60, 0, 360)}deg)`
-  secondEl.style.transform = `translate(-50%, -100%) rotate(${scale(sec, 0, 60, 0, 360)}deg)`
-
-  hour = hour < 10 ? "0" + hour : hour;
-  min = min < 10 ? "0" + min : min;
-  sec = sec < 10 ? "0" + sec : sec;
-
-  let currentTime = hour + ":" + min + ":" + sec + am_pm;
-
-  document.getElementById("digital-clock").innerHTML = currentTime;
-}
-
-showTime();
-
-
-
-// Create Alarm Dropdowns <- Remove this
-function addZero(time) {
-  return (time < 10) ? "0" + time : time;
-}
-
-// Set Alarm <- What do I need to save from this function?
-function setAlarm() {
-  var hr = document.getElementById('alarmhrs');
-  var min = document.getElementById('alarmmins');
-  var sec = document.getElementById('alarmsecs');
-  var ap = document.getElementById('ampm');
-
-  var selectedHour = hr.options[hr.selectedIndex].value;
-  var selectedMin = min.options[min.selectedIndex].value;
-  var selectedSec = sec.options[sec.selectedIndex].value;
-  var selectedAP = ap.options[ap.selectedIndex].value;
-
-  var alarmTime = addZero(selectedHour) + ":" + addZero(selectedMin) + ":" + addZero(selectedSec) + selectedAP;
-  console.log('alarmTime:' + alarmTime);
-
-  document.getElementById('alarmhrs').disabled = true;
-  document.getElementById('alarmmins').disabled = true;
-  document.getElementById('alarmsecs').disabled = true;
-  document.getElementById('ampm').disabled = true;
-
-  /*function to calcutate the current time
-  then compare it to the alarmtime and play a sound when they are equal
-  */
-
-  var h2 = document.getElementById("#digital-clock");
-
-  setInterval(function () {
-    var date = new Date();
-    var hours = 12 - date.getHours();
-    // var hours = date.getHours();
-
-    var minutes = date.getMinutes();
-    var seconds = date.getSeconds();
-    var ampm = date.getHours() < 12 ? "AM" : "PM";
-
-    //convert military time to standard time
-
-    if (hours < 0) {
-      hours = hours * -1;
-    } else if (hours == 00) {
-      hours = 12;
-    } else {
-      hours = hours;
+    if (hour > 12) {
+        hour -= 12
     }
-    //   document.getElementById("clock").innerHTML = currentTime;
+       if (hour == 0){
+        hour = 12
+    }
 
-    var currentTime = (h2.textContent =
-      addZero(hours) +
-      ":" +
-      addZero(minutes) +
-      ":" +
-      addZero(seconds) +
-      "" +
-      ampm);
+    // Set up the analog clock
+    const hourEl = document.querySelector('.hour')
+    const minuteEl = document.querySelector('.minute')
+    const secondEl = document.querySelector('.second')
+    const scale = (num, in_min, in_max, out_min, out_max) => {
+        return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+      }
+    // Adjust the hands to the curren time
+    hourEl.style.transform = `translate(-50%, -100%) rotate(${scale(hour, 0, 12, 0, 360)}deg)`
+    minuteEl.style.transform = `translate(-50%, -100%) rotate(${scale(minute, 0, 60, 0, 360)}deg)`
+    secondEl.style.transform = `translate(-50%, -100%) rotate(${scale(second, 0, 60, 0, 360)}deg)`
 
-  if (alarmTime == currentTime) {
-    console.log(alarmTime)
-    alarmSound.play();
-  }
-}, 1000);
 
-// console.log('currentTime:' + currentTime);
+    // Set up the digital clock and display the time
+    let currentTime = `${addZero(hour)}:${addZero(minute)}:${addZero(second)}${am_pm}`
+
+    const digitalClockEl = document.getElementById("digital-clock")
+    digitalClockEl.innerHTML = currentTime;
 }
 
-// function alarmClear() {
-//   document.getElementById("alarmhrs").disabled = false;
-//   document.getElementById("alarmmins").disabled = false;
-//   document.getElementById("alarmsecs").disabled = false;
-//   document.getElementById("ampm").disabled = false;
-//   alarmSound.pause();
-// }
-
-// store the state of each time button so we can store it later
-let notches = {
-  timebutton1: true,
-  timebutton2: false,
-  timebutton3: false,
-  timebutton4: false,
-}
-// we need to check the state of these from localstorage upon page load.
-
-// const restoredSession = JSON.parse(localStorage.getItem('notches'));
-// document.addEventListener("DOMContentLoaded", updateNotches);
-
-// function updateNotches() {
-//   notches = restoredSession
-// }
-
-const timebuttons = document.querySelectorAll(".timebutton");
-
-function toggleTimebutton(e) {
-  console.log(e.target.classList[1])
-  notches[e.target.classList[1]] = !notches[e.target.classList[1]]
-
-  // localStorage.setItem('notches', JSON.stringify(notches));
+// Utility function for adding leading zeroes
+function addZero(time){
+    return (time < 10) ? "0" + time : time;
 }
 
-timebuttons.forEach(button => {
-  button.addEventListener("click", toggleTimebutton)
+// Restore alarms from localStorage or set defaults
+const restoredSession = JSON.parse(localStorage.getItem('alarms'))
+if (restoredSession){
+    document.addEventListener('DOMContentLoaded', restoreAlarms)
+} else {
+    document.addEventListener('DOMContentLoaded', defaultAlarms)
+}
+
+// Restore settings and apply classes
+function restoreAlarms(){
+        alarms = restoredSession
+        for(const alarm in alarms){
+            console.log(alarm, alarms[alarm])
+            if(alarms[alarm]){
+                document.getElementById(alarm).classList.add('active')
+            } else {
+                document.getElementById(alarm).classList.remove('active')
+            }
+        }
+        toggleNotches()
+}
+
+// Default alarms for first use
+function defaultAlarms(){
+    alarms = {
+        alarm1: true,
+        alarm2: false,
+        alarm3: false,
+        alarm4: false,
+    }
+}
+
+// Toggle alarm function for button clicks
+function toggleAlarm(e) {
+    alarms[e.target.id] = !alarms[e.target.id]
+    e.target.classList.toggle('active')
+    localStorage.setItem('alarms', JSON.stringify(alarms));
+}
+
+
+const alarmButton1 = document.querySelector('#alarm1')
+const alarmButton2 = document.querySelector('#alarm2')
+const alarmButton3 = document.querySelector('#alarm3')
+const alarmButton4 = document.querySelector('#alarm4')
+
+// Add specific listener for each button to also toggle notch display on analog clock
+alarmButton1.addEventListener('click', (e) => {
+    toggleAlarm(e)
+    document.querySelector('.zero').classList.toggle('active')
+})
+alarmButton2.addEventListener('click', (e) => {
+    toggleAlarm(e)
+    document.querySelector('.fifteen').classList.toggle('active')
+})
+alarmButton3.addEventListener('click', (e) => {
+    toggleAlarm(e)
+    document.querySelector('.thirty').classList.toggle('active')
+})
+alarmButton4.addEventListener('click', (e) => {
+    toggleAlarm(e)
+    document.querySelector('.fourtyfive').classList.toggle('active')
 })
 
-// TODO update the toggle function to change the state of the buttons and notches, and eventually save the state of the buttons in localstorage
-
-// Add toggle to Time Buttons
-// TODO loop through these and add a better event listener
-const timeButton1 = document.querySelector('#timebutton1')
-const timeButton2 = document.querySelector('#timebutton2')
-const timeButton3 = document.querySelector('#timebutton3')
-const timeButton4 = document.querySelector('#timebutton4')
-const zeroNotch = document.querySelector('.zero')
-const fifteenNotch = document.querySelector('.fifteen')
-const thirtyNotch = document.querySelector('.thirty')
-const fourtyfiveNotch = document.querySelector('.fourtyfive')
-
-// timebutton1.addEventListener('click', (e) => {
-//   console.log(e.target.classList[1])
-//   notches[e.target.classList[1]] = !notches[e.target.classList[1]]
-// });
-
-
-timebutton1.addEventListener('click', () => {
-  zeroNotch.classList.toggle('active')
-  timebutton1.classList.toggle('active')
-  })
-timebutton2.addEventListener('click', () => {
-  fifteenNotch.classList.toggle('active')
-  timebutton2.classList.toggle('active')
-  })
-timebutton3.addEventListener('click', () => {
-  thirtyNotch.classList.toggle('active')
-  timebutton3.classList.toggle('active')
-  })
-timebutton4.addEventListener('click', () => {
-  fourtyfiveNotch.classList.toggle('active')
-  timebutton4.classList.toggle('active')
-  })
-
-// Remind <- Just re-write all of this stuff
-function timeRemind() {
-  let time = new Date();
-  let min = time.getMinutes();
-  let sec = time.getSeconds();
-  let present = min + ':' + sec
-  if (timebutton1.classList.contains('active')) {
-    let toggle1Time = 00 + ':' + 00;
-    if (toggle1Time == present) {
-    alarmSound.play();
-    return
-  }
-  }
-  if (timebutton2.classList.contains('active')) {
-    let toggle2Time = 15 + ':' + 00;
-    if (toggle2Time == present) {
-    alarmSound.play();
-    return
-  }
-  }
-  if (timebutton3.classList.contains('active')) {
-    let toggle3Time = 30 + ':' + 00;
-    if (toggle3Time == present) {
-    alarmSound.play();
-    return
-  }
-  }
-  if (timebutton2.classList.contains('active')) {
-    let toggle4Time = 45 + ':' + 00;
-    if (toggle4Time == present) {
-    alarmSound.play();
-    return
-  }
-  }
+// Match Notch display to state of alarms from LocalStorage
+function toggleNotches(){
+    if (alarms.alarm1){
+        document.querySelector('.zero').classList.add('active')
+    } else {
+        document.querySelector('.zero').classList.remove('active')
+    }
+    if (alarms.alarm2){
+        document.querySelector('.fifteen').classList.add('active')
+    } else {
+        document.querySelector('.fifteen').classList.remove('active')
+    }
+    if (alarms.alarm3){
+        document.querySelector('.thirty').classList.add('active')
+    } else {
+        document.querySelector('.thirty').classList.remove('remove')
+    }
+    if (alarms.alarm4){
+        document.querySelector('.fourtyfive').classList.add('active')
+    } else {
+        document.querySelector('.fourtyfive').classList.remove('active')
+    }
 }
-setInterval(timeRemind, 1000);
+// TODO: Refactor above event listeners and functions
 
-// reconsider how we set AM/PM previously and how we padded the zero to time, and how am_pm and ampm works?
+// Function to run the active reminders
+function timeReminder() {
+    let present = addZero(minute) + ":" + addZero(second)
 
-// function addZero(time) {
-//   return (time < 10) ? "0" + time : time;
-// }
+    var alarmSound = new Audio();
+    alarmSound.src = "src/chime1.wav";
+
+    // TODO: Refactor this code so it doesn't repeat
+    if (alarms.alarm1) {
+        if (present == "00:00"){
+            alarmSound.play()
+            return
+        }
+    }
+
+    if (alarms.alarm2) {
+        if (present == "15:00"){
+            alarmSound.play()
+            return
+        }
+    }
+
+    if (alarms.alarm3) {
+        if (present == "30:00"){
+            alarmSound.play()
+            return
+        }
+    }
+    if (alarms.alarm4) {
+        if (present == "45:00"){
+            alarmSound.play()
+            return
+        }
+    }
+}
+
+setInterval(timeReminder, 1000);
