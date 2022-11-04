@@ -52,36 +52,6 @@ function addZero(time) {
   return (time < 10) ? "0" + time : time;
 }
 
-// function hoursMenu(){
-//   var select = document.getElementById('alarmhrs');
-//   var hrs = 12
-
-//   for (i=1; i <= hrs; i++) {
-//     select.options[select.options.length] = new Option( i < 10 ? "0" + i : i, i);
-//   }
-// }
-// hoursMenu();
-
-// function minMenu(){
-//   var select = document.getElementById('alarmmins');
-//   var min = 59;
-
-//   for (i=0; i <= min; i++) {
-//     select.options[select.options.length] = new Option(i < 10 ? "0" + i : i, i);
-//   }
-// }
-// minMenu();
-
-// function secMenu(){
-//   var select = document.getElementById('alarmsecs');
-//   var sec = 59;
-
-//   for (i=0; i <= sec; i++) {
-//     select.options[select.options.length] = new Option(i < 10 ? "0" + i : i, i);
-//   }
-// }
-// secMenu();
-
 // Set Alarm <- What do I need to save from this function?
 function setAlarm() {
   var hr = document.getElementById('alarmhrs');
@@ -146,13 +116,13 @@ function setAlarm() {
 // console.log('currentTime:' + currentTime);
 }
 
-function alarmClear() {
-  document.getElementById("alarmhrs").disabled = false;
-  document.getElementById("alarmmins").disabled = false;
-  document.getElementById("alarmsecs").disabled = false;
-  document.getElementById("ampm").disabled = false;
-  alarmSound.pause();
-}
+// function alarmClear() {
+//   document.getElementById("alarmhrs").disabled = false;
+//   document.getElementById("alarmmins").disabled = false;
+//   document.getElementById("alarmsecs").disabled = false;
+//   document.getElementById("ampm").disabled = false;
+//   alarmSound.pause();
+// }
 
 // store the state of each time button so we can store it later
 let notches = {
@@ -163,17 +133,12 @@ let notches = {
 }
 // we need to check the state of these from localstorage upon page load.
 
-
-
 // const restoredSession = JSON.parse(localStorage.getItem('notches'));
 // document.addEventListener("DOMContentLoaded", updateNotches);
 
 // function updateNotches() {
 //   notches = restoredSession
 // }
-
-
-
 
 const timebuttons = document.querySelectorAll(".timebutton");
 
