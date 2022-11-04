@@ -7,9 +7,9 @@
 }
 
 :root {
-  --primary-light: #8abdff;
-  --primary: #6d5dfc;
-  --primary-dark: #5b0eeb;
+  --primary-light: #0096C7;
+  --primary: #0077B6;
+  --primary-dark: #03045E;
 
   --white: #FFFFFF;
   --greyLight-1: #E4EBF5;
@@ -17,9 +17,9 @@
   --greyLight-3: #bec8e4;
   --greyDark: #9baacf;
 
-  --primary-color: #9c27b0;
-  --dark-primary-color: #7b1fa2;
-  --light-primary-color: #e1bee7;
+  --primary-color: #0077B6;
+  --dark-primary-color: #03045E;
+  --light-primary-color: #ADE8F4;
   --accent-color: #03a9f4;
   --text-icons: #ffffff;
   --primary-text: #212121;
@@ -47,8 +47,8 @@ body {
   background-color: #fff;
   border-radius: 4rem;
   padding: 40px 40px;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--divider),
-    -0.2rem -0.2rem 0.5rem var(--white);
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--divider);
+  text-align: center;
 }
 
 .app h1{
@@ -201,6 +201,7 @@ body {
   grid-template-columns: auto auto;
   justify-content: center;
   align-items: center;
+  gap: 8px;
 }
 
 .timebutton {
@@ -213,14 +214,13 @@ body {
   background-color: var(--light-primary-color);
   color: #fff;
   display: flex;
-  width: 100px;
-  height: 100px;
+  width: 112px;
+  height: 112px;
   font-size: 32px;
   justify-content: center;
   align-items: center;
-  margin: 8px;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--divider),
-    -0.2rem -0.2rem 0.5rem var(--white);
+  /* margin: 8px; */
+  box-shadow: 0.1rem 0.1rem 0.4rem var(--divider);
   -webkit-user-select: none;
   user-select: none;
 }
