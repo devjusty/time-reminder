@@ -27,13 +27,15 @@
   --divider: #bdbdbd;
 }
 
-html {
+/* html {
   transition: all 0.5s ease;
   background: var(--greyLight-1);
-}
+} */
 
 body {
   font-family: "Inter", sans-serif;
+  transition: all 0.5s ease;
+  background: var(--greyLight-1);
 }
 
 .container {
@@ -57,6 +59,14 @@ body {
   text-align: center;
   letter-spacing: 0.2rem;
   margin: 0 auto;
+}
+
+.app h2 {
+  margin: 8px auto;
+}
+
+.app p {
+  margin: 8px auto;
 }
 
 .about {
@@ -201,7 +211,7 @@ body {
   grid-template-columns: auto auto;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
 }
 
 .timebutton {

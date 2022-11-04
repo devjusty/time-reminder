@@ -1,6 +1,17 @@
 // Create shared variables between clock and reminders
 let minute, second, alarms
+
+document.addEventListener('DOMContentLoaded', getTime)
+
 setInterval(getTime, 1000)
+
+var alarmSound = new Audio();
+alarmSound.src = "src/chime1.wav";
+
+const scale = (num, in_min, in_max, out_min, out_max) => {
+    return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+
 
 function getTime() {
     // Get the current time
@@ -21,14 +32,11 @@ function getTime() {
     const hourEl = document.querySelector('.hour')
     const minuteEl = document.querySelector('.minute')
     const secondEl = document.querySelector('.second')
-    const scale = (num, in_min, in_max, out_min, out_max) => {
-        return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-      }
+
     // Adjust the hands to the curren time
     hourEl.style.transform = `translate(-50%, -100%) rotate(${scale(hour, 0, 12, 0, 360)}deg)`
     minuteEl.style.transform = `translate(-50%, -100%) rotate(${scale(minute, 0, 60, 0, 360)}deg)`
     secondEl.style.transform = `translate(-50%, -100%) rotate(${scale(second, 0, 60, 0, 360)}deg)`
-
 
     // Set up the digital clock and display the time
     let currentTime = `${addZero(hour)}:${addZero(minute)}:${addZero(second)}${am_pm}`
@@ -90,18 +98,26 @@ const alarmButton4 = document.querySelector('#alarm4')
 alarmButton1.addEventListener('click', (e) => {
     toggleAlarm(e)
     document.querySelector('.zero').classList.toggle('active')
+    alarmSound.play()
+    return
 })
 alarmButton2.addEventListener('click', (e) => {
     toggleAlarm(e)
     document.querySelector('.fifteen').classList.toggle('active')
+    alarmSound.play()
+    return
 })
 alarmButton3.addEventListener('click', (e) => {
     toggleAlarm(e)
     document.querySelector('.thirty').classList.toggle('active')
+    alarmSound.play()
+    return
 })
 alarmButton4.addEventListener('click', (e) => {
     toggleAlarm(e)
     document.querySelector('.fourtyfive').classList.toggle('active')
+    alarmSound.play()
+    return
 })
 
 // Match Notch display to state of alarms from LocalStorage
@@ -132,9 +148,6 @@ function toggleNotches(){
 // Function to run the active reminders
 function timeReminder() {
     let present = addZero(minute) + ":" + addZero(second)
-
-    var alarmSound = new Audio();
-    alarmSound.src = "src/chime1.wav";
 
     // TODO: Refactor this code so it doesn't repeat
     if (alarms.alarm1) {
