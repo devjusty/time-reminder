@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
 
 *,
 *:before,
@@ -7,9 +7,9 @@
 }
 
 :root {
-  --primary-light: #8abdff;
-  --primary: #6d5dfc;
-  --primary-dark: #5b0eeb;
+  --primary-light: #0096C7;
+  --primary: #0077B6;
+  --primary-dark: #03045E;
 
   --white: #FFFFFF;
   --greyLight-1: #E4EBF5;
@@ -17,9 +17,9 @@
   --greyLight-3: #bec8e4;
   --greyDark: #9baacf;
 
-  --primary-color: #9c27b0;
-  --dark-primary-color: #7b1fa2;
-  --light-primary-color: #e1bee7;
+  --primary-color: #0077B6;
+  --dark-primary-color: #03045E;
+  --light-primary-color: #ADE8F4;
   --accent-color: #03a9f4;
   --text-icons: #ffffff;
   --primary-text: #212121;
@@ -33,8 +33,7 @@ html {
 }
 
 body {
-  /* background-color: var(--primary-color); */
-  font-family: "Lato", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .container {
@@ -42,26 +41,18 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  /* margin: 0.2vh auto; */
 }
 
 .app {
   background-color: #fff;
-  /* margin: 0.1vh auto; */
   border-radius: 4rem;
   padding: 40px 40px;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--divider),
-    -0.2rem -0.2rem 0.5rem var(--white);
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--divider);
+  text-align: center;
 }
 
-.app img {
-  width: 300px;
-}
-
-
-.app h1,
-.alarm h2 {
-  color: var(--greyDark);
+.app h1{
+  color: var(--primary);
   font-size: 32px;
   text-align: center;
   letter-spacing: 0.2rem;
@@ -69,7 +60,7 @@ body {
 }
 
 .about {
-  color: var(--greyDark);
+  color: var(--primary-text);
   font-size: 16px;
   text-align: center;
   max-width: 300px;
@@ -112,7 +103,6 @@ body {
   height: 65px;
   width: 3px;
   transform-origin: bottom center;
-  /* transition: all 0.5s ease-in; */
   transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
 }
 
@@ -129,7 +119,6 @@ body {
 }
 
 .needle.second {
-  /* display: none; */
   transform: translate(-50%, -100%) rotate(0deg);
   width: 1px;
   height: 100px;
@@ -164,115 +153,84 @@ body {
 }
 
 .notch.active {
-  background-color: var(--accent-color);
   position: absolute;
   transform: translate(-50%, -50%);
 }
 
 .zero.active {
-  width: 10px;
-  height: 3px;
+  width: 0px;
+  height: 0px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 10px solid var(--accent-color);
   left: 50%;
 }
 
 .fifteen.active {
-  width: 3px;
-  height: 10px;
-  right: -1px;
+  width: 0px;
+  height: 0px;
+  border-top: 5px solid transparent;
+  border-right: 10px solid var(--accent-color);
+  border-bottoM: 5px solid transparent;
+  right: -10px;
   top: 50%;
 }
 
 .thirty.active {
-  width: 10px;
-  height: 3px;
+  width: 0px;
+  height: 0px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid var(--accent-color);
   left: 50%;
-  bottom: -1px;
+  bottom: -10px;
 }
 
 .fourtyfive.active {
-  width: 3px;
-  height: 10px;
+  width: 0px;
+  height: 0px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 10px solid var(--accent-color);
   left: 0;
   top: 50%;
 }
-
-.timeSwitches input {
-  visibility: hidden;
-}
-
-.timeSwitches label {
-  cursor: pointer;
-}
-
-.timeSwitches label::before{
-  content: '';
-}
-
-.timeSwitches label::after{
-  content: '';
-}
-
 
 .timetoggles {
   display: grid;
   grid-template-columns: auto auto;
   justify-content: center;
   align-items: center;
+  gap: 8px;
 }
 
-.timebutton,
-.soundbutton {
+.timebutton {
   text-align: center;
   border-radius: 25%;
-  /* padding:10px 15px; */
   cursor: pointer;
 }
 
 .timebutton {
   background-color: var(--light-primary-color);
-  border: 1px solid var(--light-primary-color);
   color: #fff;
-  /* border: 1px solid #E1BEE7; */
   display: flex;
-  width: 100px;
-  height: 100px;
+  width: 112px;
+  height: 112px;
   font-size: 32px;
   justify-content: center;
   align-items: center;
-  margin: 8px;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--divider),
-    -0.2rem -0.2rem 0.5rem var(--white);
-    -webkit-user-select: none;
-    user-select: none;
-
-
-  /* $inner-shadow: inset .2rem .2rem .5rem var(--divider),
-    inset -.2rem -.2rem .5rem var(--white); */
+  /* margin: 8px; */
+  box-shadow: 0.1rem 0.1rem 0.4rem var(--divider);
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .timebutton:hover {
-  opacity: 0.9;
+  opacity: 0.8;
   border-color: var(--divider);
 }
 
-.soundtoggles {
-  display: none;
-}
-
-.soundbutton {
-  border: 1px solid var(--divider);
-  margin: 10px auto;
-  padding: 10px 0;
-  font-size: 16px;
-  width: 60%;
-}
-
-.soundbutton.active {
-  border: 3px solid var(--accent-color);
-}
-
 .timebutton.active {
-  /* border: 1px solid var(--dark-primary-color); */
   background-color: var(--primary-color);
 }
 
@@ -283,38 +241,6 @@ body {
   background-color: #fff;
   padding: 30px 10px;
   border-radius: 3rem;
-}
-
-#selectionHolder {
-  align-items: center;
-  justify-content: center;
-  display: flex;
-}
-
-#buttonHolder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.icon-row {
-  font-size: 20px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.icon-row div {
-  border: 1px solid var(--light-primary-color);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-}
-
-small {
-  position: absolute;
-  bottom: 20px;
 }
 
 .floating-button {
