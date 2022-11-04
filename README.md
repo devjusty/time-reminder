@@ -2,7 +2,7 @@
 
 TimeReminder is a simple productivity tool that offers an alternative to typical timers and alarms. Receive an audiable chime at the top of the hour, bottom of the hour, or on the sides (a quarter past the hour, or a quarter before the hour). Use the buttons to toggle when to receive these reminders.
 
-[TimeReminder on Github Pages](https://devjusty.github.io/TimeReminder/)
+[TimeReminder on Netlify](https://time-reminder.netlify.app/)
 
 ![TimeReminder Screenshot](/src/time-reminder-screenshot.jpg)
 
