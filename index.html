@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Keep track of time with an alternative to typical alarms and timers. Get audible reminders at the top of the hour, bottom of the hour, or the sides."
+    />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -24,15 +28,35 @@
     <link rel="manifest" href="/src/site.webmanifest" />
     <link rel="stylesheet" href="/src/normalize.css" />
     <link rel="stylesheet" href="style.css" />
-    <title>TimeReminder</title>
+    <title>TimeReminder | Keep track of time</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-8BKEPME5TE"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-8BKEPME5TE");
+    </script>
   </head>
   <body>
     <div class="container">
       <div class="app">
-        <img src="/src/time-reminder-icon.png" alt="TimeReminder icon" />
+        <img
+          src="/src/time-reminder-icon.png"
+          alt="TimeReminder icon"
+          width="64"
+          height="64"
+        />
         <h1 class="name">TimeReminder</h1>
         <p class="about">
-          An alternative to typical alarms and timers, get reminders at the top
+          An alternative to typical alarms and timers. Get reminders at the top
           of the hour, bottom of the hour, or the sides.
         </p>
         <h2 id="digital-clock"></h2>

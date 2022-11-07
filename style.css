@@ -222,7 +222,7 @@ body {
 
 .timebutton {
   background-color: var(--light-primary-color);
-  color: #fff;
+  color: var(--primary-text);
   display: flex;
   width: 112px;
   height: 112px;
@@ -242,6 +242,7 @@ body {
 
 .timebutton.active {
   background-color: var(--primary-color);
+  color: #fff;
 }
 
 .alarm {
