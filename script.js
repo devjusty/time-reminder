@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', getTime)
 
 setInterval(getTime, 1000)
 
-var alarmSound = new Audio();
+const alarmSound = new Audio();
 alarmSound.src = "src/chime1.wav";
 
 const scale = (num, in_min, in_max, out_min, out_max) => {
@@ -99,25 +99,21 @@ alarmButton1.addEventListener('click', (e) => {
     toggleAlarm(e)
     document.querySelector('.zero').classList.toggle('active')
     alarmSound.play()
-    return
 })
 alarmButton2.addEventListener('click', (e) => {
     toggleAlarm(e)
     document.querySelector('.fifteen').classList.toggle('active')
     alarmSound.play()
-    return
 })
 alarmButton3.addEventListener('click', (e) => {
     toggleAlarm(e)
     document.querySelector('.thirty').classList.toggle('active')
     alarmSound.play()
-    return
 })
 alarmButton4.addEventListener('click', (e) => {
     toggleAlarm(e)
     document.querySelector('.fourtyfive').classList.toggle('active')
     alarmSound.play()
-    return
 })
 
 // Match Notch display to state of alarms from LocalStorage
@@ -153,27 +149,23 @@ function timeReminder() {
     if (alarms.alarm1) {
         if (present == "00:00"){
             alarmSound.play()
-            return
         }
     }
 
     if (alarms.alarm2) {
         if (present == "15:00"){
             alarmSound.play()
-            return
         }
     }
 
     if (alarms.alarm3) {
         if (present == "30:00"){
             alarmSound.play()
-            return
         }
     }
     if (alarms.alarm4) {
         if (present == "45:00"){
             alarmSound.play()
-            return
         }
     }
 }
