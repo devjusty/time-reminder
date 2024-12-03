@@ -1,6 +1,6 @@
 {
   "name": "timereminder",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "remind yourself of the time at regular intervals",
   "main": "index.html",
   "scripts": {
@@ -10,14 +10,14 @@
     "type": "git",
     "url": "git+https://github.com/devjusty/TimeReminder.git"
   },
-  "author": "justy",
+  "author": "Justin Thompson",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/devjusty/TimeReminder/issues"
   },
   "homepage": "https://github.com/devjusty/TimeReminder#readme",
   "devDependencies": {
-    "eslint": "^8.18.0",
+    "eslint": "^8.57.1",
     "eslint-config-prettier": "^8.5.0"
   }
 }
