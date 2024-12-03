@@ -3,21 +3,21 @@
 / ============================= */
 @font-face {
   font-family: "Satoshi";
-  src: url("/src/fonts/satoshi-regular-webfont.woff2") format("woff2");
+  src: url("./src/fonts/satoshi-regular-webfont.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Satoshi";
-  src: url("/src/fonts/satoshi-bold-webfont.woff2") format("woff2");
+  src: url("./src/fonts/satoshi-bold-webfont.woff2") format("woff2");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Satoshi";
-  src: url("/src/fonts/satoshi-light-webfont.woff2") format("woff2");
+  src: url("./src/fonts/satoshi-light-webfont.woff2") format("woff2");
   font-weight: light;
   font-style: normal;
 }
