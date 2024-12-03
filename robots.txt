@@ -1,0 +1,5 @@
+# robots.txt for TimeReminder
+User-agent: *
+Disallow:
+
+Sitemap: https://timeremind.info/sitemap.xml
