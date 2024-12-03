@@ -227,20 +227,20 @@ function timeReminder() {
   let alarmTriggered = false;
   reminderTimes.forEach((time, index) => {
     const alarmKey = `alarm${index + 1}`;
-    console.log(`Checking ${alarmKey} for ${time}:`, alarms[alarmKey]);
+    // console.log(`Checking ${alarmKey} for ${time}:`, alarms[alarmKey]);
 
     if (alarms && alarms[alarmKey] && currentMinute === time) {
-      console.log(`Playing alarm for ${alarmKey} at ${currentMinute}`);
+      // console.log(`Playing alarm for ${alarmKey} at ${currentMinute}`);
       alarmSound.play();
       alarmTriggered = true;
 
       // Trigger combined visual effect
       const clock = document.querySelector(".clock");
       if (clock) {
-        console.log("Adding alert class to .clock");
+        // console.log("Adding alert class to .clock");
         clock.classList.add("alert");
         setTimeout(() => {
-          console.log("Removing alert class from .clock");
+          // console.log("Removing alert class from .clock");
           clock.classList.remove("alert"); // Remove effect after 3 seconds
         }, 3000);
       } else {
