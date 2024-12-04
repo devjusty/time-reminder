@@ -109,7 +109,8 @@ h6 {
   background-color: var(--white);
   border-radius: 4rem;
   padding: var(--spacing-medium);
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--divider);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
   text-align: center;
   width: min(400px, 90%);
 }
@@ -161,8 +162,10 @@ h6 {
   position: relative;
   width: 200px;
   height: 200px;
-  border: 1px solid var(--primary-light);
+  /* border: 1px solid var(--primary-light); */
   border-radius: 50%;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 }
 
 .clock.alert {
@@ -253,7 +256,7 @@ h6 {
 }
 
 .timebutton {
-  background-color: var(--primary-light);
+  background-color: var(--grey-light-1);
   color: var(--primary-text);
   display: flex;
   align-items: center;
@@ -387,17 +390,6 @@ input:checked + .slider:before {
   transform: translate(-50%, -50%);
 }
 
-.notch {
-  background-color: transparent;
-}
-
-.notch.active {
-  position: absolute;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
 .zero.active {
   width: 0px;
   height: 0px;
@@ -427,7 +419,7 @@ input:checked + .slider:before {
   bottom: -10px;
 }
 
-.fourtyfive.active {
+.fortyfive.active {
   width: 0px;
   height: 0px;
   border-top: 5px solid transparent;

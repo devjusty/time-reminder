@@ -10,13 +10,32 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeAlarms();
   getTime();
   initializeRemindUntil();
+
+  const remindUntilInput = document.getElementById("remind-until");
+  const remindUntilToggle = document.getElementById("remind-until-toggle");
+
+  if (remindUntilInput) {
+    remindUntilInput.value = remindUntil.time;
+    remindUntilInput.addEventListener("change", (e) => {
+      remindUntil.time = e.target.value;
+      saveRemindUntil();
+    });
+  }
+
+  if (remindUntilToggle) {
+    remindUntilToggle.checked = remindUntil.enabled;
+    remindUntilToggle.addEventListener("change", (e) => {
+      remindUntil.enabled = e.target.checked;
+      saveRemindUntil();
+    });
+  }
 });
 
 // Update the time every second
 setInterval(getTime, 1000);
 
-const alarmSound = new Audio("src/chime1.wav");
-const endSound = new Audio("src/double-chime.wav");
+const alarmSound = new Audio("./src/chime1.wav");
+const endSound = new Audio("./src/double-chime.wav");
 
 // Utility function for scaling values (e.g., for clock rotation)
 const scale = (num, in_min, in_max, out_min, out_max) =>
@@ -69,7 +88,7 @@ function getTime() {
   if (digitalClockEl) digitalClockEl.innerHTML = currentTime;
 
   checkRemindUntil();
-  timeReminder();
+  lastTriggeredMinute = timeReminder(minute, lastTriggeredMinute, alarms, alarmSound);
 }
 
 // Add leading zeroes for time values
@@ -131,7 +150,7 @@ function toggleAlarm(e) {
 
 // Update notches on the analog clock based on alarms
 function toggleNotches() {
-  const classNames = ["zero", "fifteen", "thirty", "fourtyfive"];
+  const classNames = ["zero", "fifteen", "thirty", "fortyfive"];
   classNames.forEach((className, index) => {
     const notch = document.querySelector(`.${className}`);
     const alarmKey = `alarm${index + 1}`;
@@ -151,25 +170,6 @@ function initializeRemindUntil() {
     if (remindUntilInput) remindUntilInput.value = savedRemindUntil.time;
     if (remindUntilToggle) remindUntilToggle.checked = savedRemindUntil.enabled;
   }
-}
-
-const remindUntilInput = document.getElementById("remind-until");
-const remindUntilToggle = document.getElementById("remind-until-toggle");
-
-if (remindUntilInput) {
-  remindUntilInput.value = remindUntil.time;
-  remindUntilInput.addEventListener("change", (e) => {
-    remindUntil.time = e.target.value;
-    saveRemindUntil();
-  });
-}
-
-if (remindUntilToggle) {
-  remindUntilToggle.checked = remindUntil.enabled;
-  remindUntilToggle.addEventListener("change", (e) => {
-    remindUntil.enabled = e.target.checked;
-    saveRemindUntil();
-  });
 }
 
 // Save "Remind Until" settings to localStorage
@@ -193,6 +193,7 @@ function checkRemindUntil() {
     restoreAlarms();
     endSound.play();
     remindUntil.enabled = false;
+    const remindUntilToggle = document.getElementById("remind-until-toggle");
     if (remindUntilToggle) remindUntilToggle.checked = false;
     saveRemindUntil();
 
@@ -210,50 +211,64 @@ function checkRemindUntil() {
 }
 
 // Play reminders as activated
-function timeReminder() {
+function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
   const reminderTimes = ["00", "15", "30", "45"];
   const currentMinute = addZero(minute);
 
-  console.log("Current minute:", currentMinute);
-  console.log("Last triggered minute:", lastTriggeredMinute);
+  // console.log("Current minute:", currentMinute);
+  // console.log("Last triggered minute:", lastTriggeredMinute);
 
-  // Skip processing if already triggered for this minute
+
   if (lastTriggeredMinute === currentMinute) {
-    console.log("Skipping, already triggered for this minute.");
-    return;
+    // Skip processing if already triggered for this minute
+    console.log("Skipping, already triggered for this minute.", currentMinute);
+    return lastTriggeredMinute;
+  }
+
+  // Cache the clock element
+  const clock = document.querySelector(".clock");
+  if (!clock) {
+    console.error(".clock element not found in the DOM!");
+    return lastTriggeredMinute;
   }
 
   // Process reminders
   let alarmTriggered = false;
+
+  // Check all active alarms
   reminderTimes.forEach((time, index) => {
     const alarmKey = `alarm${index + 1}`;
     // console.log(`Checking ${alarmKey} for ${time}:`, alarms[alarmKey]);
 
-    if (alarms && alarms[alarmKey] && currentMinute === time) {
-      // console.log(`Playing alarm for ${alarmKey} at ${currentMinute}`);
-      alarmSound.play();
+    if (alarms[alarmKey] && currentMinute === time) {
+      console.log(`Playing alarm for ${alarmKey} at ${currentMinute}`);
+      try {
+        alarmSound.play();
+      } catch (error) {
+        console.error("Error playing alarm sound:", error);
+      }
       alarmTriggered = true;
 
       // Trigger combined visual effect
-      const clock = document.querySelector(".clock");
-      if (clock) {
-        // console.log("Adding alert class to .clock");
-        clock.classList.add("alert");
-        setTimeout(() => {
-          // console.log("Removing alert class from .clock");
-          clock.classList.remove("alert"); // Remove effect after 3 seconds
-        }, 3000);
-      } else {
-        console.error(".clock element not found in the DOM!");
-      }
+
+      // console.log("Adding alert class to .clock");
+      clock.classList.add("alert");
+      setTimeout(() => {
+        // console.log("Removing alert class from .clock");
+        clock.classList.remove("alert"); // Remove effect after 3 seconds
+      }, 3000);
     }
   });
 
-  // Update lastTriggeredMinute only if an alarm was triggered
   if (alarmTriggered) {
-    lastTriggeredMinute = currentMinute;
-    console.log("Updating lastTriggeredMinute:", lastTriggeredMinute);
+    console.log(
+      "Alarms triggered. Updating lastTriggeredMinute:",
+      currentMinute
+    );
+    return currentMinute;
   }
+
+  return lastTriggeredMinute
 }
 
 // Save data to localStorage with error handling
