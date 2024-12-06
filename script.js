@@ -6,14 +6,66 @@ let remindUntil = {
 };
 let lastTriggeredMinute = null;
 
-// Centralized configuration
-const CONFIG = {
-  ALARM_SOUND_PATH: './src/chime1.wav',
-  END_SOUND_PATH: './src/double-chime.wav',
-  DEFAULT_REMIND_UNTIL: '17:00'
+// Utility: Logger - Disable in Production
+const Logger = {
+  DEBUG: false,
+  log(...args) {
+    if (this.DEBUG) {
+      console.log(...args);
+    }
+  },
+  error(...args) {
+    console.error(...args);
+  },
 };
 
+// Utility: Save data to localStorage with error handling
+function saveToLocalStorage(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.error(`Error saving to localStorage: ${error.message}`);
+  }
+}
 
+// Utility: Load data from localStorage with error handling
+function loadFromLocalStorage(key) {
+  try {
+    return JSON.parse(localStorage.getItem(key)) || null;
+  } catch (error) {
+    console.error(`Error loading from localStorage: ${error.message}`);
+    return null;
+  }
+}
+// Configuration Object
+const CONFIG = {
+  // Time and Alarm Settings
+  DEFAULT_REMIND_UNTIL: "17:00",
+  REMINDER_INTERVALS: ["00", "15", "30", "45"],
+
+  // Sound Paths
+  SOUNDS: {
+  ALARM_SOUND_PATH: "./src/chime1.wav",
+  END_SOUND_PATH: "./src/double-chime.wav",
+  },
+
+  // UI Configuration
+  UI: {
+    MAX_ALARMS: 4
+  },
+
+  // Local Storage Keys
+  STORAGE_KEYS: {
+    ALARMS: "alarms",
+    REMIND_UNTIL: "remindUntil",
+  },
+
+  // Debug Settings
+  DEBUG: {
+    // ENABLED: ProcessingInstruction.env.NODE_ENV !== "production",
+    LOG_LEVEL: "info"
+  }
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeAlarms();
@@ -43,8 +95,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // Update the time every second
 setInterval(getTime, 1000);
 
-const alarmSound = new Audio(ALARM_SOUND_PATH);
-const endSound = new Audio(END_SOUND_PATH);
+const alarmSound = new Audio(CONFIG.SOUNDS.ALARM_SOUND_PATH);
+const endSound = new Audio(CONFIG.SOUNDS.END_SOUND_PATH);
 
 // Utility function for scaling values (e.g., for clock rotation)
 const scale = (num, in_min, in_max, out_min, out_max) =>
@@ -258,7 +310,7 @@ function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
 
   if (lastTriggeredMinute === currentMinute) {
     // Skip processing if already triggered for this minute
-    console.log("Skipping, already triggered for this minute.", currentMinute);
+    Logger.log("Skipping, already triggered for this minute.", currentMinute);
     return lastTriggeredMinute;
   }
 
@@ -278,7 +330,7 @@ function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
     // console.log(`Checking ${alarmKey} for ${time}:`, alarms[alarmKey]);
 
     if (alarms[alarmKey] && currentMinute === time) {
-      console.log(`Playing alarm for ${alarmKey} at ${currentMinute}`);
+      Logger.log(`Playing alarm for ${alarmKey} at ${currentMinute}`);
       try {
         // Check if sound is not already playing
         if (alarmSound.paused) {
@@ -289,7 +341,7 @@ function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
           if (playPromise !== undefined) {
             playPromise
               .then(() => {
-                console.log("Alarm sound played successfully.");
+                Logger.log("Alarm sound played successfully.");
               })
               .catch((error) => {
                 console.error("Error playing alarm sound:", error);
@@ -322,7 +374,7 @@ function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
   });
 
   if (alarmTriggered) {
-    console.log(
+    Logger.log(
       "Alarms triggered. Updating lastTriggeredMinute:",
       currentMinute
     );
@@ -332,24 +384,7 @@ function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
   return lastTriggeredMinute;
 }
 
-// Save data to localStorage with error handling
-function saveToLocalStorage(key, value) {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch (error) {
-    console.error(`Error saving to localStorage: ${error.message}`);
-  }
-}
 
-// Load data from localStorage with error handling
-function loadFromLocalStorage(key) {
-  try {
-    return JSON.parse(localStorage.getItem(key)) || null;
-  } catch (error) {
-    console.error(`Error loading from localStorage: ${error.message}`);
-    return null;
-  }
-}
 
 // Basic Input Validation
 function validateTime(time) {
@@ -357,3 +392,4 @@ function validateTime(time) {
   // const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
   return timePattern.test(time);
 }
+
