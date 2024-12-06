@@ -80,13 +80,15 @@
   <body>
     <div class="container">
       <div class="app">
-        <img
-          src="./src/time-reminder-icon.png"
-          alt="TimeReminder icon"
-          width="64"
-          height="64"
-        />
-        <h1 class="name">TimeReminder</h1>
+        <header>
+          <h1 class="name">TimeReminder</h1>
+          <img
+            src="./src/time-reminder-icon.png"
+            alt="TimeReminder icon"
+            width="64"
+            height="64"
+          />
+        </header>
         <p class="about">
           An alternative to typical alarms and timers. Get reminders at the top
           of the hour, bottom of the hour, or the sides.
@@ -105,14 +107,20 @@
           </div>
         </div>
 
-        <p>Remind at:</p>
+        <label>Remind at:</label>
         <div class="timetoggles">
-          <div class="timebutton active" id="alarm1" data-remindtime="00">
+          <button class="timebutton active" id="alarm1" data-remindtime="00">
             :00
-          </div>
-          <div class="timebutton" id="alarm2" data-remindtime="15">:15</div>
-          <div class="timebutton" id="alarm3" data-remindtime="30">:30</div>
-          <div class="timebutton" id="alarm4" data-remindtime="45">:45</div>
+          </b>
+          <button class="timebutton" id="alarm2" data-remindtime="15">
+            :15
+          </button>
+          <button class="timebutton" id="alarm3" data-remindtime="30">
+            :30
+          </button>
+          <button class="timebutton" id="alarm4" data-remindtime="45">
+            :45
+          </button>
         </div>
         <div class="remind-until-container">
           <label for="remind-until">Remind Until: </label>
