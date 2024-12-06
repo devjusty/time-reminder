@@ -6,6 +6,15 @@ let remindUntil = {
 };
 let lastTriggeredMinute = null;
 
+// Centralized configuration
+const CONFIG = {
+  ALARM_SOUND_PATH: './src/chime1.wav',
+  END_SOUND_PATH: './src/double-chime.wav',
+  DEFAULT_REMIND_UNTIL: '17:00'
+};
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
   initializeAlarms();
   getTime();
@@ -34,8 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // Update the time every second
 setInterval(getTime, 1000);
 
-const alarmSound = new Audio("./src/chime1.wav");
-const endSound = new Audio("./src/double-chime.wav");
+const alarmSound = new Audio(ALARM_SOUND_PATH);
+const endSound = new Audio(END_SOUND_PATH);
 
 // Utility function for scaling values (e.g., for clock rotation)
 const scale = (num, in_min, in_max, out_min, out_max) =>
@@ -88,7 +97,12 @@ function getTime() {
   if (digitalClockEl) digitalClockEl.innerHTML = currentTime;
 
   checkRemindUntil();
-  lastTriggeredMinute = timeReminder(minute, lastTriggeredMinute, alarms, alarmSound);
+  lastTriggeredMinute = timeReminder(
+    minute,
+    lastTriggeredMinute,
+    alarms,
+    alarmSound
+  );
 }
 
 // Add leading zeroes for time values
@@ -150,8 +164,8 @@ function toggleAlarm(e) {
 
 // Update notches on the analog clock based on alarms
 function toggleNotches() {
-  const classNames = ["zero", "fifteen", "thirty", "fortyfive"];
-  classNames.forEach((className, index) => {
+  const alarmNotchClasses = ["zero", "fifteen", "thirty", "fortyfive"];
+  alarmNotchClasses.forEach((className, index) => {
     const notch = document.querySelector(`.${className}`);
     const alarmKey = `alarm${index + 1}`;
     if (notch) {
@@ -163,12 +177,36 @@ function toggleNotches() {
 // Initialize the "Remind Until" feature
 function initializeRemindUntil() {
   const savedRemindUntil = loadFromLocalStorage("remindUntil");
+
+  // time validation
+  function isValidTime(time) {
+    const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/;
+    return timePattern.test(time);
+  }
+
   if (savedRemindUntil) {
-    remindUntil = savedRemindUntil; // Overwrite remindUntil with saved data
+    // validate time
+    if (isValidTime(savedRemindUntil.time)) {
+      remindUntil = savedRemindUntil; // Overwrite remindUntil with saved data
+    } else {
+      // Fallback to default
+      remindUntil = {
+        time: "17:00", // Default to 5:00 PM
+        enabled: false,
+      };
+      console.warm(
+        "Invalid time format. Fallback to default remindUntil settings."
+      );
+    }
     const remindUntilInput = document.getElementById("remind-until");
     const remindUntilToggle = document.getElementById("remind-until-toggle");
-    if (remindUntilInput) remindUntilInput.value = savedRemindUntil.time;
-    if (remindUntilToggle) remindUntilToggle.checked = savedRemindUntil.enabled;
+
+    if (remindUntilInput) {
+      remindUntilInput.value = savedRemindUntil.time;
+    }
+    if (remindUntilToggle) {
+      remindUntilToggle.checked = savedRemindUntil.enabled;
+    }
   }
 }
 
@@ -212,12 +250,11 @@ function checkRemindUntil() {
 
 // Play reminders as activated
 function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
-  const reminderTimes = ["00", "15", "30", "45"];
+  const reminderMinutes = ["00", "15", "30", "45"];
   const currentMinute = addZero(minute);
 
   // console.log("Current minute:", currentMinute);
   // console.log("Last triggered minute:", lastTriggeredMinute);
-
 
   if (lastTriggeredMinute === currentMinute) {
     // Skip processing if already triggered for this minute
@@ -236,16 +273,40 @@ function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
   let alarmTriggered = false;
 
   // Check all active alarms
-  reminderTimes.forEach((time, index) => {
+  reminderMinutes.forEach((time, index) => {
     const alarmKey = `alarm${index + 1}`;
     // console.log(`Checking ${alarmKey} for ${time}:`, alarms[alarmKey]);
 
     if (alarms[alarmKey] && currentMinute === time) {
       console.log(`Playing alarm for ${alarmKey} at ${currentMinute}`);
       try {
+        // Check if sound is not already playing
+        if (alarmSound.paused) {
+          alarmSound.currentTime;
+          const playPromise = alarmSound.play();
+
+          // Handle potential promise-based play method
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                console.log("Alarm sound played successfully.");
+              })
+              .catch((error) => {
+                console.error("Error playing alarm sound:", error);
+              });
+          }
+        }
         alarmSound.play();
       } catch (error) {
         console.error("Error playing alarm sound:", error);
+        // Display an error message to the user
+        const errorMessage = document.getElementById("error-message");
+        if (errorMessage) {
+          errorMessage.textContent = "Error playing the alarm sound!";
+          setTimeout(() => {
+            errorMessage.textContent = "";
+          }, 3000);
+        }
       }
       alarmTriggered = true;
 
@@ -268,7 +329,7 @@ function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
     return currentMinute;
   }
 
-  return lastTriggeredMinute
+  return lastTriggeredMinute;
 }
 
 // Save data to localStorage with error handling
@@ -288,4 +349,11 @@ function loadFromLocalStorage(key) {
     console.error(`Error loading from localStorage: ${error.message}`);
     return null;
   }
+}
+
+// Basic Input Validation
+function validateTime(time) {
+  const timePattern = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+  // const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+  return timePattern.test(time);
 }
