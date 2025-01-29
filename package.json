@@ -1,23 +1,27 @@
 {
   "name": "timereminder",
-  "version": "0.0.3",
-  "description": "remind yourself of the time at regular intervals",
-  "main": "index.html",
+  "version": "1.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/devjusty/TimeReminder.git"
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "howler": "^2.2.4",
+    "motion": "^11.13.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.0.2",
+    "react-toastify": "^10.0.6"
   },
-  "author": "Justin Thompson",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/devjusty/TimeReminder/issues"
-  },
-  "homepage": "https://github.com/devjusty/TimeReminder#readme",
   "devDependencies": {
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^8.5.0"
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.0",
+    "daisyui": "^4.12.14",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.2.0",
+    "vite": "^4.0.0"
   }
 }

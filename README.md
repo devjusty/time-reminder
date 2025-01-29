@@ -1,39 +1,49 @@
-# TimeReminder
+# My Vite Project
 
-TimeReminder is a simple productivity tool that offers an alternative to typical timers and alarms. Receive an audible chime at the top of the hour, bottom of the hour, or on the sides (a quarter past the hour, or a quarter before the hour). Use the buttons to toggle when to receive these reminders.
+This project is a React application bootstrapped with Vite and styled using Tailwind CSS.
 
-[timeremind.info](https://timeremind.info)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/c03b6f87-5f32-4174-9d6c-1a013690901a/deploy-status)](https://app.netlify.com/sites/time-reminder/deploys)
+## Getting Started
 
-![TimeReminder Screenshot](/src/time-reminder-screenshot.jpg)
+To get started with this project, follow these steps:
 
-## About:
+1. **Clone the repository:**
+   ```
+   git clone <repository-url>
+   cd my-vite-project
+   ```
 
-After trying out the [Pomodoro Technique](https://en.wikipedia.org/wiki/Pomodoro_Technique), I found it hard to stick to the set start and stop times when I found my way into the flow state, so I searched for a simple tool to just remind me of the time. I couldn't find one, so I built it myself.
+2. **Install dependencies:**
+   ```
+   npm install
+   ```
 
-I added localStorage so that you can re-open TimeReminder and it will keep your previously active alarm toggles active.
+3. **Run the development server:**
+   ```
+   npm run dev
+   ```
 
-I have already found it quite useful and hope you do too.
+4. **Open your browser:**
+   Navigate to `http://localhost:3000` to see your application in action.
 
-## Optimizations
+## Project Structure
 
-I'd like to eventually rewrite this as an electron desktop app, or possibly port it React Native, but before that I think there are some other optimizations that can be made.
+- `public/index.html`: The main HTML file for the application.
+- `src/main.jsx`: The entry point of the application.
+- `src/App.jsx`: The root component of the application.
+- `src/components/ExampleComponent.jsx`: An example functional component.
+- `src/assets/logo.svg`: The logo used in the application.
+- `src/index.css`: Global CSS styles, including Tailwind CSS directives.
+- `package.json`: Configuration file for npm.
+- `postcss.config.js`: Configuration for PostCSS.
+- `tailwind.config.js`: Configuration for Tailwind CSS.
+- `vite.config.js`: Configuration for Vite.
 
-- Add an area for additional settings
-- extra sound options
-- dark mode
-- 24-hour clock
-- A visual notification during reminder
-- Add other preset reminder intervals, custom reminder timers
+## Built With
 
-## Updates
+- [React](https://reactjs.org/) - A JavaScript library for building user interfaces.
+- [Vite](https://vitejs.dev/) - A fast development server and build tool.
+- [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework.
 
-1.0.3
-- Refactored much of the code behind the scenes
-- New Feature: Remind Until - now you can set a end all reminders and hear a special new chime.
-- Tweaks to design
+## License
 
-### Contact Me
-
-If you have any feedback or ideas, feel free to reach out to me, I'd love to hear what you think.
-
+This project is licensed under the MIT License.
