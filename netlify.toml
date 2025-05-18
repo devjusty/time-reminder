@@ -4,6 +4,7 @@
     Content-Security-Policy = """
       default-src 'self';
       script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'sha256-sfhil/AkYyQ+3ztQdgh6sMz3o5nWXQtthW6i4lmQcqY=';
+      style-src 'self' 'unsafe-inline';
     """
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
