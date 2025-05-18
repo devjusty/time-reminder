@@ -19,6 +19,8 @@ const Logger = {
   },
 };
 
+
+
 // Utility: Save data to localStorage with error handling
 function saveToLocalStorage(key, value) {
   try {
@@ -37,6 +39,7 @@ function loadFromLocalStorage(key) {
     return null;
   }
 }
+
 // Configuration Object
 const CONFIG = {
   // Time and Alarm Settings
@@ -97,6 +100,12 @@ setInterval(getTime, 1000);
 
 const alarmSound = new Audio(CONFIG.SOUNDS.ALARM_SOUND_PATH);
 const endSound = new Audio(CONFIG.SOUNDS.END_SOUND_PATH);
+const volumeSlider = document.getElementById("volume");
+volumeSlider.addEventListener("input", (e) => {
+  const volume = e.target.value;
+  alarmSound.volume = volume / 100; // Set volume between 0 and 1
+  endSound.volume = volume / 100; // Set volume between 0 and 1
+});
 
 // Utility function for scaling values (e.g., for clock rotation)
 const scale = (num, in_min, in_max, out_min, out_max) =>
