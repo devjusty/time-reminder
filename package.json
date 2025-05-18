@@ -1,6 +1,6 @@
 {
   "name": "timereminder",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "remind yourself of the time at regular intervals",
   "main": "index.html",
   "scripts": {
