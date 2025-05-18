@@ -3,3 +3,6 @@ node_modules
 .eslintrc.js
 /src/peaks/*
 *.DS_Store
+
+# Local Netlify folder
+.netlify

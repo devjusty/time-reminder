@@ -1,6 +1,7 @@
 /* ============================= /
 / Global Styles and Variables /
 / ============================= */
+
 @font-face {
   font-family: "Satoshi";
   src: url("./src/fonts/satoshi-regular-webfont.woff2") format("woff2");
@@ -109,7 +110,8 @@ h6 {
   background-color: var(--white);
   border-radius: 4rem;
   padding: var(--spacing-medium) 40px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
   /* text-align: center; */
   width: min(400px, 90%);
@@ -183,7 +185,8 @@ h6 {
   height: 200px;
   /* border: 1px solid var(--primary-light); */
   border-radius: 50%;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 }
 
@@ -289,7 +292,8 @@ h6 {
   cursor: pointer;
   box-shadow: 0.1rem 0.1rem 0.4rem var(--divider);
   user-select: none;
-  transition: opacity var(--transition-speed) ease,
+  transition:
+    opacity var(--transition-speed) ease,
     background-color var(--transition-speed) ease;
 }
 
@@ -380,7 +384,8 @@ input:checked + .slider:before {
   text-align: center;
   line-height: 3.5rem;
   border-radius: 50%;
-  box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 6px 0px,
+  box-shadow:
+    rgba(0, 0, 0, 0.06) 0px 1px 6px 0px,
     rgba(0, 0, 0, 0.16) 0px 2px 32px 0px;
   cursor: pointer;
   transition: background-color var(--transition-speed) ease;
@@ -442,6 +447,13 @@ input:checked + .slider:before {
   border-left: 10px solid var(--accent-color);
   left: 0;
   top: 50%;
+}
+
+.volume-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-small);
 }
 
 /* ========================= /
