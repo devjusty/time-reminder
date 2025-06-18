@@ -1,10 +1,5 @@
-import React, { createContext, useState, useContext } from "react";
-
-const SettingsContext = createContext();
-
-export const useSettings = () => {
-  return useContext(SettingsContext);
-};
+import React, { useState } from "react";
+import { SettingsContext } from "./settingsContext";
 
 const SettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState({

@@ -4,17 +4,28 @@ import Settings from "./components/Settings";
 import ReminderSettings from "./components/ReminderSettings";
 import DisplaySettings from "./components/DisplaySettings";
 import SoundSettings from "./components/SoundSettings";
+import ExampleComponent from "./components/ExampleComponent";
+import Clock from "./components/Clock";
+
+
 
 const App = () => {
   return (
+    <>
+ 
     <Router>
       <Routes>
         <Route path="/" element={<Settings />} />
-        <Route path="/settings/reminders" element={<ReminderSettings />} />
+        {/* <Route path="/settings/reminders" element={<ReminderSettings />} /> */}
         <Route path="/settings/display" element={<DisplaySettings />} />
         <Route path="/settings/sound" element={<SoundSettings />} />
       </Routes>
     </Router>
+    
+  <ExampleComponent title="Example Component" description="This is an example component" />
+    <ReminderSettings />
+    <Clock />
+    </>
   );
 };
 

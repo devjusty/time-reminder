@@ -1,5 +1,5 @@
 import React from "react";
-import { useSettings } from "../contexts/SettingsContext";
+import { useSettings } from "../hooks/useSettings";
 
 const ReminderSettings = () => {
   const { settings, updateSetting } = useSettings();
@@ -17,15 +17,10 @@ const ReminderSettings = () => {
       <p>Select intervals for reminders:</p>
       <div className="grid grid-cols-2 gap-2 mt-4">
         {["00", "15", "30", "45"].map((time) => (
-          <button
-            key={time}
-            className={`btn ${
-              settings.reminders.includes(time) ? "btn-primary" : ""
-            }`}
-            onClick={() => toggleReminder(time)}
-          >
-            :{time}
-          </button>
+            <label className="label" key={time}>
+            <input type="checkbox" defaultChecked className="toggle toggle-primary" onClick={() => toggleReminder(time)} />
+            {time}
+          </label>
         ))}
       </div>
     </div>
