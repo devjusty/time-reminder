@@ -72,17 +72,8 @@ assets/*.css
 
 # ** Editor and IDE Configurations **
 # VSCode
-.vscode/
+# .vscode/
 .history/
-
-# IntelliJ IDEA
-.idea/
-*.iml
-*.iws
-
-# Sublime Text
-*.sublime-project
-*.sublime-workspace
 
 # MacOS
 .DS_Store
