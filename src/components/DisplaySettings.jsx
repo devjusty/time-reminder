@@ -1,10 +1,22 @@
 import { useEffect, useState } from "react";
+import { loadFromLocalStorage, saveToLocalStorage } from "../utils/storage";
 
 const DisplaySettings = () => {
     const [theme, setTheme] = useState("mocha");
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
+    }, [theme]);
+
+    useEffect(() => {
+        const savedTheme = loadFromLocalStorage('theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        }
+    }, []);
+
+    useEffect(() => {
+        saveToLocalStorage('theme', theme);
     }, [theme]);
 
     return (
@@ -34,6 +46,6 @@ const DisplaySettings = () => {
             </label>
         </div>
     );
-};  
+};
 
 export default DisplaySettings;

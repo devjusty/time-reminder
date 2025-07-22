@@ -60,7 +60,7 @@ function DockItem({
             onFocus={() => isHovered.set(1)}
             onBlur={() => isHovered.set(0)}
             onClick={onClick}
-            className={`relative inline-flex items-center justify-center rounded-full bg-[#060010] border-neutral-700 border-2 shadow-md ${className}`}
+            className={`relative inline-flex items-center justify-center rounded-full bg-secondary border-neutral-700 border-2 shadow-md ${className}`}
             tabIndex={0}
             role="button"
             aria-haspopup="true"
@@ -91,7 +91,7 @@ function DockLabel({ children, className = '', ...rest }) {
                     animate={{ opacity: 1, y: -10 }}
                     exit={{ opacity: 0, y: 0 }}
                     transition={{ duration: 0.2 }}
-                    className={`${className} absolute -top-6 left-1/2 w-fit whitespace-pre rounded-md border border-neutral-700 bg-[#060010] px-2 py-0.5 text-xs text-white`}
+                    className={`${className} absolute -top-6 left-1/2 w-fit whitespace-pre rounded-md border border-neutral-700 bg-secondary px-2 py-0.5 text-xs text-secondary-content`}
                     role="tooltip"
                     style={{ x: '-50%' }}
                 >

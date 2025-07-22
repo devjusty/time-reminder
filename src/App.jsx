@@ -39,13 +39,17 @@ const App = () => {
     return (
         <div className='flex flex-col justify-center items-center h-screen max-w-[600px] mx-auto'>
           <h1 className='text-2xl font-bold text-center'>TimeReminder</h1>
-          <p className='text-center'>An alternative to typical alarms and timers. Get reminders at the top of the hour, bottom of the hour, or the sides.</p>
-          <ReminderSettings />
+          <p className='text-center text-md py-4'>
+            An alternative to typical alarms and timers. <br />Get reminders at the top of the hour, bottom of the hour, or the sides.
+            </p>
           <Clock />
+          <ReminderSettings />
           {activePanel === 'display' && <DisplaySettings />}
           {activePanel === 'sound' && <SoundSettings />}
           {activePanel === 'about' && <About />}
-          <Dock items={dockItems} />
+          <div className="absolute bottom-2">
+          <Dock items={dockItems} className=''/>
+          </div>
         </div>
     );
 };

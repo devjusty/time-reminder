@@ -24,23 +24,23 @@ const Clock = () => {
       setHours(hours);
       setMinutes(minutes);
       setSeconds(seconds);
-      
+
       // Calculate rotations
       const hourAngle = (hours % 12) * 30 + (minutes / 60) * 30;
       const minuteAngle = minutes * 6 + (seconds / 60) * 6; // Smooth minute hand movement
       const secondAngle = seconds * 6;
-      
+
       // Update rotations with smooth transitions
       animate(hourRotation, hourAngle, {
         duration: 0.8,
         ease: "easeInOut"
       });
-      
+
       animate(minuteRotation, minuteAngle, {
         duration: 0.8,
         ease: "easeInOut"
       });
-      
+
       // Second hand moves with a tween animation for smooth continuous motion
       // We use a tween instead of spring to avoid the snap-back effect
       animate(secondRotation, secondAngle, {
@@ -49,9 +49,9 @@ const Clock = () => {
         // Use type: 'tween' explicitly to prevent spring behavior
         type: 'tween'
       });
-      
+
     }, 1000);
-    
+
     return () => clearInterval(interval);
   }, [hourRotation, minuteRotation, secondRotation]);
 
@@ -73,7 +73,7 @@ const Clock = () => {
             rotate: hourRotation,
           }}
         />
-        
+
         {/* Minute Hand */}
         <motion.div
           className="needle minute absolute top-1/2 left-1/2 w-1 h-24 bg-blue-400 rounded-full origin-bottom -translate-x-1/2 -translate-y-full"
@@ -81,7 +81,7 @@ const Clock = () => {
             rotate: minuteRotation,
           }}
         />
-        
+
         {/* Second Hand */}
         <motion.div
           className="needle second absolute top-1/2 left-1/2 w-0.5 h-28 bg-red-500 rounded-full origin-bottom -translate-x-1/2 -translate-y-full"
@@ -89,11 +89,11 @@ const Clock = () => {
             rotate: secondRotation,
           }}
         />
-        
+
         {/* Center dot */}
         <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-white rounded-full -translate-x-1/2 -translate-y-1/2 z-10" />
       </div>
-      <div className="time text-center text-white">{hours}:{minutes}</div>
+      <div className="time text-2xl my-2 text-center text-white">{hours}:{minutes}</div>
     </motion.div>
   );
 };
