@@ -30,8 +30,6 @@ To get started with this project, follow these steps:
 - `public/index.html`: The main HTML file for the application.
 - `src/main.jsx`: The entry point of the application.
 - `src/App.jsx`: The root component of the application.
-- `src/components/ExampleComponent.jsx`: An example functional component.
-- `src/assets/logo.svg`: The logo used in the application.
 - `src/index.css`: Global CSS styles, including Tailwind CSS directives.
 - `package.json`: Configuration file for npm.
 - `postcss.config.js`: Configuration for PostCSS.

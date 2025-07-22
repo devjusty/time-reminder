@@ -93,7 +93,7 @@ const Clock = () => {
         {/* Center dot */}
         <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-white rounded-full -translate-x-1/2 -translate-y-1/2 z-10" />
       </div>
-      <div className="time absolute top-1/2 left-1/2 text-white">{hours}:{minutes}</div>
+      <div className="time text-center text-white">{hours}:{minutes}</div>
     </motion.div>
   );
 };
