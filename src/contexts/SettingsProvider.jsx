@@ -3,7 +3,7 @@ import { SettingsContext } from "./settingsContext";
 
 const SettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState({
-    darkMode: false,
+    darkMode: true,
     sound: "default",
     hourFormat: "12h", // or '24h'
     reminders: ["00", "15", "30", "45"],

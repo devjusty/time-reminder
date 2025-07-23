@@ -18,8 +18,8 @@ const ReminderSettings = () => {
       <div className="grid grid-cols-2 gap-2 mt-4">
         {["00", "15", "30", "45"].map((time) => (
             <label className="label" key={time}>
-            <input type="checkbox" defaultChecked className="toggle toggle-primary" onClick={() => toggleReminder(time)} />
-            {time}
+            <input type="checkbox" defaultChecked={settings.reminders.includes(time)} className="toggle toggle-primary" onClick={() => toggleReminder(time)} />
+            :{time}
           </label>
         ))}
       </div>
