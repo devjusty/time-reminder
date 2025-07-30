@@ -17,9 +17,14 @@ const ReminderSettings = () => {
       <p>Select intervals for reminders:</p>
       <div className="grid grid-cols-2 gap-2 mt-4">
         {["00", "15", "30", "45"].map((time) => (
-            <label className="label" key={time}>
-            <input type="checkbox" defaultChecked={settings.reminders.includes(time)} className="toggle toggle-primary" onClick={() => toggleReminder(time)} />
-            :{time}
+          <label className="label cursor-pointer" key={time}>
+            <input 
+              type="checkbox" 
+              checked={settings.reminders.includes(time)} 
+              onChange={() => toggleReminder(time)}
+              className="toggle toggle-primary" 
+            />
+            <span className="label-text">:{time}</span>
           </label>
         ))}
       </div>

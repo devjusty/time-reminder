@@ -2,100 +2,133 @@
 import { motion, useMotionValue, animate } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getTimeComponents } from "../utils/getTime";
+import { useAlarmChecker } from "../hooks/useAlarmChecker";
 
 const Clock = () => {
-  const [isMounted, setIsMounted] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
 
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
+    const [hours, setHours] = useState(0);
+    const [minutes, setMinutes] = useState(0);
+    /* eslint-disable-next-line no-unused-vars */
+    const [seconds, setSeconds] = useState(0);
 
-  // Initialize motion values for smooth rotation
-  const hourRotation = useMotionValue(0);
-  const minuteRotation = useMotionValue(0);
-  const secondRotation = useMotionValue(0);
+    // Alarm checking hook
+    const { checkAlarms, resetTriggerOnMinuteChange, isAlarmActive } =
+        useAlarmChecker();
 
-  // Update time every second
-  useEffect(() => {
-    setIsMounted(true);
-    const interval = setInterval(() => {
-      const now = new Date();
-      const { hours, minutes, seconds } = getTimeComponents(now);
-      setHours(hours);
-      setMinutes(minutes);
-      setSeconds(seconds);
+    // Initialize motion values for smooth rotation
+    const hourRotation = useMotionValue(0);
+    const minuteRotation = useMotionValue(0);
+    const secondRotation = useMotionValue(0);
 
-      // Calculate rotations
-      const hourAngle = (hours % 12) * 30 + (minutes / 60) * 30;
-      const minuteAngle = minutes * 6 + (seconds / 60) * 6; // Smooth minute hand movement
-      const secondAngle = seconds * 6;
+    // Utility function for scaling values (ported from old script)
+    const scale = (num, in_min, in_max, out_min, out_max) =>
+        ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
 
-      // Update rotations with smooth transitions
-      animate(hourRotation, hourAngle, {
-        duration: 0.8,
-        ease: "easeInOut"
-      });
+    // Update time every second
+    useEffect(() => {
+        setIsMounted(true);
+        const interval = setInterval(() => {
+            const now = new Date();
+            const { hours, minutes, seconds } = getTimeComponents(now);
+            setHours(hours);
+            setMinutes(minutes);
+            setSeconds(seconds);
 
-      animate(minuteRotation, minuteAngle, {
-        duration: 0.8,
-        ease: "easeInOut"
-      });
+            // Check for alarms and reset trigger state
+            checkAlarms(now);
+            resetTriggerOnMinuteChange(now);
 
-      // Second hand moves with a tween animation for smooth continuous motion
-      // We use a tween instead of spring to avoid the snap-back effect
-      animate(secondRotation, secondAngle, {
-        duration: 0.9, // Slightly longer duration for smoother motion
-        ease: [0.4, 0, 0.2, 1], // Custom ease for more natural movement
-        // Use type: 'tween' explicitly to prevent spring behavior
-        type: 'tween'
-      });
+            // Calculate rotations using the same approach as old script
+            const hourAngle = scale(hours % 12, 0, 12, 0, 360);
+            const minuteAngle = scale(minutes, 0, 60, 0, 360);
+            const secondAngle = scale(seconds, 0, 60, 0, 360);
 
-    }, 1000);
+            // Update rotations with minimal smooth transitions
+            // Only animate if the change is small (< 180 degrees) to avoid the loop issue
+            const animateIfSmallChange = (motionValue, targetAngle, duration = 0.3) => {
+                const currentAngle = motionValue.get();
+                const diff = Math.abs(targetAngle - currentAngle);
+                
+                if (diff > 180) {
+                    // Large jump - set directly without animation
+                    motionValue.set(targetAngle);
+                } else {
+                    // Small change - animate smoothly
+                    animate(motionValue, targetAngle, {
+                        duration,
+                        ease: 'easeOut',
+                    });
+                }
+            };
 
-    return () => clearInterval(interval);
-  }, [hourRotation, minuteRotation, secondRotation]);
+            animateIfSmallChange(hourRotation, hourAngle, 0.5);
+            animateIfSmallChange(minuteRotation, minuteAngle, 0.3);
+            animateIfSmallChange(secondRotation, secondAngle, 0.1);
+        }, 1000);
 
-  // Only render the clock after mounting to avoid hydration mismatch
-  if (!isMounted) return null;
+        return () => clearInterval(interval);
+    }, [
+        hourRotation,
+        minuteRotation,
+        secondRotation,
+        checkAlarms,
+        resetTriggerOnMinuteChange,
+    ]);
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="clock-container"
-    >
-      <div className="clock w-[200px] h-[200px] rounded-full border-2 border-white relative">
-        {/* Hour Hand */}
+    // Only render the clock after mounting to avoid hydration mismatch
+    if (!isMounted) return null;
+
+    return (
         <motion.div
-          className="needle hour absolute top-1/2 left-1/2 w-1 h-16 bg-white rounded-full origin-bottom -translate-x-1/2 -translate-y-full"
-          style={{
-            rotate: hourRotation,
-          }}
-        />
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="clock-container"
+        >
+            <div
+                className={`clock w-[200px] h-[200px] rounded-full border-2 border-white relative transition-all duration-300 ${isAlarmActive ? 'ring-4 ring-red-500 ring-opacity-75 shadow-lg shadow-red-500/50' : ''}`}
+            >
+                {/* Hour Hand */}
+                <motion.div
+                    className="needle hour absolute top-1/2 left-1/2 w-1 h-16 bg-white rounded-full origin-bottom -translate-x-1/2 -translate-y-full"
+                    style={{
+                        rotate: hourRotation,
+                    }}
+                />
 
-        {/* Minute Hand */}
-        <motion.div
-          className="needle minute absolute top-1/2 left-1/2 w-1 h-24 bg-blue-400 rounded-full origin-bottom -translate-x-1/2 -translate-y-full"
-          style={{
-            rotate: minuteRotation,
-          }}
-        />
+                {/* Minute Hand */}
+                <motion.div
+                    className="needle minute absolute top-1/2 left-1/2 w-1 h-24 bg-blue-400 rounded-full origin-bottom -translate-x-1/2 -translate-y-full"
+                    style={{
+                        rotate: minuteRotation,
+                    }}
+                />
 
-        {/* Second Hand */}
-        <motion.div
-          className="needle second absolute top-1/2 left-1/2 w-0.5 h-28 bg-red-500 rounded-full origin-bottom -translate-x-1/2 -translate-y-full"
-          style={{
-            rotate: secondRotation,
-          }}
-        />
+                {/* Second Hand */}
+                <motion.div
+                    className="needle second absolute top-1/2 left-1/2 w-0.5 h-28 bg-red-500 rounded-full origin-bottom -translate-x-1/2 -translate-y-full"
+                    style={{
+                        rotate: secondRotation,
+                    }}
+                />
 
-        {/* Center dot */}
-        <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-white rounded-full -translate-x-1/2 -translate-y-1/2 z-10" />
-      </div>
-      <div className="time text-2xl my-2 text-center text-white">{hours}:{minutes}</div>
-    </motion.div>
-  );
+                {/* Active Reminders Notch */}
+                <motion.div
+                    className="notch absolute top-1/2 left-1/2 w-1 h-16 bg-white rounded-full origin-bottom -translate-x-1/2 -translate-y-full"
+                    style={{
+                        rotate: hourRotation,
+                    }}
+                />
+
+                {/* Center dot */}
+                <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-white rounded-full -translate-x-1/2 -translate-y-1/2 z-10" />
+            </div>
+            <div className="time text-2xl my-2 text-center text-white">
+                {hours}:{minutes}
+            </div>
+        </motion.div>
+    );
 };
 
 export default Clock;

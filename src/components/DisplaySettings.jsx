@@ -1,30 +1,24 @@
-import { useEffect, useState } from "react";
-import { loadFromLocalStorage, saveToLocalStorage } from "../utils/storage";
+import React from "react";
+import { useSettings } from "../hooks/useSettings";
 
 const DisplaySettings = () => {
-    const [theme, setTheme] = useState("mocha");
+    const { settings, updateSetting } = useSettings();
 
-    useEffect(() => {
-        document.documentElement.setAttribute('data-theme', theme);
-    }, [theme]);
-
-    useEffect(() => {
-        const savedTheme = loadFromLocalStorage('theme');
-        if (savedTheme) {
-            setTheme(savedTheme);
-        }
-    }, []);
-
-    useEffect(() => {
-        saveToLocalStorage('theme', theme);
-    }, [theme]);
+    const toggleDarkMode = () => {
+        updateSetting('darkMode', !settings.darkMode);
+    };
 
     return (
         <div>
             <h2>Display Settings</h2>
             <label className="swap swap-rotate">
                 {/* this hidden checkbox controls the state */}
-                <input type="checkbox" className="theme-controller" value="latte" onChange={(e) => setTheme(e.target.value)} />
+                <input 
+                    type="checkbox" 
+                    className="theme-controller" 
+                    checked={settings.darkMode}
+                    onChange={toggleDarkMode}
+                />
 
                 {/* sun icon */}
                 <svg
