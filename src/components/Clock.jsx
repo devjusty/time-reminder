@@ -74,7 +74,7 @@ const Clock = () => {
 
             {/* Reminder Information */}
             <div className="reminder-info flex gap-4 text-center text-sm">
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-2">
                     {/* Active Reminders */}
                     <span className="text-primary opacity-70">
                         Active Reminders:
@@ -106,7 +106,7 @@ const Clock = () => {
                 </div>
 
                 {/* Next Reminder */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-2">
                 <span className="text-primary opacity-70">Next Reminder:</span>
                 <div className="flex items-center justify-center gap-2">
                     {reminderInfo.nextReminder ? (

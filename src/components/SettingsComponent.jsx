@@ -45,14 +45,14 @@ const SettingsComponent = () => {
     };
 
     return (
-        <div className="absolute top-5-5 bg-secondary p-4 rounded-md space-y-6">
+        <div className="absolute top-5-5 bg-secondary p-4 rounded-md space-y-6 z-20">
             {/* Theme Settings Section */}
             <div className="space-y-3">
-                <p className="text-md font-bold opacity-80">Theme:</p>
+                <p className="text-md font-bold opacity-80">Display:</p>
                 <label className="swap swap-rotate">
-                    <input 
-                        type="checkbox" 
-                        className="theme-controller" 
+                    <input
+                        type="checkbox"
+                        className="theme-controller"
                         checked={settings.darkMode}
                         onChange={toggleDarkMode}
                     />
@@ -80,11 +80,11 @@ const SettingsComponent = () => {
                         <span className="label-text">Time Format</span>
                         <div className="flex items-center gap-2">
                             <span className={`text-sm ${settings.hourFormat === '12h' ? 'font-bold' : 'opacity-60'}`}>12h</span>
-                            <input 
-                                type="checkbox" 
+                            <input
+                                type="checkbox"
                                 checked={settings.hourFormat === '24h'}
                                 onChange={toggleHourFormat}
-                                className="toggle toggle-sm" 
+                                className="toggle toggle-sm"
                             />
                             <span className={`text-sm ${settings.hourFormat === '24h' ? 'font-bold' : 'opacity-60'}`}>24h</span>
                         </div>
@@ -115,7 +115,7 @@ const SettingsComponent = () => {
                 {/* Volume Control */}
                 <div className="form-control">
                     <label className="label">
-                        <span className="label-text">Volume: {settings.sound.volume}%</span>
+                        <span className="label-text">Volume:</span>
                     </label>
                     <ElasticSlider
                         value={settings.sound.volume}
@@ -128,7 +128,7 @@ const SettingsComponent = () => {
                 </div>
 
                 {/* Sound Selection */}
-                <div className="form-control">
+                {/* <div className="form-control">
                     <label className="label">
                         <span className="label-text">Alarm Sound</span>
                     </label>
@@ -156,10 +156,10 @@ const SettingsComponent = () => {
                             Double Chime
                         </button>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Preview Button */}
-                <div className="form-control">
+
                     <button
                         className="btn btn-outline btn-sm"
                         onClick={handlePreviewSound}
@@ -167,7 +167,7 @@ const SettingsComponent = () => {
                     >
                         🔊 Test Sound
                     </button>
-                </div>
+
             </div>
         </div>
     );
