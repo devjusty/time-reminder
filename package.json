@@ -1,44 +1,44 @@
 {
-  "name": "time-reminder",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:analyze": "vite build --mode analyze",
-    "serve": "vite preview",
-    "lint": "eslint . --ext .js,.jsx",
-    "lint:fix": "eslint . --ext .js,.jsx --fix",
-    "preview": "vite preview",
-    "test": "vitest",
-    "format": "prettier --write ."
-  },
-  "dependencies": {
-    "date-fns": "^4.1.0",
-    "framer-motion": "^12.23.6",
-    "howler": "^2.2.4",
-    "motion": "^12.23.6",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-icons": "^5.5.0",
-    "react-router-dom": "^7.7.0",
-    "sonner": "^2.0.6"
-  },
-  "devDependencies": {
-    "@catppuccin/daisyui": "^2.1.1",
-    "@eslint/js": "^9.31.0",
-    "@tailwindcss/vite": "^4.1.11",
-    "@vitejs/plugin-react-swc": "^3.11.0",
-    "daisyui": "^5.0.46",
-    "eslint": "^9.31.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.3.0",
-    "prettier": "^3.6.2",
-    "prettier-eslint": "^16.4.2",
-    "tailwindcss": "^4.1.11",
-    "vite": "^7.0.5"
-  }
+    "name": "time-reminder",
+    "version": "1.1.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "build:analyze": "vite build --mode analyze",
+        "serve": "vite preview",
+        "lint": "eslint . --ext .js,.jsx",
+        "lint:fix": "eslint . --ext .js,.jsx --fix",
+        "preview": "vite preview",
+        "test": "vitest",
+        "format": "prettier --write ."
+    },
+    "dependencies": {
+        "date-fns": "^4.1.0",
+        "framer-motion": "^12.23.6",
+        "howler": "^2.2.4",
+        "motion": "^12.23.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "react-icons": "^5.5.0",
+        "react-router-dom": "^7.7.0",
+        "sonner": "^2.0.6"
+    },
+    "devDependencies": {
+        "@catppuccin/daisyui": "^2.1.1",
+        "@eslint/js": "^9.31.0",
+        "@tailwindcss/vite": "^4.1.11",
+        "@vitejs/plugin-react-swc": "^3.11.0",
+        "daisyui": "^5.0.46",
+        "eslint": "^9.31.0",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-react-hooks": "^5.2.0",
+        "eslint-plugin-react-refresh": "^0.4.20",
+        "globals": "^16.3.0",
+        "prettier": "^3.6.2",
+        "prettier-eslint": "^16.4.2",
+        "tailwindcss": "^4.1.11",
+        "vite": "^7.0.5"
+    }
 }
