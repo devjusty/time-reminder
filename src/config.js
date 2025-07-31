@@ -22,9 +22,13 @@ export const CONFIG = {
     SETTINGS: "timeReminder_settings",
   },
 
-  // Debug Settings
+  // Debug Settings - Automatically enabled in development, disabled in production
   DEBUG: {
-    ENABLED: import.meta.env.MODE !== "production",
-    LOG_LEVEL: "info"
+    // Enable logging in development mode, disable in production builds
+    ENABLED: import.meta.env.MODE !== "production" || import.meta.env.VITE_DEBUG === "true",
+    // Log level for debugging (info, warn, error)
+    LOG_LEVEL: import.meta.env.VITE_LOG_LEVEL || "info",
+    // Show verbose storage operations
+    VERBOSE_STORAGE: import.meta.env.VITE_VERBOSE_STORAGE === "true"
   }
 };

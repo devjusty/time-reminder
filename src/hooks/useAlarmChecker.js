@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useSettings } from './useSettings';
 import { useSound } from './useSound';
+import Logger from '../utils/logger';
 
 export const useAlarmChecker = () => {
   const { settings } = useSettings();
@@ -16,7 +17,7 @@ export const useAlarmChecker = () => {
   // Main alarm checking logic (ported from timeReminder function)
   const checkAlarms = useCallback((currentTime) => {
     const currentMinute = addZero(currentTime.getMinutes());
-    
+
     // Skip processing if already triggered for this minute
     if (lastTriggeredMinute === currentMinute) {
       return;
@@ -29,23 +30,23 @@ export const useAlarmChecker = () => {
     reminderMinutes.forEach((time) => {
       // Check if this reminder time is enabled in settings and matches current minute
       if (settings.reminders.includes(time) && currentMinute === time) {
-        console.log(`Alarm triggered for ${time} at ${currentMinute}`);
-        
+        Logger.log(`Alarm triggered for ${time} at ${currentMinute}`);
+
         try {
           // Play alarm sound
           playSound();
           alarmTriggered = true;
-          
+
           // Set visual alert state
           setIsAlarmActive(true);
-          
+
           // Remove visual alert after 3 seconds (matching old script behavior)
           setTimeout(() => {
             setIsAlarmActive(false);
           }, 3000);
-          
+
         } catch (error) {
-          console.error("Error playing alarm sound:", error);
+          Logger.error("Error playing alarm sound:", error);
         }
       }
     });
