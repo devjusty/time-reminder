@@ -3,6 +3,7 @@ import { motion, useMotionValue, animate } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getTimeComponents } from "../utils/getTime";
 import { useAlarmChecker } from "../hooks/useAlarmChecker";
+import { useSettings } from "../hooks/useSettings";
 
 const Clock = () => {
     const [isMounted, setIsMounted] = useState(false);
@@ -15,6 +16,9 @@ const Clock = () => {
     // Alarm checking hook
     const { checkAlarms, resetTriggerOnMinuteChange, isAlarmActive } =
         useAlarmChecker();
+    
+    // Settings hook for hour format
+    const { settings } = useSettings();
 
     // Initialize motion values for smooth rotation
     const hourRotation = useMotionValue(0);
@@ -24,6 +28,27 @@ const Clock = () => {
     // Utility function for scaling values (ported from old script)
     const scale = (num, in_min, in_max, out_min, out_max) =>
         ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
+
+    // Helper function to add leading zeroes (ported from old script)
+    const addZero = (time) => {
+        return time < 10 ? `0${time}` : time.toString();
+    };
+
+    // Format time based on settings (only zero-pad minutes, not hours)
+    const formatTime = (hours, minutes) => {
+        if (settings.hourFormat === '24h') {
+            return `${hours}:${addZero(minutes)}`;
+        } else {
+            // 12-hour format
+            let displayHour = hours;
+            const am_pm = hours < 12 ? 'AM' : 'PM';
+            
+            if (displayHour > 12) displayHour -= 12;
+            if (displayHour === 0) displayHour = 12;
+            
+            return `${displayHour}:${addZero(minutes)} ${am_pm}`;
+        }
+    };
 
     // Update time every second
     useEffect(() => {
@@ -125,7 +150,7 @@ const Clock = () => {
                 <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-white rounded-full -translate-x-1/2 -translate-y-1/2 z-10" />
             </div>
             <div className="time text-2xl my-2 text-center text-white">
-                {hours}:{minutes}
+                {formatTime(hours, minutes)}
             </div>
         </motion.div>
     );

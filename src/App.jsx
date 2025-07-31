@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import ReminderSettings from './components/ReminderSettings';
 import About from './components/About';
-import DisplaySettings from './components/DisplaySettings';
-import SoundSettings from './components/SoundSettings';
+import SettingsComponent from './components/SettingsComponent';
 import Clock from './components/Clock';
 import Dock from './components/Dock/Dock';
 import {
@@ -20,14 +19,9 @@ const App = () => {
 
     const dockItems = [
         {
-            icon: <LuWallpaper size={18} />,
-            label: 'Display Settings',
-            onClick: () => activePanel === 'display' ? setActivePanel(null) : handlePanelActivation('display'),
-        },
-        {
             icon: <LuSettings size={18} />,
-            label: 'Sound Settings',
-            onClick: () => activePanel === 'sound' ? setActivePanel(null) : handlePanelActivation('sound'),
+            label: 'Settings',
+            onClick: () => activePanel === 'settings' ? setActivePanel(null) : handlePanelActivation('settings'),
         },
         {
             icon: <LuMessageCircleQuestion size={18} />,
@@ -38,14 +32,16 @@ const App = () => {
 
     return (
         <div className='flex flex-col justify-center items-center h-screen max-w-[600px] mx-auto'>
-          <h1 className='text-2xl font-bold text-center'>TimeReminder</h1>
+            <div className='flex items-center'>
+          <h1 className='text-2xl font-light tracking-widest'>TimeReminder</h1>
+          <img src="./src/assets/time-reminder-icon.png" alt="TimeReminder" width={32} height={32}  />
+          </div>
           <p className='text-center text-md py-4'>
             An alternative to typical alarms and timers. <br />Get reminders at the top of the hour, bottom of the hour, or the sides.
             </p>
           <Clock />
           <ReminderSettings />
-          {activePanel === 'display' && <DisplaySettings />}
-          {activePanel === 'sound' && <SoundSettings />}
+          {activePanel === 'settings' && <SettingsComponent />}
           {activePanel === 'about' && <About />}
           <div className="absolute bottom-2">
           <Dock items={dockItems} className=''/>
