@@ -7,27 +7,21 @@
 
 @font-face {
     font-family: 'Satoshi';
-    src:
-        url('./src /assets/fonts/satoshi-regular-webfont.woff2') format('woff2'),
-        url('./src/assets/fonts/satoshi-regular-webfont.woff') format('woff');
+    src: url('./src/assets/fonts/satoshi-regular-webfont.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Satoshi';
-    src:
-        url('./src/assets/fonts/satoshi-bold-webfont.woff2') format('woff2'),
-        url('./src/assets/fonts/satoshi-bold-webfont.woff') format('woff');
+    src: url('./src/assets/fonts/satoshi-bold-webfont.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Satoshi';
-    src:
-        url('./src/assets/fonts/satoshi-light-webfont.woff2') format('woff2'),
-        url('./src/assets/fonts/satoshi-light-webfont.woff') format('woff');
+    src: url('./src/assets/fonts/satoshi-light-webfont.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
