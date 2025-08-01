@@ -3,6 +3,7 @@ import { useMotionValue, animate } from 'motion/react';
 import { getTimeComponents } from '../utils/getTime';
 import { useSettings } from './useSettings';
 import { useAlarmChecker } from './useAlarmChecker';
+import { useRemindUntil } from './useRemindUntil';
 import Logger from '../utils/logger';
 
 /**
@@ -20,6 +21,7 @@ export const useClock = () => {
   // Settings and alarms
   const { settings } = useSettings();
   const { checkAlarms, resetTriggerOnMinuteChange, isAlarmActive } = useAlarmChecker();
+  const { checkRemindUntil } = useRemindUntil();
 
   // Motion values for smooth animations
   const hourRotation = useMotionValue(0);
@@ -48,7 +50,7 @@ export const useClock = () => {
       if (displayHour > 12) displayHour -= 12;
       if (displayHour === 0) displayHour = 12;
 
-      return `${displayHour}:${addZero(minutes)} ${am_pm}`;
+      return `${displayHour}∶${addZero(minutes)} ${am_pm}`;
     }
   }, [settings.hourFormat, addZero]);
 
@@ -144,13 +146,16 @@ export const useClock = () => {
       // Check for alarms and reset trigger state
       checkAlarms(now);
       resetTriggerOnMinuteChange(now);
+      
+      // Check remind-until functionality
+      checkRemindUntil();
     }, 1000);
 
     return () => {
       clearInterval(interval);
       Logger.verbose('Clock hook cleanup');
     };
-  }, [checkAlarms, resetTriggerOnMinuteChange]);
+  }, [checkAlarms, resetTriggerOnMinuteChange, checkRemindUntil]);
 
   // Update clock angles when time changes
   useEffect(() => {
