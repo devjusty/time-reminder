@@ -3,6 +3,7 @@ import ReminderSettings from './components/ReminderSettings';
 import About from './components/About';
 import SettingsComponent from './components/SettingsComponent';
 import Clock from './components/Clock';
+import ReminderInfo from './components/ReminderInfo';
 import Dock from './components/Dock/Dock';
 import { LuSettings, LuMessageCircleQuestion } from 'react-icons/lu';
 
@@ -99,6 +100,7 @@ const App = () => {
                 sides.
             </p>
             <Clock />
+            <ReminderInfo />
             <ReminderSettings />
 
             {activePanel === 'settings' && (
