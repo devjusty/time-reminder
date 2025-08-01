@@ -6,7 +6,7 @@ const RemindUntilSettings = () => {
         remindUntil,
         updateRemindUntilTime,
         toggleRemindUntil,
-        isValidTime
+        isValidTime,
     } = useRemindUntil();
 
     const [timeInput, setTimeInput] = useState(remindUntil.time);
@@ -37,10 +37,10 @@ const RemindUntilSettings = () => {
 
     const handleToggle = () => {
         // Validate time before enabling
-        if (!remindUntil.enabled && !isValidTime(timeInput)) {
-            setTimeError('Please enter a valid time before enabling');
-            return;
-        }
+        // if (!remindUntil.enabled && !isValidTime(timeInput)) {
+        //     setTimeError('Please enter a valid time before enabling');
+        //     return;
+        // }
 
         // Update time if it's different and valid
         if (timeInput !== remindUntil.time && isValidTime(timeInput)) {
@@ -53,80 +53,79 @@ const RemindUntilSettings = () => {
 
     return (
         <div className="p-4 border-t border-base-300">
-            <h3 className="text-sm font-bold">Remind Until</h3>
-            <p className="text-sm text-base-content opacity-70 mb-4">
-                Automatically disable all reminders at a specific time
-            </p>
-
             <div className="flex flex-col gap-4">
-                <div className="form-control">
-                    <label className="label cursor-pointer">
-                        <span className="label-text text-sm">
-                            Enable remind-until
-                            {remindUntil.enabled && (
-                                <span className="ml-2 badge badge-accent badge-sm">
-                                    Active until {remindUntil.time}
-                                </span>
-                            )}
-                        </span>
+                <fieldset className="fieldset">
+
+                        <legend className="fieldset-legend">
+                            <div className="tooltip" data-tip="Automatically disable all reminders at a specific time">Remind Until</div>
+                        </legend>
+
+                    <label className="label cursor-pointer text-sm">
+                        {remindUntil.enabled && (
+                            <span className="ml-2 badge badge-accent badge-sm">
+                                Active until {remindUntil.time}
+                            </span>
+                        )}
                         <input
                             type="checkbox"
                             checked={remindUntil.enabled}
                             onChange={handleToggle}
                             className="toggle toggle-primary"
-                        />
+                            />
+                            {remindUntil.enabled ? 'Enabled' : 'Disabled'}
                     </label>
-                </div>
+                </fieldset>
 
-                {/* Time Input */}
-                <div className="form-control">
-                    <div className="flex gap-2 items-center">
-                        <label className="label text-sm">
-                            Stop reminders at:
+                {remindUntil.enabled && (
+                    <div className="">
+                        <label
+                            className={`input ${timeError ? 'input-error' : ''}`}
+                        >
+                            <span className="label">Stop reminders at:</span>
+                            <input
+                                type="time"
+                                value={timeInput}
+                                onChange={handleTimeChange}
+                                onBlur={handleTimeBlur}
+                                placeholder="17:00"
+                            />
                         </label>
-                        <input
-                            type="time"
-                            value={timeInput}
-                            onChange={handleTimeChange}
-                            onBlur={handleTimeBlur}
-                            className={`input input-bordered flex-1 ${timeError ? 'input-error' : ''}`}
-                            placeholder="17:00"
-                        />
+
                         {/* <span className="text-xs text-base-content opacity-50">
                             (24h format)
                         </span> */}
                     </div>
-                    {timeError && (
-                        <label className="label text-sm">
-                            <span className="label-text-alt text-error">
-                                {timeError}
-                            </span>
-                        </label>
-                    )}
-                </div>
-
-                {/* Enable/Disable Toggle */}
+                )}
+                {timeError && (
+                    <label className="label text-sm">
+                        <span className="label-text-alt text-error">
+                            {timeError}
+                        </span>
+                    </label>
+                )}
 
                 {/* Status Information */}
                 {remindUntil.enabled && (
-                    <div className="alert alert-info">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            className="stroke-current shrink-0 w-6 h-6"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            ></path>
-                        </svg>
-                        <span className="text-sm">
-                            All reminders will automatically stop at{' '}
-                            <strong>{remindUntil.time}</strong>
-                        </span>
+                    <div className="toast toast-top toast-right">
+                        <div className="alert alert-soft">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                className="stroke-current shrink-0 w-6 h-6"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                ></path>
+                            </svg>
+                            <span className="text-sm">
+                                All reminders will automatically stop at{' '}
+                                <strong>{remindUntil.time}</strong>
+                            </span>
+                        </div>
                     </div>
                 )}
             </div>

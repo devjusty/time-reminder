@@ -46,7 +46,7 @@ const SettingsComponent = () => {
     };
 
     return (
-        <div className="bg-secondary p-4 rounded-md space-y-6 z-20">
+        <div className="bg-secondary p-4 rounded-md space-y-6">
             {/* Theme Settings Section */}
             <div className="space-y-3">
                 <p className="text-md font-bold opacity-80">Display:</p>

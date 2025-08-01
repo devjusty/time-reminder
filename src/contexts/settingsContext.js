@@ -1,4 +1,5 @@
 import { createContext } from "react";
+import Logger from "../utils/logger";
 
 /**
  * Settings Context for managing app-wide settings
@@ -20,7 +21,7 @@ const defaultContextValue = {
         }
     },
     updateSetting: () => {
-        console.warn('updateSetting called outside of SettingsProvider');
+        Logger.warn('updateSetting called outside of SettingsProvider');
     }
 };
 

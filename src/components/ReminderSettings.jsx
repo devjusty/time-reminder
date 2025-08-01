@@ -12,22 +12,28 @@ const ReminderSettings = () => {
   };
 
   return (
-      <div className="p-4 text-center text-sm">
-          <h2 className="text-sm font-bold opacity-80">Reminder Settings</h2>
-          <p className="opacity-70">Select intervals for reminders:</p>
-          <div className="grid grid-cols-2 gap-2 mt-4">
-              {['00', '15', '30', '45'].map((time) => (
-                  <label className="label cursor-pointer" key={time}>
-                      <input
-                          type="checkbox"
-                          checked={settings.reminders.includes(time)}
-                          onChange={() => toggleReminder(time)}
-                          className="toggle toggle-primary"
-                      />
-                      <span className="label-text ml-2">∶{time}</span>
-                  </label>
-              ))}
-          </div>
+      <div className="p-4">
+          <fieldset className="fieldset">
+              <legend className="fieldset-legend font-bold opacity-80">
+                <div className="tooltip" data-tip="Select intervals for reminders">
+                  Reminder Settings
+                </div>
+              </legend>
+
+              <div className="grid grid-cols-2 gap-2">
+                  {['00', '15', '30', '45'].map((time) => (
+                      <label className="label cursor-pointer" key={time}>
+                          <input
+                              type="checkbox"
+                              checked={settings.reminders.includes(time)}
+                              onChange={() => toggleReminder(time)}
+                              className="toggle toggle-primary"
+                          />
+                          ∶{time}
+                      </label>
+                  ))}
+              </div>
+          </fieldset>
       </div>
   );
 };

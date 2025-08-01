@@ -12,6 +12,7 @@ const App = () => {
     const [activePanel, setActivePanel] = useState(null);
     const settingsRef = useRef(null);
     const aboutRef = useRef(null);
+    const [showIntroText, setShowIntroText] = useState(true);
 
     const handlePanelActivation = (panel) => {
         setActivePanel(panel);
@@ -77,14 +78,18 @@ const App = () => {
         };
     }, [activePanel]);
 
+    const handleShowIntroText = () => {
+        if (!showIntroText) setShowIntroText(true);
+    };
+
     return (
         <div className="flex flex-col justify-center items-center h-screen max-w-[600px] mx-auto">
-            <div className="flex items-center">
+            <div className="flex items-center" onClick={handleShowIntroText}>
                 <h1 className="text-2xl font-light tracking-widest">
                     TimeReminder
                 </h1>
                 <svg
-                    className="fill-none stroke-primary w-[32px] h-[32px]"
+                    className="fill-none stroke-primary w-[32px] h-[32px] cursor-pointer"
                     viewBox="0 0 260 260"
                 >
                     <path
@@ -99,15 +104,22 @@ const App = () => {
                     />
                 </svg>
             </div>
-            <p className="text-center text-md py-4 opacity-70">
-                An alternative to typical alarms and timers. <br /> Get
-                reminders at the top of the hour, bottom of the hour, or the
-                sides.
-            </p>
+            {showIntroText && (
+                <div className="alert my-4">
+                    <p className="opacity-70">
+                        An alternative to typical alarms and timers. <br /> Get
+                        reminders at the top of the hour, bottom of the hour, or
+                        the sides.
+                    </p>
+                    <button className="btn btn-sm" onClick={() => setShowIntroText(false)}>×</button>
+                </div>
+            )}
             <Clock />
-            <ReminderInfo />
+
             <ReminderSettings />
             <RemindUntilSettings />
+
+            <ReminderInfo />
 
             {activePanel === 'settings' && (
                 <div

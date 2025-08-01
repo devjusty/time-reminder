@@ -1,6 +1,7 @@
 import { useEffect, useCallback } from 'react';
 import { useSettings } from './useSettings';
 import { useSound } from './useSound';
+import Logger from '../utils/logger';
 
 /**
  * Custom hook to handle the "Remind Until" functionality
@@ -25,21 +26,21 @@ export const useRemindUntil = () => {
         const currentTime = `${addZero(hour)}:${addZero(minute)}`;
 
         if (currentTime === settings.remindUntil.time) {
-            console.log(`Remind-until triggered at ${currentTime}`);
-            
+            Logger.log(`Remind-until triggered at ${currentTime}`);
+
             // Disable all reminders
             updateSetting('reminders', []);
-            
+
             // Play end sound (using double-chime as end sound)
             playSound('double-chime');
-            
+
             // Disable remind-until feature
             updateSetting('remindUntil.enabled', false);
-            
+
             // Return true to indicate remind-until was triggered
             return true;
         }
-        
+
         return false;
     }, [settings.remindUntil, updateSetting, playSound, addZero]);
 
