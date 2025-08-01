@@ -12,9 +12,9 @@ const ReminderSettings = () => {
   };
 
   return (
-      <div className="p-4 text-center">
-          <h2 className="text-md font-bold opacity-80">Reminder Settings</h2>
-          <p className="opacity-60">Select intervals for reminders:</p>
+      <div className="p-4 text-center text-sm">
+          <h2 className="text-sm font-bold opacity-80">Reminder Settings</h2>
+          <p className="opacity-70">Select intervals for reminders:</p>
           <div className="grid grid-cols-2 gap-2 mt-4">
               {['00', '15', '30', '45'].map((time) => (
                   <label className="label cursor-pointer" key={time}>
