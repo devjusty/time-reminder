@@ -2,6 +2,7 @@ import React from "react";
 import { useSettings } from "../hooks/useSettings";
 import { useSound } from "../hooks/useSound";
 import ElasticSlider from "./ElasticSlider/ElasticSlider";
+import RemindUntilSettings from "./RemindUntilSettings";
 
 const SettingsComponent = () => {
     const { settings, updateSetting } = useSettings();
@@ -33,19 +34,19 @@ const SettingsComponent = () => {
         });
     };
 
-    const handleSoundSelection = (soundName) => {
-        updateSetting('sound', {
-            ...settings.sound,
-            selectedSound: soundName
-        });
-    };
+    // const handleSoundSelection = (soundName) => {
+    //     updateSetting('sound', {
+    //         ...settings.sound,
+    //         selectedSound: soundName
+    //     });
+    // };
 
     const handlePreviewSound = () => {
         previewSound();
     };
 
     return (
-        <div className="absolute top-5-5 bg-secondary p-4 rounded-md space-y-6 z-20">
+        <div className="bg-secondary p-4 rounded-md space-y-6 z-20">
             {/* Theme Settings Section */}
             <div className="space-y-3">
                 <p className="text-md font-bold opacity-80">Display:</p>
@@ -169,6 +170,9 @@ const SettingsComponent = () => {
                     </button>
 
             </div>
+
+            {/* Remind Until Settings */}
+            <RemindUntilSettings />
         </div>
     );
 };

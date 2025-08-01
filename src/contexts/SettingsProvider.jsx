@@ -15,6 +15,10 @@ const SettingsProvider = ({ children }) => {
       selectedSound: "chime1", // chime1, double-chime
       enabled: true
     },
+    remindUntil: {
+      time: "17:00", // Default to 5:00 PM
+      enabled: false
+    },
   }), []);
 
   const [settings, setSettings] = useState(defaultSettings);
@@ -42,6 +46,14 @@ const SettingsProvider = ({ children }) => {
           enabled: typeof savedSettings.sound?.enabled === 'boolean'
             ? savedSettings.sound.enabled
             : defaults.sound.enabled
+        },
+        remindUntil: {
+          time: (typeof savedSettings.remindUntil?.time === 'string' && /^([01]\d|2[0-3]):([0-5]\d)$/.test(savedSettings.remindUntil.time))
+            ? savedSettings.remindUntil.time
+            : defaults.remindUntil.time,
+          enabled: typeof savedSettings.remindUntil?.enabled === 'boolean'
+            ? savedSettings.remindUntil.enabled
+            : defaults.remindUntil.enabled
         }
       };
       return merged;
