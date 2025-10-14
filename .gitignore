@@ -64,11 +64,10 @@ assets/*.css
 
 # ** Environment Variables **
 # dotenv environment variables file
-.env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.local.example
+!.env.example
 
 # ** Editor and IDE Configurations **
 # VSCode
@@ -104,7 +103,6 @@ Desktop.ini
 *.orig
 *.rej
 *.sublime*
-*.env.*
 
 # Ignore local build scripts or configuration
 build/

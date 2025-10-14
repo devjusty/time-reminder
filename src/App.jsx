@@ -59,11 +59,19 @@ const App = () => {
             if (!activePanel) return;
 
             // Check if click is on the backdrop (not on the panel content)
-            if (activePanel === 'settings' && settingsRef.current && event.target === settingsRef.current) {
+            if (
+                activePanel === 'settings' &&
+                settingsRef.current &&
+                event.target === settingsRef.current
+            ) {
                 setActivePanel(null);
             }
             // Check if click is on the backdrop (not on the panel content)
-            else if (activePanel === 'about' && aboutRef.current && event.target === aboutRef.current) {
+            else if (
+                activePanel === 'about' &&
+                aboutRef.current &&
+                event.target === aboutRef.current
+            ) {
                 setActivePanel(null);
             }
         };
@@ -78,39 +86,39 @@ const App = () => {
         };
     }, [activePanel]);
 
-
-
     return (
         <div className="flex flex-col justify-center items-center h-screen max-w-[600px] mx-auto">
             <Header />
-            <Clock />
-            <ReminderSettings />
-            <RemindUntilSettings />
-            <ReminderInfo />
+            <div className="bg-base-200 flex flex-col items-center justify-center p-10 rounded-box">
+                <Clock />
+                <ReminderSettings />
+                <RemindUntilSettings />
+                <ReminderInfo />
 
-            {activePanel === 'settings' && (
-                <div
-                    ref={settingsRef}
-                    className="fixed inset-0 flex items-center justify-center z-50"
-                >
-                    <div className="bg-base-100 rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto">
-                        <SettingsComponent />
+                {activePanel === 'settings' && (
+                    <div
+                        ref={settingsRef}
+                        className="fixed inset-0 flex items-center justify-center z-50"
+                    >
+                        <div className="bg-base-100 rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto">
+                            <SettingsComponent />
+                        </div>
                     </div>
-                </div>
-            )}
-            {activePanel === 'about' && (
-                <div
-                    ref={aboutRef}
-                    className="fixed inset-0 flex items-center justify-center z-50"
-                >
-                    <div className="bg-base-100 rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto p-6">
-                        <About />
+                )}
+                {activePanel === 'about' && (
+                    <div
+                        ref={aboutRef}
+                        className="fixed inset-0 flex items-center justify-center z-50"
+                    >
+                        <div className="bg-base-100 rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto p-6">
+                            <About />
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
 
             <div className="absolute bottom-2">
-                <Dock items={dockItems} className="" />
+                <Dock items={dockItems} className="bg-base-200" />
             </div>
         </div>
     );

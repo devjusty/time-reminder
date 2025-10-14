@@ -1,7 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { loadFromLocalStorage, saveToLocalStorage } from '../utils/storage';
+import { CONFIG } from '../config';
 
 const Header = () => {
-    const [showIntroText, setShowIntroText] = useState(true);
+    const [showIntroText, setShowIntroText] = useState(() => {
+        const saved = loadFromLocalStorage(CONFIG.STORAGE_KEYS.SHOW_INTRO_TEXT);
+        return saved !== null ? saved : true;
+    });
+
+    useEffect(() => {
+        saveToLocalStorage(CONFIG.STORAGE_KEYS.SHOW_INTRO_TEXT, showIntroText);
+    }, [showIntroText]);
 
     const handleShowIntroText = () => {
         if (!showIntroText) setShowIntroText(true);
@@ -10,7 +19,7 @@ const Header = () => {
     return (
         <div className="absolute top-8">
             <div className="flex items-center justify-center" onClick={handleShowIntroText}>
-                <h1 className="text-2xl font-light tracking-widest">
+                <h1 className="text-2xl text-neutral tracking-widest">
                     TimeReminder
                 </h1>
                 <svg
@@ -30,14 +39,14 @@ const Header = () => {
                 </svg>
             </div>
             {showIntroText && (
-                <div className="alert my-4">
-                    <p className="opacity-70">
+                <div className="alert alert-soft my-4 z-100">
+                    <p className="">
                         An alternative to typical alarms and timers. <br /> Get
                         reminders at the top of the hour, bottom of the hour, or
                         the sides.
                     </p>
                     <button
-                        className="btn btn-sm"
+                        className="btn btn-soft btn-info btn-sm"
                         onClick={() => setShowIntroText(false)}
                     >
                         ×

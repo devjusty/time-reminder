@@ -67,7 +67,7 @@ const Clock = () => {
             </div>
 
             {/* Current Time Display */}
-            <div className="time text-3xl my-2 text-center text-primary font-bold">
+            <div className="time text-3xl my-2 text-center text-neutral font-bold">
                 {formattedTime}
             </div>
         </motion.div>

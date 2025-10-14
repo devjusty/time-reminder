@@ -20,6 +20,7 @@ export const CONFIG = {
     ALARMS: "alarms",
     REMIND_UNTIL: "remindUntil",
     SETTINGS: "timeReminder_settings",
+    SHOW_INTRO_TEXT: "showIntroText",
   },
 
   // Debug Settings - Automatically enabled in development, disabled in production

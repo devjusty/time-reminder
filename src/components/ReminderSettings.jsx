@@ -13,11 +13,11 @@ const ReminderSettings = () => {
 
   return (
       <div className="p-4">
-          <fieldset className="fieldset">
+          <fieldset className="fieldset bg-base-100">
               <legend className="fieldset-legend font-bold opacity-80">
-                <div className="tooltip" data-tip="Select intervals for reminders">
+                <span className="tooltip" data-tip="Select intervals for reminders">
                   Reminder Settings
-                </div>
+                </span>
               </legend>
 
               <div className="grid grid-cols-2 gap-2">
