@@ -16,30 +16,30 @@
     },
     "dependencies": {
         "date-fns": "^4.1.0",
-        "framer-motion": "^12.23.6",
+        "framer-motion": "^12.23.24",
         "howler": "^2.2.4",
-        "motion": "^12.23.6",
-        "react": "^19.1.0",
-        "react-dom": "^19.1.0",
+        "motion": "^12.23.24",
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0",
         "react-icons": "^5.5.0",
-        "react-router-dom": "^7.7.0",
-        "sonner": "^2.0.6"
+        "react-router-dom": "^7.9.4",
+        "sonner": "^2.0.7"
     },
     "devDependencies": {
         "@catppuccin/daisyui": "^2.1.1",
-        "@eslint/js": "^9.31.0",
-        "@tailwindcss/typography": "^0.5.16",
-        "@tailwindcss/vite": "^4.1.11",
-        "@vitejs/plugin-react-swc": "^3.11.0",
-        "daisyui": "^5.0.46",
-        "eslint": "^9.31.0",
+        "@eslint/js": "^9.38.0",
+        "@tailwindcss/typography": "^0.5.19",
+        "@tailwindcss/vite": "^4.1.16",
+        "@vitejs/plugin-react-swc": "^4.2.0",
+        "daisyui": "^5.3.10",
+        "eslint": "^9.38.0",
         "eslint-config-prettier": "^10.1.8",
-        "eslint-plugin-react-hooks": "^5.2.0",
-        "eslint-plugin-react-refresh": "^0.4.20",
-        "globals": "^16.3.0",
+        "eslint-plugin-react-hooks": "^7.0.1",
+        "eslint-plugin-react-refresh": "^0.4.24",
+        "globals": "^16.4.0",
         "prettier": "^3.6.2",
         "prettier-eslint": "^16.4.2",
-        "tailwindcss": "^4.1.11",
-        "vite": "^7.0.5"
+        "tailwindcss": "^4.1.16",
+        "vite": "^7.1.12"
     }
 }

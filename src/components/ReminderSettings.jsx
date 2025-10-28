@@ -1,41 +1,41 @@
-import React from "react";
-import { useSettings } from "../hooks/useSettings";
+import { useSettings } from '../hooks/useSettings';
 
 const ReminderSettings = () => {
-  const { settings, updateSetting } = useSettings();
+    const { settings, updateSetting } = useSettings();
 
-  const toggleReminder = (time) => {
-    const newReminders = settings.reminders.includes(time)
-      ? settings.reminders.filter((r) => r !== time)
-      : [...settings.reminders, time];
-    updateSetting("reminders", newReminders);
-  };
+    const toggleReminder = (time) => {
+        const newReminders = settings.reminders.includes(time)
+            ? settings.reminders.filter((r) => r !== time)
+            : [...settings.reminders, time];
+        updateSetting('reminders', newReminders);
+    };
 
-  return (
-      <div className="p-4">
-          <fieldset className="fieldset bg-base-100">
-              <legend className="fieldset-legend font-bold opacity-80">
-                <span className="tooltip" data-tip="Select intervals for reminders">
-                  Reminder Settings
+    return (
+        <div className="p-4">
+            <fieldset className="fieldset bg-base-100 p-4 card-border">
+                <span
+                    className="tooltip text-center"
+                    data-tip="Select intervals for reminders"
+                >
+                    Reminder Settings
                 </span>
-              </legend>
 
-              <div className="grid grid-cols-2 gap-2">
-                  {['00', '15', '30', '45'].map((time) => (
-                      <label className="label cursor-pointer" key={time}>
-                          <input
-                              type="checkbox"
-                              checked={settings.reminders.includes(time)}
-                              onChange={() => toggleReminder(time)}
-                              className="toggle toggle-primary"
-                          />
-                          ∶{time}
-                      </label>
-                  ))}
-              </div>
-          </fieldset>
-      </div>
-  );
+                <div className="flex gap-2">
+                    {['00', '15', '30', '45'].map((time) => (
+                        <label className="label cursor-pointer" key={time}>
+                            <input
+                                type="checkbox"
+                                checked={settings.reminders.includes(time)}
+                                onChange={() => toggleReminder(time)}
+                                className="toggle toggle-primary"
+                            />
+                            ∶{time}
+                        </label>
+                    ))}
+                </div>
+            </fieldset>
+        </div>
+    );
 };
 
 export default ReminderSettings;

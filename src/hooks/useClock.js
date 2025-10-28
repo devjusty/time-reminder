@@ -28,7 +28,7 @@ export const useClock = () => {
   const minuteRotation = useMotionValue(0);
   const secondRotation = useMotionValue(0);
 
-  // Utility function for scaling values (ported from Clock component)
+  // Utility function for scaling values
   const scale = useCallback((num, in_min, in_max, out_min, out_max) => {
     return ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
   }, []);
@@ -146,7 +146,7 @@ export const useClock = () => {
       // Check for alarms and reset trigger state
       checkAlarms(now);
       resetTriggerOnMinuteChange(now);
-      
+
       // Check remind-until functionality
       checkRemindUntil();
     }, 1000);

@@ -7,6 +7,7 @@ import Header from './components/Header';
 import ReminderInfo from './components/ReminderInfo';
 import Dock from './components/Dock/Dock';
 import RemindUntilSettings from './components/RemindUntilSettings';
+import TimeProgress from './components/TimeProgress'
 import { LuSettings, LuMessageCircleQuestion } from 'react-icons/lu';
 
 const App = () => {
@@ -89,12 +90,12 @@ const App = () => {
     return (
         <div className="flex flex-col justify-center items-center h-screen max-w-[600px] mx-auto">
             <Header />
-            <div className="bg-base-200 flex flex-col items-center justify-center p-10 rounded-box">
+            <div className="bg-base-200 flex flex-col items-center justify-center p-10 rounded-box border border-accent/30 border-t-accent/50">
                 <Clock />
                 <ReminderSettings />
                 <RemindUntilSettings />
                 <ReminderInfo />
-
+                <TimeProgress />
                 {activePanel === 'settings' && (
                     <div
                         ref={settingsRef}

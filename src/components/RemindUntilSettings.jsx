@@ -53,49 +53,36 @@ const RemindUntilSettings = () => {
 
     return (
         <div className="p-4 border-t border-base-300">
-            <div className="flex flex-col gap-4">
-                <fieldset className="fieldset">
-
-                        <legend className="fieldset-legend">
-                            <div className="tooltip" data-tip="Automatically disable all reminders at a specific time">Remind Until</div>
-                        </legend>
-
-                    <label className="label cursor-pointer text-sm">
-                        {remindUntil.enabled && (
-                            <span className="ml-2 badge badge-accent badge-sm">
-                                Active until {remindUntil.time}
-                            </span>
-                        )}
+            <div className="flex flex-col md:flex-row gap-4">
+                <div className="">
+                    <label
+                        className={`input ${timeError ? 'input-error' : ''}`}
+                    >
+                        <span className="label">Remind Until:</span>
                         <input
-                            type="checkbox"
-                            checked={remindUntil.enabled}
-                            onChange={handleToggle}
-                            className="toggle toggle-primary"
-                            />
-                            {remindUntil.enabled ? 'Enabled' : 'Disabled'}
+                            type="time"
+                            value={timeInput}
+                            onChange={handleTimeChange}
+                            onBlur={handleTimeBlur}
+                            placeholder="17:00"
+                        />
                     </label>
-                </fieldset>
 
-                {remindUntil.enabled && (
-                    <div className="">
-                        <label
-                            className={`input ${timeError ? 'input-error' : ''}`}
-                        >
-                            <span className="label">Stop reminders at:</span>
-                            <input
-                                type="time"
-                                value={timeInput}
-                                onChange={handleTimeChange}
-                                onBlur={handleTimeBlur}
-                                placeholder="17:00"
-                            />
-                        </label>
-
-                        {/* <span className="text-xs text-base-content opacity-50">
+                    {/* <span className="text-xs text-base-content opacity-50">
                             (24h format)
                         </span> */}
-                    </div>
-                )}
+                </div>
+
+                <label className="label cursor-pointer text-sm">
+                    <input
+                        type="checkbox"
+                        checked={remindUntil.enabled}
+                        onChange={handleToggle}
+                        className="toggle toggle-primary"
+                    />
+                    {remindUntil.enabled ? 'Enabled' : 'Disabled'}
+                </label>
+
                 {timeError && (
                     <label className="label text-sm">
                         <span className="label-text-alt text-error">

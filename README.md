@@ -1,4 +1,4 @@
-# My Vite Project
+# Time Reminder
 
 This project is a React application bootstrapped with Vite and styled using Tailwind CSS.
 
@@ -7,20 +7,23 @@ This project is a React application bootstrapped with Vite and styled using Tail
 To get started with this project, follow these steps:
 
 1. **Clone the repository:**
-   ```
-   git clone <repository-url>
-   cd my-vite-project
-   ```
+
+    ```
+    git clone <repository-url>
+    cd my-vite-project
+    ```
 
 2. **Install dependencies:**
-   ```
-   npm install
-   ```
+
+    ```
+    npm install
+    ```
 
 3. **Run the development server:**
-   ```
-   npm run dev
-   ```
+
+    ```
+    npm run dev
+    ```
 
 4. **Open your browser:**
    Navigate to `http://localhost:3000` to see your application in action.
