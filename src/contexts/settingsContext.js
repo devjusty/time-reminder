@@ -8,7 +8,7 @@ import Logger from "../utils/logger";
  * @property {Function} updateSetting - Function to update a specific setting
  */
 
-// Default context value to prevent errors when used outside provider
+// Default context value to prevent errors when using the context outside of a provider
 const defaultContextValue = {
     settings: {
         darkMode: true,
@@ -20,6 +20,8 @@ const defaultContextValue = {
             enabled: true
         }
     },
+    // Placeholder function that logs a warning if updateSetting is called outside of a provider
+    // TODO: Consider throwing an error instead to enforce proper usage of the context
     updateSetting: () => {
         Logger.warn('updateSetting called outside of SettingsProvider');
     }

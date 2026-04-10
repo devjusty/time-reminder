@@ -2,6 +2,7 @@ import { useEffect, useCallback } from 'react';
 import { useSettings } from './useSettings';
 import { useSound } from './useSound';
 import Logger from '../utils/logger';
+import { padTimeUnit } from '../utils/getTime';
 
 /**
  * Custom hook to handle the "Remind Until" functionality
@@ -11,11 +12,6 @@ export const useRemindUntil = () => {
     const { settings, updateSetting } = useSettings();
     const { playSound } = useSound();
 
-    // Helper function to add leading zero
-    const addZero = useCallback((time) => {
-        return time < 10 ? `0${time}` : time.toString();
-    }, []);
-
     // Check if it's time to disable reminders
     const checkRemindUntil = useCallback(() => {
         if (!settings.remindUntil.enabled) return;
@@ -23,7 +19,7 @@ export const useRemindUntil = () => {
         const now = new Date();
         const hour = now.getHours();
         const minute = now.getMinutes();
-        const currentTime = `${addZero(hour)}:${addZero(minute)}`;
+        const currentTime = `${padTimeUnit(hour)}:${padTimeUnit(minute)}`;
 
         if (currentTime === settings.remindUntil.time) {
             Logger.log(`Remind-until triggered at ${currentTime}`);
@@ -42,7 +38,7 @@ export const useRemindUntil = () => {
         }
 
         return false;
-    }, [settings.remindUntil, updateSetting, playSound, addZero]);
+    }, [settings.remindUntil, updateSetting, playSound]);
 
     // Run remind-until check every second
     useEffect(() => {
@@ -62,13 +58,16 @@ export const useRemindUntil = () => {
     }, []);
 
     // Helper function to update remind-until time
-    const updateRemindUntilTime = useCallback((time) => {
-        if (isValidTime(time)) {
-            updateSetting('remindUntil.time', time);
-            return true;
-        }
-        return false;
-    }, [updateSetting, isValidTime]);
+    const updateRemindUntilTime = useCallback(
+        (time) => {
+            if (isValidTime(time)) {
+                updateSetting('remindUntil.time', time);
+                return true;
+            }
+            return false;
+        },
+        [updateSetting, isValidTime],
+    );
 
     // Helper function to toggle remind-until enabled state
     const toggleRemindUntil = useCallback(() => {
@@ -80,6 +79,6 @@ export const useRemindUntil = () => {
         updateRemindUntilTime,
         toggleRemindUntil,
         isValidTime,
-        checkRemindUntil
+        checkRemindUntil,
     };
 };

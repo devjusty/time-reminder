@@ -1,4 +1,3 @@
-import React from "react";
 import { useSettings } from "../hooks/useSettings";
 import { useSound } from "../hooks/useSound";
 import ElasticSlider from "./ElasticSlider/ElasticSlider";

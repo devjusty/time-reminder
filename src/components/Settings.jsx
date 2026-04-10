@@ -1,4 +1,3 @@
-import React from 'react';
 import SettingsComponent from './SettingsComponent';
 
 const Settings = () => {

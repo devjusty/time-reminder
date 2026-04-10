@@ -12,7 +12,7 @@ export default function TimeProgress() {
   const hourPercentage = Math.round(minutes / 60 * 100);
 
     return (
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
             <div className="flex flex-col items-center">
                 <div
                     className="radial-progress"

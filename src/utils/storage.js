@@ -1,5 +1,6 @@
 import Logger from './logger';
 
+// Utility functions for localStorage operations with enhanced error handling and logging
 export function saveToLocalStorage(key, value) {
     try {
       Logger.verbose(`Saving to localStorage [${key}]:`, value);
@@ -12,16 +13,17 @@ export function saveToLocalStorage(key, value) {
     }
 }
 
+// Utility function to load item from localStorage with error handling and logging
 export function loadFromLocalStorage(key) {
     try {
       const item = localStorage.getItem(key);
       Logger.verbose(`Loading from localStorage [${key}]:`, item);
-      
+
       if (item === null) {
         Logger.verbose(`No data found in localStorage for key: ${key}`);
         return null;
       }
-      
+
       const parsed = JSON.parse(item);
       Logger.verbose(`Successfully loaded from localStorage [${key}]:`, parsed);
       return parsed;

@@ -17,7 +17,7 @@ export function getTimeComponents(date = new Date()) {
     return {
         hours: getHours(date),
         minutes: getMinutes(date),
-        seconds: getSeconds(date)
+        seconds: getSeconds(date),
     };
 }
 
@@ -39,4 +39,13 @@ export function formatDuration(seconds) {
     const date = new Date(0);
     date.setSeconds(seconds);
     return format(date, 'HH:mm:ss');
+}
+
+/**
+ * Pads a time unit to two digits
+ * @param {number} time - Time value to format
+ * @returns {string} Two-digit time string
+ */
+export function padTimeUnit(time) {
+    return time < 10 ? `0${time}` : time.toString();
 }

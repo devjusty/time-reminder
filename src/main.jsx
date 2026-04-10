@@ -4,7 +4,6 @@ import App from "./App";
 import SettingsProvider from "./contexts/SettingsProvider";
 import "./styles/index.css";
 
-
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <SettingsProvider>

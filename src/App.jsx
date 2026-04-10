@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ReminderSettings from './components/ReminderSettings';
 import About from './components/About';
 import SettingsComponent from './components/SettingsComponent';

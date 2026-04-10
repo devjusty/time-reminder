@@ -23,7 +23,7 @@ const Header = () => {
                     TimeReminder
                 </h1>
                 <svg
-                    className="fill-none stroke-primary w-[32px] h-[32px] cursor-pointer"
+                    className="fill-none stroke-primary w-8 h-8 cursor-pointer"
                     viewBox="0 0 260 260"
                 >
                     <path

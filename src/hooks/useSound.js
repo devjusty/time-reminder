@@ -1,42 +1,50 @@
-import { useState, useEffect } from "react";
-import { CONFIG } from "../config";
-import { useSettings } from "./useSettings";
+import { useEffect, useRef } from 'react';
+import { CONFIG } from '../config';
+import { useSettings } from './useSettings';
 
 export const useSound = () => {
     const { settings } = useSettings();
-    const [isMounted, setIsMounted] = useState(false);
-    const [alarmSound, setAlarmSound] = useState(null);
-    const [endSound, setEndSound] = useState(null);
+    const alarmSoundRef = useRef(null);
+    const endSoundRef = useRef(null);
 
     // Initialize sounds
     useEffect(() => {
-        setIsMounted(true);
-        const alarm = new Audio(CONFIG.SOUNDS.ALARM_SOUND_PATH);
-        const end = new Audio(CONFIG.SOUNDS.END_SOUND_PATH);
-        setAlarmSound(alarm);
-        setEndSound(end);
+        alarmSoundRef.current = new Audio(CONFIG.SOUNDS.ALARM_SOUND_PATH);
+        endSoundRef.current = new Audio(CONFIG.SOUNDS.END_SOUND_PATH);
+
+        return () => {
+            if (alarmSoundRef.current) {
+                alarmSoundRef.current.pause();
+                alarmSoundRef.current = null;
+            }
+            if (endSoundRef.current) {
+                endSoundRef.current.pause();
+                endSoundRef.current = null;
+            }
+        };
     }, []);
 
     // Update volume when settings change
     useEffect(() => {
-        if (alarmSound && settings.sound) {
-            alarmSound.volume = settings.sound.volume / 100;
+        if (alarmSoundRef.current && settings.sound) {
+            alarmSoundRef.current.volume = settings.sound.volume / 100;
         }
-        if (endSound && settings.sound) {
-            endSound.volume = settings.sound.volume / 100;
+        if (endSoundRef.current && settings.sound) {
+            endSoundRef.current.volume = settings.sound.volume / 100;
         }
-    }, [alarmSound, endSound, settings.sound]);
+    }, [settings.sound]);
 
     const playSound = (soundType = 'alarm') => {
-        if (!isMounted || !settings.sound.enabled) return;
-        
-        const sound = soundType === 'alarm' ? alarmSound : endSound;
+        if (!settings.sound?.enabled) return;
+
+        const sound =
+            soundType === 'alarm' ? alarmSoundRef.current : endSoundRef.current;
         if (sound) {
             try {
                 sound.currentTime = 0; // Reset to beginning
                 const playPromise = sound.play();
                 if (playPromise !== undefined) {
-                    playPromise.catch(error => {
+                    playPromise.catch((error) => {
                         console.error('Error playing sound:', error);
                     });
                 }
@@ -54,6 +62,6 @@ export const useSound = () => {
         playSound,
         previewSound,
         volume: settings.sound?.volume || 50,
-        enabled: settings.sound?.enabled || true
+        enabled: settings.sound?.enabled || true,
     };
-}
+};
