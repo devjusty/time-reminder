@@ -4,7 +4,7 @@
   "description": "remind yourself of the time at regular intervals",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx"
   },
   "repository": {
     "type": "git",

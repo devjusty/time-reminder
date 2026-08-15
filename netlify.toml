@@ -1,7 +1,7 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' https://www.googletagmanager.com 'sha256-Vq2qQcYdmzZCFS5rpdl/xtZWP14V5zyeFsRPOFINZBQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com;"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://www.googletagmanager.com 'sha256-sfhil/AkYyQ+3ztQdgh6sMz3o5nWXQtthW6i4lmQcqY='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com;"
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
