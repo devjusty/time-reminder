@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/devjusty/TimeReminder#readme",
   "devDependencies": {
-    "eslint": "^9.27.0",
-    "eslint-config-prettier": "^10.1.5"
+    "eslint": "^9.27.0"
   }
 }
