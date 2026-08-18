@@ -13,14 +13,36 @@
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
+        "@id": "https://timeremind.info/#app",
         "name": "TimeReminder",
         "url": "https://timeremind.info",
         "description": "Keep track of time with an alternative to typical alarms and timers. Get audible reminders at the top of the hour, bottom of the hour, or the sides.",
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Web",
-        "image": "https://timeremind.info/src/time-reminder-screenshot.jpg"
+        "browserRequirements": "Requires a modern web browser with JavaScript and audio support.",
+        "featureList": [
+          "Audible reminders at :00, :15, :30, or :45",
+          "Optional reminder end time",
+          "Adjustable reminder volume",
+          "Saved reminder preferences"
+        ],
+        "image": "https://timeremind.info/src/time-reminder-screenshot.jpg",
+        "screenshot": "https://timeremind.info/src/time-reminder-screenshot.jpg",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "creator": {
+          "@type": "Person",
+          "name": "Justin Thompson",
+          "url": "https://justy.dev",
+          "sameAs": "https://github.com/devjusty"
+        },
+        "sameAs": "https://github.com/devjusty/TimeReminder"
       }
     </script>
+    <link rel="describedby" href="/llms.txt" />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -123,7 +145,7 @@
         <div class="time-toggles">
           <button class="time-button active" id="alarm1" data-remindtime="00">
             :00
-          </b>
+          </button>
           <button class="time-button" id="alarm2" data-remindtime="15">
             :15
           </button>
