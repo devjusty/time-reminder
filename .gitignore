@@ -1,4 +1,3 @@
-.vscode
 node_modules
 .eslintrc.js
 /src/peaks/*
@@ -6,3 +5,4 @@ node_modules
 
 # Local Netlify folder
 .netlify
+docs/
