@@ -46,8 +46,8 @@ const CONFIG = {
 
   // Sound Paths
   SOUNDS: {
-    ALARM_SOUND_PATH: "./src/chime1.wav",
-    END_SOUND_PATH: "./src/double-chime.wav",
+    ALARM_SOUND_PATH: "./src/chime1.mp3",
+    END_SOUND_PATH: "./src/double-chime.mp3",
   },
 
   // UI Configuration
