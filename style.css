@@ -101,9 +101,10 @@ h6 {
 / ========================= */
 .container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: calc(100vh - 24px);
 }
 
 .app {
@@ -269,7 +270,7 @@ h6 {
 /* ========================= /
 / Button Styles /
 / ========================= */
-.timetoggles {
+.time-toggles {
   display: flex;
   justify-content: center;
   gap: var(--spacing-small);
@@ -277,7 +278,7 @@ h6 {
   margin-bottom: var(--spacing-small);
 }
 
-.timebutton {
+.time-button {
   background-color: var(--grey-light-1);
   color: var(--primary-text);
   border: none;
@@ -297,11 +298,11 @@ h6 {
     background-color var(--transition-speed) ease;
 }
 
-.timebutton:hover {
+.time-button:hover {
   opacity: 0.8;
 }
 
-.timebutton.active {
+.time-button.active {
   background-color: var(--primary);
   color: var(--text-icons);
 }
@@ -456,6 +457,25 @@ input:checked + .slider:before {
   gap: var(--spacing-small);
 }
 
+footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--primary-dark);
+  padding-left: var(--spacing-medium);
+  padding-right: var(--spacing-small);
+}
+
+.footer a {
+  text-decoration: none;
+  color: var(--primary-dark);
+}
+
+.footer a:hover {
+  color: var(--secondary-text);
+}
+
 /* ========================= /
 / Media Queries /
 / ========================= */
@@ -479,12 +499,12 @@ input:checked + .slider:before {
     font-size: 0.9rem;
   }
 
-  .timetoggles {
+  .time-toggles {
     margin-top: var(--spacing-small);
     margin-bottom: var(--spacing-small);
   }
 
-  .timebutton {
+  .time-button {
     /* width: 60px; */
     height: 50px;
     font-size: 1.2rem;
@@ -507,12 +527,12 @@ input:checked + .slider:before {
 }
 
 @media screen and (max-width: 420px) {
-  .timetoggles {
+  .time-toggles {
     flex-direction: column;
     align-content: center;
   }
 
-  .timebutton {
+  .time-button {
     width: 100%;
     border-radius: 8px;
     font-size: 1.2rem;
