@@ -456,6 +456,11 @@ input:checked + .slider:before {
   gap: var(--spacing-small);
 }
 
+footer {
+  align-self: flex-end;
+  justify-self: center;
+}
+
 /* ========================= /
 / Media Queries /
 / ========================= */

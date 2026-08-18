@@ -19,8 +19,6 @@ const Logger = {
   },
 };
 
-
-
 // Utility: Save data to localStorage with error handling
 function saveToLocalStorage(key, value) {
   try {
@@ -48,13 +46,13 @@ const CONFIG = {
 
   // Sound Paths
   SOUNDS: {
-  ALARM_SOUND_PATH: "./src/chime1.wav",
-  END_SOUND_PATH: "./src/double-chime.wav",
+    ALARM_SOUND_PATH: "./src/chime1.wav",
+    END_SOUND_PATH: "./src/double-chime.wav",
   },
 
   // UI Configuration
   UI: {
-    MAX_ALARMS: 4
+    MAX_ALARMS: 4,
   },
 
   // Local Storage Keys
@@ -66,8 +64,8 @@ const CONFIG = {
   // Debug Settings
   DEBUG: {
     // ENABLED: ProcessingInstruction.env.NODE_ENV !== "production",
-    LOG_LEVEL: "info"
-  }
+    LOG_LEVEL: "info",
+  },
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -133,7 +131,7 @@ function getTime() {
       0,
       12,
       0,
-      360
+      360,
     )}deg)`;
   if (minuteEl)
     minuteEl.style.transform = `translate(-50%, -100%) rotate(${scale(
@@ -141,7 +139,7 @@ function getTime() {
       0,
       60,
       0,
-      360
+      360,
     )}deg)`;
   if (secondEl)
     secondEl.style.transform = `translate(-50%, -100%) rotate(${scale(
@@ -149,7 +147,7 @@ function getTime() {
       0,
       60,
       0,
-      360
+      360,
     )}deg)`;
 
   // Update the digital clock
@@ -162,7 +160,7 @@ function getTime() {
     minute,
     lastTriggeredMinute,
     alarms,
-    alarmSound
+    alarmSound,
   );
 }
 
@@ -256,7 +254,7 @@ function initializeRemindUntil() {
         enabled: false,
       };
       console.warm(
-        "Invalid time format. Fallback to default remindUntil settings."
+        "Invalid time format. Fallback to default remindUntil settings.",
       );
     }
     const remindUntilInput = document.getElementById("remind-until");
@@ -385,7 +383,7 @@ function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
   if (alarmTriggered) {
     Logger.log(
       "Alarms triggered. Updating lastTriggeredMinute:",
-      currentMinute
+      currentMinute,
     );
     return currentMinute;
   }
@@ -393,12 +391,9 @@ function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
   return lastTriggeredMinute;
 }
 
-
-
 // Basic Input Validation
 function validateTime(time) {
   const timePattern = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
   // const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
   return timePattern.test(time);
 }
-
