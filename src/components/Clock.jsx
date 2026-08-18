@@ -25,7 +25,7 @@ const Clock = () => {
             className="clock-container"
         >
             <div
-                className={`clock w-[200px] h-[200px] rounded-full border-2 border-secondary relative transition-all duration-300 ${isAlarmActive ? 'ring-4 ring-red-500 ring-opacity-75 shadow-lg shadow-red-500/50' : ''}`}
+                className={`clock w-50 h-50 rounded-full border-2 border-secondary relative transition-all duration-300 ${isAlarmActive ? 'ring-4 ring-red-500 ring-opacity-75 shadow-lg shadow-red-500/50' : ''}`}
             >
                 {/* Hour Hand */}
                 <motion.div
