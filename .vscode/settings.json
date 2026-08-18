@@ -6,7 +6,7 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "always"
     },
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "eslint.validate": [
         "javascript",
         "javascriptreact",
@@ -14,12 +14,12 @@
         "typescriptreact"
     ],
     "[javascript]": {
-        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[javascriptreact]": {
-        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[tailwindcss]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     }
 }

@@ -58,7 +58,7 @@ const Clock = () => {
                 {reminderInfo.enabledTimes.map((time) => (
                     <motion.div
                         key={time}
-                        className="notch absolute top-1/2 left-1/2 w-0 h-26 bg-transparent border-l-[6px] border-r-[6px] border-t-[14px] border-l-transparent border-r-transparent border-t-primary origin-bottom -translate-x-1/2 -translate-y-full"
+                        className="notch absolute top-1/2 left-1/2 w-0 h-26 bg-transparent border-l-[6px] border-r-[6px] border-t-14 border-l-transparent border-r-transparent border-t-primary origin-bottom -translate-x-1/2 -translate-y-full"
                         style={{
                             rotate: scale(parseInt(time), 0, 60, 0, 360),
                         }}
