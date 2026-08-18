@@ -122,7 +122,7 @@ scripts/
 lerna-debug.log*
 
 # Ignore pnpm lock file (optional)
-pnpm-lock.yaml
+# pnpm-lock.yaml
 
 # Ignore npm logs
 npm-debug.log*
