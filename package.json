@@ -1,10 +1,18 @@
 {
   "name": "timereminder",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "remind yourself of the time at regular intervals",
   "main": "index.html",
   "scripts": {
-    "lint": "eslint . --ext .ts,.tsx,.js,.jsx"
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "repository": {
     "type": "git",
@@ -16,10 +24,23 @@
     "url": "https://github.com/devjusty/TimeReminder/issues"
   },
   "homepage": "https://github.com/devjusty/TimeReminder#readme",
+  "dependencies": {
+    "@astrojs/netlify": "^8.2.3",
+    "@astrojs/partytown": "^2.1.7",
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.2.4",
+    "astro-seo": "^1.1.0"
+  },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@eslint/js": "^10.0.1",
-    "eslint": "^9.27.0",
+    "astro-meta-tags": "^0.4.1",
+    "eslint": "^10.8.1",
+    "eslint-plugin-astro": "^3.1.0",
     "globals": "^17.11.0",
-    "prettier": "^3.9.6"
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.67.0"
   }
 }
