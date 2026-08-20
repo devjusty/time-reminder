@@ -114,6 +114,7 @@ function initializeReminderControls() {
     remindUntilInput.addEventListener("change", (e) => {
       remindUntil.time = (e.target as HTMLInputElement).value;
       saveRemindUntil();
+      updateScheduleStatus();
     });
   }
 
@@ -122,8 +123,11 @@ function initializeReminderControls() {
     remindUntilToggle.addEventListener("change", (e) => {
       remindUntil.enabled = (e.target as HTMLInputElement).checked;
       saveRemindUntil();
+      updateScheduleStatus();
     });
   }
+
+  updateScheduleStatus();
 }
 
 const alarmSound = new Audio(CONFIG.SOUNDS.ALARM_SOUND_PATH);
@@ -237,6 +241,26 @@ function initializeAlarms() {
   restoreAlarms();
 }
 
+function updateScheduleStatus() {
+  const scheduleStatus = document.getElementById("schedule-status");
+  if (!scheduleStatus) return;
+
+  const selectedIntervals = CONFIG.REMINDER_INTERVALS.filter(
+    (_, index) => alarms[ALARM_KEYS[index]],
+  );
+
+  if (selectedIntervals.length === 0) {
+    scheduleStatus.textContent =
+      "No reminders selected. Select at least one time.";
+    return;
+  }
+
+  const remindUntilText = remindUntil.enabled
+    ? ` Reminders stop at ${remindUntil.time}.`
+    : "";
+  scheduleStatus.textContent = `Reminders set for :${selectedIntervals.join(", :")}.${remindUntilText}`;
+}
+
 // Save alarms to localStorage
 function saveAlarms() {
   saveToLocalStorage("alarms", alarms);
@@ -264,6 +288,7 @@ function toggleAlarm(event: Event) {
     button.setAttribute("aria-pressed", String(alarms[alarmId]));
     saveAlarms();
     toggleNotches();
+    updateScheduleStatus();
   }
 }
 
@@ -351,6 +376,34 @@ function saveRemindUntil() {
   saveToLocalStorage("remindUntil", remindUntil);
 }
 
+function setAudioError(message = "") {
+  const audioError = document.getElementById("audio-error");
+  if (audioError) audioError.textContent = message;
+}
+
+function playReminderSound(sound: HTMLAudioElement) {
+  setAudioError();
+
+  try {
+    const playPromise = sound.play();
+    if (playPromise !== undefined) {
+      void playPromise
+        .then(() => setAudioError())
+        .catch((error: unknown) => {
+          Logger.error("Error playing reminder sound:", error);
+          setAudioError(
+            "Unable to play reminder sound. Check your browser audio permission.",
+          );
+        });
+    }
+  } catch (error) {
+    Logger.error("Error playing reminder sound:", error);
+    setAudioError(
+      "Unable to play reminder sound. Check your browser audio permission.",
+    );
+  }
+}
+
 // Check and handle "Remind Until" functionality
 function checkRemindUntil() {
   if (!remindUntil.enabled) return;
@@ -365,9 +418,7 @@ function checkRemindUntil() {
     });
     saveAlarms();
     restoreAlarms();
-    void endSound.play().catch((error: unknown) => {
-      Logger.error("Error playing end sound:", error);
-    });
+    playReminderSound(endSound);
     remindUntil.enabled = false;
     const remindUntilToggle = document.getElementById(
       "remind-until-toggle",
@@ -427,33 +478,13 @@ function timeReminder(
         // Check if sound is not already playing
         if (alarmSound.paused) {
           alarmSound.currentTime = 0;
-          const playPromise = alarmSound.play();
-
-          // Handle potential promise-based play method
-          if (playPromise !== undefined) {
-            playPromise
-              .then(() => {
-                Logger.log("Alarm sound played successfully.");
-              })
-              .catch((error: unknown) => {
-                const errorMessage =
-                  error instanceof Error ? error.message : String(error);
-                console.error("Error playing alarm sound:", errorMessage);
-              });
-          }
+          playReminderSound(alarmSound);
         }
       } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : String(error);
-        console.error("Error playing alarm sound:", errorMessage);
-        // Display an error message to the user
-        const errorMessageElement = document.querySelector(".error-message");
-        if (errorMessageElement) {
-          errorMessageElement.textContent = "Error playing the alarm sound!";
-          setTimeout(() => {
-            errorMessageElement.textContent = "";
-          }, 3000);
-        }
+        Logger.error("Error playing alarm sound:", error);
+        setAudioError(
+          "Unable to play reminder sound. Check your browser audio permission.",
+        );
       }
       alarmTriggered = true;
 
