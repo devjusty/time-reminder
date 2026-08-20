@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "verify:build": "pnpm run build && node scripts/verify-build.mjs"
   },
   "repository": {
     "type": "git",

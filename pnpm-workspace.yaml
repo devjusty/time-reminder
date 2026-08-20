@@ -2,9 +2,9 @@ allowBuilds:
   esbuild: true
   sharp: true
 minimumReleaseAgeExclude:
-  - '@astrojs/internal-helpers@0.10.4'
-  - '@astrojs/markdown-satteri@0.3.7'
-  - '@astrojs/netlify@8.2.3'
-  - '@rolldown/binding-darwin-x64@1.2.5'
-  - '@rolldown/binding-linux-arm64-gnu@1.2.5'
+  - "@astrojs/internal-helpers@0.10.4"
+  - "@astrojs/markdown-satteri@0.3.7"
+  - "@astrojs/netlify@8.2.3"
+  - "@rolldown/binding-darwin-x64@1.2.5"
+  - "@rolldown/binding-linux-arm64-gnu@1.2.5"
   - astro@7.2.4
