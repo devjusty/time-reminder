@@ -15,7 +15,7 @@ const DEFAULT_ALARMS: AlarmState = {
 
 let alarms: AlarmState = { ...DEFAULT_ALARMS };
 let remindUntil = {
-  time: "17:00", // Default to 5:00 PM
+  time: "17:00",
   enabled: false,
 };
 let lastTriggeredMinute: string | null = null;
@@ -93,9 +93,15 @@ const CONFIG = {
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeAlarms();
-  getTime();
   initializeRemindUntil();
+  initializeReminderControls();
+  initializeVolumeControls();
+  initializeAlarmListeners();
+  getTime();
+  setInterval(getTime, 1000);
+});
 
+function initializeReminderControls() {
   const remindUntilInput = document.getElementById(
     "remind-until",
   ) as HTMLInputElement;
@@ -118,19 +124,19 @@ document.addEventListener("DOMContentLoaded", () => {
       saveRemindUntil();
     });
   }
-});
-
-// Update the time every second
-setInterval(getTime, 1000);
+}
 
 const alarmSound = new Audio(CONFIG.SOUNDS.ALARM_SOUND_PATH);
 const endSound = new Audio(CONFIG.SOUNDS.END_SOUND_PATH);
-const volumeSlider = document.querySelector<HTMLInputElement>("#volume");
-const volumeValueDisplay = document.getElementById(
-  "volume-value",
-) as HTMLElement;
 
-if (volumeSlider) {
+function initializeVolumeControls() {
+  const volumeSlider = document.querySelector<HTMLInputElement>("#volume");
+  const volumeValueDisplay = document.getElementById(
+    "volume-value",
+  ) as HTMLElement;
+
+  if (!volumeSlider) return;
+
   // Set initial volume
   const initialVolume = volumeSlider.valueAsNumber || 50; // Default to 50 if not set
 
@@ -261,13 +267,14 @@ function toggleAlarm(event: Event) {
   }
 }
 
-// Add event listeners to alarm buttons dynamically
-ALARM_KEYS.forEach((alarmId) => {
-  const button = document.querySelector(`#${alarmId}`);
-  if (button) {
-    button.addEventListener("click", toggleAlarm);
-  }
-});
+function initializeAlarmListeners() {
+  ALARM_KEYS.forEach((alarmId) => {
+    const button = document.querySelector(`#${alarmId}`);
+    if (button) {
+      button.addEventListener("click", toggleAlarm);
+    }
+  });
+}
 
 // Update notches on the analog clock based on alarms
 function toggleNotches() {
@@ -314,9 +321,10 @@ function initializeRemindUntil() {
     } else {
       // Fallback to default
       remindUntil = {
-        time: "17:00", // Default to 5:00 PM
+        time: CONFIG.DEFAULT_REMIND_UNTIL,
         enabled: false,
       };
+      saveRemindUntil();
       console.warn(
         "Invalid time format. Fallback to default remindUntil settings.",
       );
@@ -387,7 +395,6 @@ function timeReminder(
   alarms: Record<string, boolean>,
   alarmSound: HTMLAudioElement,
 ): string | null {
-  const reminderMinutes = ["00", "15", "30", "45"];
   const currentMinute = addZero(minute);
 
   // console.log("Current minute:", currentMinute);
@@ -410,8 +417,8 @@ function timeReminder(
   let alarmTriggered = false;
 
   // Check all active alarms
-  reminderMinutes.forEach((time, index) => {
-    const alarmKey = `alarm${index + 1}`;
+  CONFIG.REMINDER_INTERVALS.forEach((time, index) => {
+    const alarmKey = ALARM_KEYS[index];
     // console.log(`Checking ${alarmKey} for ${time}:`, alarms[alarmKey]);
 
     if (alarms[alarmKey] && currentMinute === time) {

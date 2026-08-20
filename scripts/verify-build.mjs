@@ -43,6 +43,20 @@ for (const route of ["/", "/about", "/contact", "/privacy", "/terms"]) {
   if (!sitemap.includes(route)) throw new Error(`Sitemap missing ${route}`);
 }
 
+const homepage = fs.readFileSync(path.join(dist, "index.html"), "utf8");
+for (const text of [
+  "Time Reminder | Audible reminders every quarter hour",
+  'href="/about"',
+  'href="/contact"',
+]) {
+  if (!homepage.includes(text)) throw new Error(`Homepage missing ${text}`);
+}
+
+const llms = fs.readFileSync(path.join(dist, "llms.txt"), "utf8");
+if (!llms.includes("https://timeremind.info/")) {
+  throw new Error("llms.txt missing configured site URL");
+}
+
 for (const route of [
   "index.html",
   "about/index.html",

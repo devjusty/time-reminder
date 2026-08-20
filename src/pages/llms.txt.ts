@@ -8,7 +8,7 @@ Time Reminder runs in a modern web browser and requires JavaScript and audio sup
 
 ## Product
 
-- [Time Reminder](https://timeremind.info): Use the live web app.
+- [Time Reminder](${siteURL.href}): Use the live web app.
 - [Time Reminder source code](https://github.com/devjusty/time-reminder): Read the open-source implementation and project documentation.
 
 ## Live Content
