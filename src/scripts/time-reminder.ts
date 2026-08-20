@@ -1,11 +1,10 @@
 // Shared variables for clock and reminders
-let minute: number, second: number
 let alarms: Record<string, boolean>
 let remindUntil = {
   time: "17:00", // Default to 5:00 PM
   enabled: false,
 };
-let lastTriggeredMinute = null;
+let lastTriggeredMinute: string | null = null;
 
 // Utility: Logger - Disable in Production
 const Logger = {
@@ -194,7 +193,7 @@ function getTime() {
 }
 
 // Add leading zeroes for time values
-const addZero = (time: number) => (time < 10 ? "0" + time : time);
+const addZero = (time: number): string => (time < 10 ? `0${time}` : `${time}`);
 
 // Initialize alarm settings
 function initializeAlarms() {
@@ -267,7 +266,7 @@ function initializeRemindUntil() {
   const savedRemindUntil = loadFromLocalStorage("remindUntil");
 
   // time validation
-  function isValidTime(time) {
+  function isValidTime(time: string): boolean {
     const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/;
     return timePattern.test(time);
   }
@@ -309,7 +308,7 @@ function checkRemindUntil() {
 
   const now = new Date();
   const hour = now.getHours();
-  const currentTime = `${addZero(hour)}:${addZero(minute)}`;
+  const currentTime = `${addZero(hour)}:${addZero(now.getMinutes())}`;
 
   if (currentTime === remindUntil.time) {
     Object.keys(alarms).forEach((alarmId) => {
@@ -337,7 +336,12 @@ function checkRemindUntil() {
 }
 
 // Play reminders as activated
-function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
+function timeReminder(
+  minute: number,
+  lastTriggeredMinute: string | null,
+  alarms: Record<string, boolean>,
+  alarmSound: HTMLAudioElement,
+): string | null {
   const reminderMinutes = ["00", "15", "30", "45"];
   const currentMinute = addZero(minute);
 
@@ -370,7 +374,7 @@ function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
       try {
         // Check if sound is not already playing
         if (alarmSound.paused) {
-          alarmSound.currentTime;
+          alarmSound.currentTime = 0;
           const playPromise = alarmSound.play();
 
           // Handle potential promise-based play method
@@ -420,11 +424,4 @@ function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
   }
 
   return lastTriggeredMinute;
-}
-
-// Basic Input Validation
-function validateTime(time) {
-  const timePattern = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
-  // const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
-  return timePattern.test(time);
 }
