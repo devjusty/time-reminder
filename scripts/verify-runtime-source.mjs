@@ -111,6 +111,15 @@ if (adsense.includes("data-time-reminder-adsense")) {
 if (layout.indexOf("<GoogleAdSense />") < layout.indexOf("</head>")) {
   throw new Error("AdSense bootstrap must not be rendered in document head");
 }
+if (
+  layout.indexOf('<script src="../scripts/time-reminder.ts"></script>') <
+  layout.indexOf("</head>")
+) {
+  throw new Error("Reminder runtime must not be rendered in document head");
+}
+if (layout.indexOf("<GoogleAnalytics") < layout.indexOf("</head>")) {
+  throw new Error("Analytics scripts must not be rendered in document head");
+}
 
 const digitalClockTags = [...componentMarkup.matchAll(/<[^>]+>/g)].filter(
   (match) => /\bid\s*=\s*["']digital-clock["']/i.test(match[0]),
