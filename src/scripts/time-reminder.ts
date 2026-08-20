@@ -379,31 +379,55 @@ function saveRemindUntil() {
   saveToLocalStorage("remindUntil", remindUntil);
 }
 
+let audioErrorTimeout: ReturnType<typeof setTimeout> | null = null;
+let audioPlaybackRequest = 0;
+
 function setAudioError(message = "") {
   const audioError = document.getElementById("audio-error");
+
+  if (audioErrorTimeout !== null) {
+    clearTimeout(audioErrorTimeout);
+    audioErrorTimeout = null;
+  }
+
   if (audioError) audioError.textContent = message;
+
+  if (message) {
+    audioErrorTimeout = setTimeout(() => {
+      if (audioError) audioError.textContent = "";
+      audioErrorTimeout = null;
+    }, 5000);
+  }
 }
 
 function playReminderSound(sound: HTMLAudioElement) {
-  setAudioError();
+  const playbackRequest = ++audioPlaybackRequest;
 
   try {
     const playPromise = sound.play();
     if (playPromise !== undefined) {
       void playPromise
-        .then(() => setAudioError())
+        .then(() => {
+          if (playbackRequest === audioPlaybackRequest) setAudioError();
+        })
         .catch((error: unknown) => {
           Logger.error("Error playing reminder sound:", error);
-          setAudioError(
-            "Unable to play reminder sound. Check your browser audio permission.",
-          );
+          if (playbackRequest === audioPlaybackRequest) {
+            setAudioError(
+              "Unable to play reminder sound. Check your browser audio permission.",
+            );
+          }
         });
+    } else if (playbackRequest === audioPlaybackRequest) {
+      setAudioError();
     }
   } catch (error) {
     Logger.error("Error playing reminder sound:", error);
-    setAudioError(
-      "Unable to play reminder sound. Check your browser audio permission.",
-    );
+    if (playbackRequest === audioPlaybackRequest) {
+      setAudioError(
+        "Unable to play reminder sound. Check your browser audio permission.",
+      );
+    }
   }
 }
 
