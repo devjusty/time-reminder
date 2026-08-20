@@ -2,6 +2,7 @@
 dist/
 # generated types
 .astro/
+.worktrees/
 
 # dependencies
 node_modules/
