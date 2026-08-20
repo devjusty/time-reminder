@@ -50,7 +50,6 @@
 }
 
 html {
-  min-width: 320px;
   background: var(--color-page-background);
 }
 
@@ -109,7 +108,7 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
-:where(a, button, input, select):focus-visible {
+:where(a, button, input, textarea, select):focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 3px;
 }
@@ -406,7 +405,7 @@ body > header .about {
   position: relative;
   display: block;
   width: 3rem;
-  height: 1.75rem;
+  height: 2.75rem;
 }
 
 .switch input {
@@ -418,7 +417,8 @@ body > header .about {
 
 .slider {
   position: absolute;
-  inset: 0;
+  inset-block: 0.5rem;
+  inset-inline: 0;
   cursor: pointer;
   background: var(--color-border-strong);
   border-radius: 2rem;
@@ -515,7 +515,7 @@ footer a:hover {
   width: 0;
   height: 0;
   border-right: 5px solid transparent;
-  border-bottom: 10px solid var(--color-accent);
+  border-top: 10px solid var(--color-accent);
   border-left: 5px solid transparent;
 }
 

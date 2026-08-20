@@ -19,36 +19,34 @@ import Layout from "../layouts/BaseLayout.astro";
 <style>
   .contact-page {
     width: min(100%, 44rem);
-    padding: var(--spacing-large);
-    background: var(--white);
-    border-radius: var(--border-radius);
-    box-shadow:
-      rgba(50, 50, 93, 0.15) 0 15px 30px -12px,
-      rgba(0, 0, 0, 0.15) 0 10px 20px -14px;
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-surface);
   }
 
   .contact-page h1 {
-    color: var(--primary-dark);
-    margin-bottom: var(--spacing-medium);
+    color: var(--color-accent-strong);
+    margin-bottom: var(--space-3);
   }
 
   .contact-page p {
-    color: var(--primary-text);
+    color: var(--color-text);
     line-height: 1.6;
   }
 
   .contact-page a {
-    color: var(--primary);
+    color: var(--color-accent);
     text-underline-offset: 2px;
   }
 
   .contact-page a:hover {
-    color: var(--primary-light);
+    color: var(--color-accent-strong);
   }
 
   @media screen and (max-width: 768px) {
     .contact-page {
-      padding: var(--spacing-medium);
+      padding: var(--space-3);
     }
   }
 </style>
