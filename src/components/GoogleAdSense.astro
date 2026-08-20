@@ -4,12 +4,12 @@ const adsenseScriptUrl = publisherId
   ? `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${publisherId}`
   : "";
 const loaderScript = `
-  if (!document.querySelector("script[data-time-reminder-adsense]")) {
+  if (!window.__timeReminderAdsenseLoaded) {
+    window.__timeReminderAdsenseLoaded = true;
     const script = document.createElement("script");
     script.async = true;
     script.src = ${JSON.stringify(adsenseScriptUrl)};
     script.crossOrigin = "anonymous";
-    script.dataset.timeReminderAdsense = "true";
     document.head.append(script);
   }
 `;

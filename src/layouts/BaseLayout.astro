@@ -98,10 +98,10 @@ const socialImageURL = Astro.site
       })}
     />
     <slot name="head" />
-    <GoogleAdSense />
     {googleAnalyticsId && <GoogleAnalytics measurementId={googleAnalyticsId} />}
   </head>
   <body>
+    <GoogleAdSense />
     <div data-sonner-toasters transition:persist></div>
     <script is:inline>
       (() => {

@@ -100,6 +100,17 @@ if (
 ) {
   throw new Error("CSP must allow AdSense SODAR scripts");
 }
+if (
+  !/frame-src[^\n]*https:\/\/\*\.adtrafficquality\.google/.test(netlifyConfig)
+) {
+  throw new Error("CSP must allow AdSense SODAR frames");
+}
+if (adsense.includes("data-time-reminder-adsense")) {
+  throw new Error("AdSense script must not use custom data attributes");
+}
+if (layout.indexOf("<GoogleAdSense />") < layout.indexOf("</head>")) {
+  throw new Error("AdSense bootstrap must not be rendered in document head");
+}
 
 const digitalClockTags = [...componentMarkup.matchAll(/<[^>]+>/g)].filter(
   (match) => /\bid\s*=\s*["']digital-clock["']/i.test(match[0]),
