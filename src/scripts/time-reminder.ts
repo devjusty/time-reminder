@@ -235,7 +235,7 @@ function restoreAlarms() {
 
 // Toggle alarm state when a button is clicked
 function toggleAlarm(event: Event) {
-  const alarmId = (event.target as HTMLElement).id;
+  const alarmId = (event.currentTarget as HTMLElement).id;
   if (alarms[alarmId] !== undefined) {
     alarms[alarmId] = !alarms[alarmId];
     (event.target as HTMLElement).classList.toggle("active");
@@ -276,7 +276,13 @@ function initializeRemindUntil() {
 
   if (savedRemindUntil) {
     // validate time
-    if (isValidTime(savedRemindUntil.time)) {
+    if (
+      typeof savedRemindUntil === "object" &&
+      savedRemindUntil !== null &&
+      typeof savedRemindUntil.time === "string" &&
+      isValidTime(savedRemindUntil.time) &&
+      typeof savedRemindUntil.enabled === "boolean"
+    ) {
       remindUntil = savedRemindUntil; // Overwrite remindUntil with saved data
     } else {
       // Fallback to default
@@ -396,7 +402,7 @@ function timeReminder(
         const errorMessage = error instanceof Error ? error.message : String(error);
         console.error("Error playing alarm sound:", errorMessage);
         // Display an error message to the user
-        const errorMessageElement = document.getElementById("error-message");
+        const errorMessageElement = document.querySelector(".error-message");
         if (errorMessageElement) {
           errorMessageElement.textContent = "Error playing the alarm sound!";
           setTimeout(() => {

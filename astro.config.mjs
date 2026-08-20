@@ -21,7 +21,7 @@ export default defineConfig({
           },
           {
             src: ["./src/assets/fonts/satoshi-light-webfont.woff2"],
-            weight: "400",
+            weight: "300",
             style: "normal",
           },
           {
