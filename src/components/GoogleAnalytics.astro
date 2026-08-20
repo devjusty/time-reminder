@@ -1,0 +1,36 @@
+---
+interface Props {
+  measurementId: string;
+}
+
+const { measurementId } = Astro.props;
+const initializationScript = `
+  window.gtag("js", new Date());
+  window.gtag("config", ${JSON.stringify(measurementId)});
+`;
+---
+
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+  window.gtag =
+    window.gtag ||
+    function gtag(...args) {
+      window.dataLayer.push(args);
+    };
+  window.gtag("consent", "default", {
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+    analytics_storage: "denied",
+    functionality_storage: "granted",
+    security_storage: "granted",
+    wait_for_update: 500,
+  });
+</script>
+
+<script
+  is:inline
+  type="text/partytown"
+  src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}></script>
+
+<script is:inline type="text/partytown" set:html={initializationScript} />

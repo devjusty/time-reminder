@@ -1,0 +1,15 @@
+---
+import { Image } from "astro:assets";
+import TimeReminderLogo from "../assets/time-reminder-icon.png";
+---
+
+<header>
+  <a class="brand" href="/" aria-label="Time Reminder home">
+    <Image src={TimeReminderLogo} alt="" width={50} height={50} />
+    <h1 class="name">Time Reminder</h1>
+  </a>
+  <p class="about">
+    An alternative to typical alarms and timers. Get reminders at the top of the
+    hour, bottom of the hour, or the sides.
+  </p>
+</header>

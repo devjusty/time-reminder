@@ -1,9 +1,17 @@
 {
   "cSpell.words": [
     "BKEPME",
+    "Pomodoro",
     "remindtime",
     "Satoshi",
     "timebutton",
     "timetoggles"
+  ],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "astro", // Enable .astro
+    "typescript", // Enable .ts
+    "typescriptreact" // Enable .tsx
   ]
 }

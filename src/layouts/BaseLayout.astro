@@ -1,0 +1,108 @@
+---
+import "../styles/global.css";
+import { Font } from "astro:assets";
+import { SEO } from "astro-seo";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import GoogleAdSense from "../components/GoogleAdSense.astro";
+import GoogleAnalytics from "../components/GoogleAnalytics.astro";
+
+const googleAnalyticsId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string | URL;
+  socialImage?: string | URL;
+  lang?: string;
+}
+
+const {
+  title = "Time Reminder | Keep track of time",
+  description = "Keep track of time with an alternative to typical alarms and timers. Get audible reminders at the top of the hour, bottom of the hour, or the sides.",
+  canonical,
+  socialImage = "/time-reminder-screenshot.jpg",
+  lang = "en",
+} = Astro.props;
+
+const canonicalURL = Astro.site
+  ? new URL(canonical ?? Astro.url.pathname, Astro.site)
+  : undefined;
+const socialImageURL = Astro.site
+  ? new URL(socialImage, Astro.site)
+  : new URL(socialImage, Astro.url);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Time Reminder" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <Font cssVariable="--font-satoshi" />
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonicalURL}
+      removeTrailingSlashForRoot
+      openGraph={{
+        basic: {
+          title,
+          type: "website",
+          image: socialImageURL.href,
+          url: canonicalURL?.href,
+        },
+        image: {
+          url: socialImageURL?.href,
+          alt: "Time Reminder",
+        },
+        optional: {
+          description,
+          locale: "en_US",
+          siteName: "Time Reminder",
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        title,
+        description,
+        image: socialImageURL?.href,
+        imageAlt: "Time Reminder | Keep track of time",
+      }}
+    />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        name: "Time Reminder",
+        url: canonicalURL?.href ?? Astro.url.href,
+        description,
+        applicationCategory: "UtilitiesApplication",
+        operatingSystem: "Any",
+        browserRequirements: "Requires JavaScript",
+        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      })}
+    />
+    <slot name="head" />
+    <GoogleAdSense />
+    {googleAnalyticsId && <GoogleAnalytics measurementId={googleAnalyticsId} />}
+  </head>
+  <body>
+    <Header />
+    <div class="page-content">
+      <slot />
+    </div>
+    <Footer />
+  </body>
+</html>

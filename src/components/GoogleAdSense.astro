@@ -1,0 +1,14 @@
+---
+const publisherId = import.meta.env.PUBLIC_ADSENSE_CLIENT_ID;
+---
+
+{
+  publisherId && (
+    <script
+      is:inline
+      async
+      src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${publisherId}`}
+      crossorigin="anonymous"
+    />
+  )
+}

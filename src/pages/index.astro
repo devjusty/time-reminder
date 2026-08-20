@@ -1,0 +1,21 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Clock from "../components/Clock.astro";
+import RemindUntil from "../components/RemindUntil.astro";
+import TimeToggles from "../components/TimeToggles.astro";
+import Volume from "../components/Volume.astro";
+---
+
+<BaseLayout
+  title="Time Reminder | Audible reminders every quarter hour"
+  description="Set audible reminders at :00, :15, :30, or :45 and keep track of time in your browser."
+>
+  <main class="app" aria-labelledby="app-title">
+    <h1 id="app-title" class="visually-hidden">Time Reminder</h1>
+    <Clock />
+    <TimeToggles />
+    <RemindUntil />
+    <Volume />
+  </main>
+  <script src="../scripts/time-reminder.ts"></script>
+</BaseLayout>
