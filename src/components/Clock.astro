@@ -1,11 +1,6 @@
-<span
-  id="digital-clock"
-  role="timer"
-  aria-live="polite"
-  aria-label="Current time">00:00 AM</span
->
+<span id="digital-clock" role="timer" aria-label="Current time">00:00 AM</span>
 <div class="clock-container">
-  <div class="clock">
+  <div class="clock" aria-hidden="true">
     <div class="notch zero active"></div>
     <div class="notch fifteen"></div>
     <div class="notch thirty"></div>
@@ -16,3 +11,4 @@
     <div class="center-point"></div>
   </div>
 </div>
+<p id="audio-error" class="error-message" role="alert"></p>

@@ -8,8 +8,11 @@ const lastUpdated = "August 19, 2026";
   title="Privacy Policy | Time Reminder"
   description="How Time Reminder collects, uses, and protects your data, including Google Analytics, Google AdSense, and Amazon affiliate links."
 >
-  <a class="skip-link" href="#main-content">Skip to privacy policy</a>
-  <main id="main-content" class="page-shell privacy-page">
+  <main
+    id="main-content"
+    class="page-shell legal-page privacy-page"
+    tabindex="-1"
+  >
     <h1>Privacy Policy</h1>
     <p class="intro">
       This policy explains what information Time Reminder collects, why we
@@ -366,59 +369,3 @@ const lastUpdated = "August 19, 2026";
     }
   });
 </script>
-
-<style>
-  .privacy-page {
-    max-width: 44rem;
-    width: min(100%, 44rem);
-  }
-  .updated-note {
-    color: var(--color-text-muted);
-    font-size: 0.95rem;
-    margin-top: -0.5rem;
-  }
-  .privacy-page section {
-    margin-top: 2.5rem;
-  }
-  .privacy-page h2 {
-    font-family: var(--font-playfair);
-    font-size: clamp(1.4rem, 3vw, 1.75rem);
-    margin-bottom: 0.75rem;
-    color: var(--color-text);
-  }
-  .privacy-page h3 {
-    font-size: 1.05rem;
-    margin: 1.25rem 0 0.4rem;
-    color: var(--color-text);
-  }
-  .privacy-page p,
-  .privacy-page li {
-    color: var(--color-text);
-    line-height: 1.6;
-  }
-  .privacy-page ul {
-    padding-left: 1.25rem;
-    display: grid;
-    gap: 0.4rem;
-    margin: 0.5rem 0 1rem;
-  }
-  .privacy-page a {
-    color: var(--color-accent);
-    text-underline-offset: 2px;
-  }
-  .privacy-page a:hover {
-    color: var(--color-accent-hover);
-  }
-  .effective {
-    font-weight: 600;
-  }
-  .disclaimer {
-    margin-top: 3rem;
-    padding: 1rem 1.25rem;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 1rem;
-    color: var(--color-text-muted);
-    font-size: 0.9rem;
-  }
-</style>

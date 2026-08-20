@@ -10,12 +10,24 @@ import Volume from "../components/Volume.astro";
   title="Time Reminder | Audible reminders every quarter hour"
   description="Set audible reminders at :00, :15, :30, or :45 and keep track of time in your browser."
 >
-  <main class="app" aria-labelledby="app-title">
-    <h1 id="app-title" class="visually-hidden">Time Reminder</h1>
-    <Clock />
-    <TimeToggles />
-    <RemindUntil />
-    <Volume />
+  <main id="main-content" class="app" tabindex="-1">
+    <h1>Time Reminder</h1>
+    <section aria-labelledby="clock-heading">
+      <h2 id="clock-heading" class="visually-hidden">Current time</h2>
+      <Clock />
+    </section>
+    <section aria-labelledby="schedule-heading">
+      <h2 id="schedule-heading" class="visually-hidden">Reminder schedule</h2>
+      <TimeToggles />
+    </section>
+    <section aria-labelledby="end-time-heading">
+      <h2 id="end-time-heading" class="visually-hidden">Reminder end time</h2>
+      <RemindUntil />
+    </section>
+    <section aria-labelledby="volume-heading">
+      <h2 id="volume-heading" class="visually-hidden">Reminder volume</h2>
+      <Volume />
+    </section>
   </main>
   <script src="../scripts/time-reminder.ts"></script>
 </BaseLayout>
