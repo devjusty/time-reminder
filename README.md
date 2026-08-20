@@ -1,11 +1,11 @@
-# TimeReminder
+# Time Reminder
 
-TimeReminder is a simple productivity tool that offers an alternative to typical timers and alarms. Receive an audible chime at the top of the hour, bottom of the hour, or on the sides (a quarter past the hour, or a quarter before the hour). Use the buttons to toggle when to receive these reminders.
+Time Reminder is a simple productivity tool that offers an alternative to typical timers and alarms. Receive an audible chime at the top of the hour, bottom of the hour, or on the sides (a quarter past the hour, or a quarter before the hour). Use the buttons to toggle when to receive these reminders.
 
 [timeremind.info](https://timeremind.info)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/c03b6f87-5f32-4174-9d6c-1a013690901a/deploy-status)](https://app.netlify.com/sites/time-reminder/deploys)
 
-![TimeReminder Screenshot](/src/time-reminder-screenshot.jpg)
+![Time Reminder Screenshot](/src/time-reminder-screenshot.jpg)
 
 ## About:
 
@@ -29,6 +29,7 @@ I'd like to eventually rewrite this as an electron desktop app, or possibly port
 ## Updates
 
 1.0.3
+
 - Refactored much of the code behind the scenes
 - New Feature: Remind Until - now you can set a end all reminders and hear a special new chime.
 - Tweaks to design
@@ -36,4 +37,3 @@ I'd like to eventually rewrite this as an electron desktop app, or possibly port
 ### Contact Me
 
 If you have any feedback or ideas, feel free to reach out to me, I'd love to hear what you think.
-
