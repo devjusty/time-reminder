@@ -25,6 +25,7 @@
   --color-text-muted: #587176;
   --color-text-inverted: #ffffff;
   --color-accent: #087f82;
+  --color-accent-hover: #075c60;
   --color-accent-strong: #075c60;
   --color-accent-soft: #bde5e2;
   --color-error: #a13b3b;
@@ -39,6 +40,8 @@
   --space-3: 1rem;
   --space-4: 1.5rem;
   --space-5: 2rem;
+  --content-width-reading: 44rem;
+  --line-height-reading: 1.6;
   --transition-fast: 150ms;
 }
 
@@ -178,6 +181,104 @@ body > header .about {
   justify-content: center;
   width: 100%;
   padding: var(--space-4) var(--space-3) var(--space-5);
+}
+
+.page-shell {
+  width: min(100%, var(--content-width-reading));
+  padding: clamp(var(--space-3), 4vw, var(--space-5));
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-surface);
+}
+
+.page-shell h1 {
+  color: var(--color-accent-strong);
+  margin-bottom: var(--space-3);
+  text-wrap: balance;
+}
+
+.page-shell a {
+  color: var(--color-accent);
+  text-underline-offset: 0.16em;
+}
+
+.page-shell a:hover {
+  color: var(--color-accent-hover);
+}
+
+.simple-page p,
+.legal-page p,
+.legal-page li {
+  color: var(--color-text);
+  line-height: var(--line-height-reading);
+}
+
+.simple-page p {
+  margin-top: var(--space-3);
+}
+
+.simple-page .about-meta {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.legal-page .intro {
+  margin-bottom: var(--space-2);
+}
+
+.legal-page .updated-note {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  margin-top: calc(var(--space-1) * -1);
+}
+
+.legal-page section {
+  margin-top: var(--space-5);
+}
+
+.legal-page h2 {
+  color: var(--color-text);
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+  line-height: 1.1;
+  margin-bottom: var(--space-2);
+}
+
+.legal-page h3 {
+  color: var(--color-text);
+  font-size: 1.05rem;
+  margin: var(--space-4) 0 var(--space-1);
+}
+
+.legal-page ul {
+  display: grid;
+  gap: var(--space-1);
+  margin: var(--space-2) 0 var(--space-3);
+  padding-inline-start: var(--space-4);
+}
+
+.legal-page .effective {
+  font-weight: 700;
+}
+
+.legal-page .all-caps {
+  font-size: 0.9rem;
+}
+
+.legal-page .disclaimer {
+  margin-top: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-text-muted);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 22rem) {
+  .page-shell {
+    padding: var(--space-3);
+  }
 }
 
 .app {

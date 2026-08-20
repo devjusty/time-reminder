@@ -6,7 +6,11 @@ import Layout from "../layouts/BaseLayout.astro";
   title="Contact | Time Reminder"
   description="Contact Time Reminder by email or through GitHub."
 >
-  <main id="main-content" class="contact-page" tabindex="-1">
+  <main
+    id="main-content"
+    class="page-shell simple-page contact-page"
+    tabindex="-1"
+  >
     <h1>Contact</h1>
     <p>
       Email <a href="mailto:hello@timeremind.info">hello@timeremind.info</a>
@@ -15,38 +19,3 @@ import Layout from "../layouts/BaseLayout.astro";
     </p>
   </main>
 </Layout>
-
-<style>
-  .contact-page {
-    width: min(100%, 44rem);
-    padding: var(--space-5);
-    background: var(--color-surface);
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-surface);
-  }
-
-  .contact-page h1 {
-    color: var(--color-accent-strong);
-    margin-bottom: var(--space-3);
-  }
-
-  .contact-page p {
-    color: var(--color-text);
-    line-height: 1.6;
-  }
-
-  .contact-page a {
-    color: var(--color-accent);
-    text-underline-offset: 2px;
-  }
-
-  .contact-page a:hover {
-    color: var(--color-accent-strong);
-  }
-
-  @media screen and (max-width: 768px) {
-    .contact-page {
-      padding: var(--space-3);
-    }
-  }
-</style>
