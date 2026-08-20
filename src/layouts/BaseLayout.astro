@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import { Font } from "astro:assets";
 import { SEO } from "astro-seo";
+import { ClientRouter } from "astro:transitions";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import GoogleAdSense from "../components/GoogleAdSense.astro";
@@ -49,6 +50,8 @@ const socialImageURL = Astro.site
     <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <Font cssVariable="--font-satoshi" />
+    <ClientRouter />
+    <script src="../scripts/time-reminder.ts"></script>
     <SEO
       title={title}
       description={description}
@@ -99,6 +102,15 @@ const socialImageURL = Astro.site
     {googleAnalyticsId && <GoogleAnalytics measurementId={googleAnalyticsId} />}
   </head>
   <body>
+    <div data-sonner-toasters transition:persist></div>
+    <script is:inline>
+      (() => {
+        const sonnerHost = document.querySelector("[data-sonner-toasters]");
+        if (sonnerHost && !sonnerHost.shadowRoot) {
+          sonnerHost.attachShadow({ mode: "open" });
+        }
+      })();
+    </script>
     <Header />
     <div class="page-content">
       <slot />

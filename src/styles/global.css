@@ -469,9 +469,11 @@ body > header .about {
     border-color var(--transition-fast) ease;
 }
 
-.time-button:hover {
-  border-color: var(--color-border-strong);
-  background: var(--color-surface-selected);
+@media (hover: hover) and (pointer: fine) {
+  .time-button:hover {
+    border-color: var(--color-border-strong);
+    background: var(--color-surface-selected);
+  }
 }
 
 .time-button.active {

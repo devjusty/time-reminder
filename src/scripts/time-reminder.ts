@@ -1,7 +1,8 @@
+import toast from "sonner-js";
+import { evaluateReminder } from "./reminder-logic";
 import alarmSoundUrl from "../assets/sounds/chime1.mp3";
 import endSoundUrl from "../assets/sounds/double-chime.mp3";
 
-// Shared variables for clock and reminders
 const ALARM_KEYS = ["alarm1", "alarm2", "alarm3", "alarm4"] as const;
 type AlarmKey = (typeof ALARM_KEYS)[number];
 type AlarmState = Record<AlarmKey, boolean>;
@@ -13,306 +14,102 @@ const DEFAULT_ALARMS: AlarmState = {
   alarm4: false,
 };
 
+const CONFIG = {
+  DEFAULT_REMIND_UNTIL: "17:00",
+  REMINDER_INTERVALS: ["00", "15", "30", "45"] as const,
+  SOUNDS: {
+    ALARM_SOUND_PATH: alarmSoundUrl,
+    END_SOUND_PATH: endSoundUrl,
+  },
+  STORAGE_KEYS: {
+    ALARMS: "alarms",
+    REMIND_UNTIL: "remindUntil",
+  },
+};
+
+type RemindUntilState = {
+  time: string;
+  enabled: boolean;
+};
+
 let alarms: AlarmState = { ...DEFAULT_ALARMS };
-let remindUntil = {
-  time: "17:00",
+let remindUntil: RemindUntilState = {
+  time: CONFIG.DEFAULT_REMIND_UNTIL,
   enabled: false,
 };
 let lastTriggeredMinute: string | null = null;
+let runtimeStarted = false;
+let audioErrorTimeout: ReturnType<typeof setTimeout> | null = null;
+let audioPlaybackRequest = 0;
+let lastReportedError = "";
+let lastReportedErrorAt = 0;
 
-// Utility: Logger - Disable in Production
-const Logger = {
-  DEBUG: false,
-  log(...args: unknown[]): void {
-    if (this.DEBUG) {
-      console.log(...args);
-    }
+const alarmSound = new Audio(CONFIG.SOUNDS.ALARM_SOUND_PATH);
+const endSound = new Audio(CONFIG.SOUNDS.END_SOUND_PATH);
+
+toast.config({
+  toastOptions: {
+    position: "bottom-right",
+    closeButton: true,
+    richColors: true,
+    duration: 5000,
   },
+});
 
+const Logger = {
   error(...args: unknown[]): void {
     console.error(...args);
   },
 };
 
-// Utility: Save data to localStorage with error handling
-function saveToLocalStorage(key: string, value: unknown) {
+function notifyReminder(interval: string): void {
+  toast.success(`Reminder at :${interval}`);
+}
+
+function notifyEndTime(time: string): void {
+  toast.info(`Reminders stopped at ${time}`);
+}
+
+function reportError(message: string, error?: unknown): void {
+  Logger.error(message, error);
+
+  const now = Date.now();
+  if (message === lastReportedError && now - lastReportedErrorAt < 5000) {
+    return;
+  }
+  lastReportedError = message;
+  lastReportedErrorAt = now;
+  toast.error(message);
+}
+
+function saveToLocalStorage(key: string, value: unknown): void {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error(`Error saving to localStorage: ${errorMessage}`);
+    reportError(`Error saving settings: ${getErrorMessage(error)}`, error);
   }
 }
 
-// Utility: Load data from localStorage with error handling
-function loadFromLocalStorage(key: string) {
+function loadFromLocalStorage(key: string): unknown {
   try {
     const value = localStorage.getItem(key);
-
-    if (value === null) {
-      return null;
-    }
-
-    return JSON.parse(value);
+    return value === null ? null : JSON.parse(value);
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error(`Error loading from localStorage: ${errorMessage}`);
+    reportError(`Error loading settings: ${getErrorMessage(error)}`, error);
     return null;
   }
 }
 
-// Configuration Object
-const CONFIG = {
-  // Time and Alarm Settings
-  DEFAULT_REMIND_UNTIL: "17:00",
-  REMINDER_INTERVALS: ["00", "15", "30", "45"],
-
-  // Sound Paths
-  SOUNDS: {
-    ALARM_SOUND_PATH: alarmSoundUrl,
-    END_SOUND_PATH: endSoundUrl,
-  },
-
-  // UI Configuration
-  UI: {
-    MAX_ALARMS: 4,
-  },
-
-  // Local Storage Keys
-  STORAGE_KEYS: {
-    ALARMS: "alarms",
-    REMIND_UNTIL: "remindUntil",
-  },
-
-  // Debug Settings
-  DEBUG: {
-    // ENABLED: ProcessingInstruction.env.NODE_ENV !== "production",
-    LOG_LEVEL: "info",
-  },
-};
-
-document.addEventListener("DOMContentLoaded", () => {
-  initializeAlarms();
-  initializeRemindUntil();
-  initializeReminderControls();
-  initializeVolumeControls();
-  initializeAlarmListeners();
-  getTime();
-  setInterval(getTime, 1000);
-});
-
-function initializeReminderControls() {
-  const remindUntilInput = document.getElementById(
-    "remind-until",
-  ) as HTMLInputElement;
-  const remindUntilToggle = document.getElementById(
-    "remind-until-toggle",
-  ) as HTMLInputElement;
-
-  if (remindUntilInput) {
-    remindUntilInput.value = remindUntil.time;
-    remindUntilInput.addEventListener("change", (e) => {
-      remindUntil.time = (e.target as HTMLInputElement).value;
-      saveRemindUntil();
-      updateScheduleStatus();
-    });
-  }
-
-  if (remindUntilToggle) {
-    remindUntilToggle.checked = remindUntil.enabled;
-    remindUntilToggle.addEventListener("change", (e) => {
-      remindUntil.enabled = (e.target as HTMLInputElement).checked;
-      saveRemindUntil();
-      updateScheduleStatus();
-    });
-  }
-
-  updateScheduleStatus();
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
 }
 
-const alarmSound = new Audio(CONFIG.SOUNDS.ALARM_SOUND_PATH);
-const endSound = new Audio(CONFIG.SOUNDS.END_SOUND_PATH);
-
-function initializeVolumeControls() {
-  const volumeSlider = document.querySelector<HTMLInputElement>("#volume");
-  const volumeValueDisplay = document.getElementById(
-    "volume-value",
-  ) as HTMLElement;
-
-  if (!volumeSlider) return;
-
-  // Set initial volume
-  const initialVolume = volumeSlider.valueAsNumber || 50; // Default to 50 if not set
-
-  alarmSound.volume = initialVolume / 100;
-  endSound.volume = initialVolume / 100;
-
-  if (volumeValueDisplay) {
-    volumeValueDisplay.textContent = initialVolume.toString();
-  }
-
-  volumeSlider.addEventListener("input", (e) => {
-    const volume = (e.target as HTMLInputElement).valueAsNumber;
-
-    alarmSound.volume = volume / 100; // Set volume between 0 and 1
-    endSound.volume = volume / 100; // Set volume between 0 and 1
-
-    if (volumeValueDisplay) {
-      volumeValueDisplay.textContent = volume.toString(); // Update displayed volume value
-    }
-  });
+function saveAlarms(): void {
+  saveToLocalStorage(CONFIG.STORAGE_KEYS.ALARMS, alarms);
 }
 
-// Utility function for scaling values (e.g., for clock rotation)
-const scale = (
-  num: number,
-  in_min: number,
-  in_max: number,
-  out_min: number,
-  out_max: number,
-) => ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
-
-function getTime() {
-  // Get the current time
-  const now = new Date();
-  let hour = now.getHours();
-  const minute: number = now.getMinutes();
-  const second: number = now.getSeconds();
-  const am_pm = hour < 12 ? "AM" : "PM";
-
-  if (hour > 12) hour -= 12;
-  if (hour === 0) hour = 12;
-
-  // Update the analog clock
-  const hourEl = document.querySelector(".needle.hour") as HTMLElement;
-  const minuteEl = document.querySelector(".needle.minute") as HTMLElement;
-  const secondEl = document.querySelector(".needle.second") as HTMLElement;
-
-  if (hourEl)
-    hourEl.style.transform = `translate(-50%, -100%) rotate(${scale(
-      hour,
-      0,
-      12,
-      0,
-      360,
-    )}deg)`;
-  if (minuteEl)
-    minuteEl.style.transform = `translate(-50%, -100%) rotate(${scale(
-      minute,
-      0,
-      60,
-      0,
-      360,
-    )}deg)`;
-  if (secondEl)
-    secondEl.style.transform = `translate(-50%, -100%) rotate(${scale(
-      second,
-      0,
-      60,
-      0,
-      360,
-    )}deg)`;
-
-  // Update the digital clock
-  const currentTime = `${addZero(hour)}:${addZero(minute)} ${am_pm}`;
-  const digitalClockEl = document.getElementById("digital-clock");
-  if (digitalClockEl) digitalClockEl.innerHTML = currentTime;
-
-  checkRemindUntil();
-  lastTriggeredMinute = timeReminder(
-    minute,
-    `${now.getFullYear()}-${addZero(now.getMonth() + 1)}-${addZero(now.getDate())}-${addZero(now.getHours())}:${addZero(minute)}`,
-    lastTriggeredMinute,
-    alarms,
-    alarmSound,
-  );
-}
-
-// Add leading zeroes for time values
-const addZero = (time: number): string => (time < 10 ? `0${time}` : `${time}`);
-
-// Initialize alarm settings
-function initializeAlarms() {
-  const restoredSession = loadFromLocalStorage(CONFIG.STORAGE_KEYS.ALARMS);
-  alarms = isAlarmState(restoredSession)
-    ? restoredSession
-    : { ...DEFAULT_ALARMS };
-
-  saveAlarms();
-  restoreAlarms();
-}
-
-function updateScheduleStatus() {
-  const scheduleStatus = document.getElementById("schedule-status");
-  if (!scheduleStatus) return;
-
-  const selectedIntervals = CONFIG.REMINDER_INTERVALS.filter(
-    (_, index) => alarms[ALARM_KEYS[index]],
-  );
-
-  if (selectedIntervals.length === 0) {
-    scheduleStatus.textContent =
-      "No reminders selected. Select at least one time.";
-    return;
-  }
-
-  const remindUntilText = remindUntil.enabled
-    ? ` Reminders stop at ${remindUntil.time}.`
-    : "";
-  scheduleStatus.textContent = `Reminders set for :${selectedIntervals.join(", :")}.${remindUntilText}`;
-}
-
-// Save alarms to localStorage
-function saveAlarms() {
-  saveToLocalStorage("alarms", alarms);
-}
-
-// Restore alarm states to the UI
-function restoreAlarms() {
-  for (const alarm of ALARM_KEYS) {
-    const button = document.getElementById(alarm);
-    if (button) {
-      button.classList.toggle("active", alarms[alarm]);
-      button.setAttribute("aria-pressed", String(alarms[alarm]));
-    }
-  }
-  toggleNotches();
-  updateScheduleStatus();
-}
-
-// Toggle alarm state when a button is clicked
-function toggleAlarm(event: Event) {
-  const button = event.currentTarget as HTMLButtonElement;
-  const alarmId = button.id as AlarmKey;
-  if (ALARM_KEYS.includes(alarmId)) {
-    alarms[alarmId] = !alarms[alarmId];
-    button.classList.toggle("active", alarms[alarmId]);
-    button.setAttribute("aria-pressed", String(alarms[alarmId]));
-    saveAlarms();
-    toggleNotches();
-    updateScheduleStatus();
-  }
-}
-
-function initializeAlarmListeners() {
-  ALARM_KEYS.forEach((alarmId) => {
-    const button = document.querySelector(`#${alarmId}`);
-    if (button) {
-      button.addEventListener("click", toggleAlarm);
-    }
-  });
-}
-
-// Update notches on the analog clock based on alarms
-function toggleNotches() {
-  const alarmNotchClasses = ["zero", "fifteen", "thirty", "fortyfive"];
-  alarmNotchClasses.forEach((className, index) => {
-    const notch = document.querySelector(`.${className}`);
-    const alarmKey = ALARM_KEYS[index];
-    if (notch) {
-      notch.classList.toggle("active", alarms[alarmKey]);
-    }
-  });
+function saveRemindUntil(): void {
+  saveToLocalStorage(CONFIG.STORAGE_KEYS.REMIND_UNTIL, remindUntil);
 }
 
 function isAlarmState(value: unknown): value is AlarmState {
@@ -325,84 +122,185 @@ function isAlarmState(value: unknown): value is AlarmState {
   );
 }
 
-// Initialize the "Remind Until" feature
-function initializeRemindUntil() {
-  const savedRemindUntil = loadFromLocalStorage("remindUntil");
+function isValidTime(time: string): boolean {
+  return /^([01]\d|2[0-3]):([0-5]\d)$/.test(time);
+}
 
-  // time validation
-  function isValidTime(time: string): boolean {
-    const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/;
-    return timePattern.test(time);
+function initializeAlarms(): void {
+  const restored = loadFromLocalStorage(CONFIG.STORAGE_KEYS.ALARMS);
+  alarms = isAlarmState(restored) ? restored : { ...DEFAULT_ALARMS };
+  saveAlarms();
+}
+
+function initializeRemindUntil(): void {
+  const restored = loadFromLocalStorage(CONFIG.STORAGE_KEYS.REMIND_UNTIL);
+  if (
+    typeof restored === "object" &&
+    restored !== null &&
+    typeof (restored as Record<string, unknown>).time === "string" &&
+    isValidTime((restored as Record<string, string>).time) &&
+    typeof (restored as Record<string, unknown>).enabled === "boolean"
+  ) {
+    remindUntil = restored as RemindUntilState;
+    return;
   }
 
-  // Unlike `if (savedRemindUntil)`, this also validates falsy persisted values.
-  if (savedRemindUntil !== null) {
-    // validate time
-    if (
-      typeof savedRemindUntil === "object" &&
-      savedRemindUntil !== null &&
-      typeof savedRemindUntil.time === "string" &&
-      isValidTime(savedRemindUntil.time) &&
-      typeof savedRemindUntil.enabled === "boolean"
-    ) {
-      remindUntil = savedRemindUntil; // Overwrite remindUntil with saved data
-    } else {
-      // Fallback to default
-      remindUntil = {
-        time: CONFIG.DEFAULT_REMIND_UNTIL,
-        enabled: false,
-      };
-      saveRemindUntil();
-      console.warn(
-        "Invalid time format. Fallback to default remindUntil settings.",
-      );
+  if (restored !== null) {
+    saveRemindUntil();
+    reportError("Invalid reminder end-time settings. Defaults restored.");
+  }
+}
+
+function addZero(time: number): string {
+  return time < 10 ? `0${time}` : `${time}`;
+}
+
+function scale(
+  num: number,
+  inMin: number,
+  inMax: number,
+  outMin: number,
+  outMax: number,
+): number {
+  return ((num - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
+}
+
+function updateScheduleStatus(): void {
+  const scheduleStatus = document.getElementById("schedule-status");
+  if (!scheduleStatus) return;
+
+  const selectedIntervals = CONFIG.REMINDER_INTERVALS.filter(
+    (_, index) => alarms[ALARM_KEYS[index]],
+  );
+  if (selectedIntervals.length === 0) {
+    scheduleStatus.textContent =
+      "No reminders selected. Select at least one time.";
+    return;
+  }
+
+  const remindUntilText = remindUntil.enabled
+    ? ` Reminders stop at ${remindUntil.time}.`
+    : "";
+  scheduleStatus.textContent = `Reminders set for :${selectedIntervals.join(", :")}.${remindUntilText}`;
+}
+
+function toggleNotches(): void {
+  ["zero", "fifteen", "thirty", "fortyfive"].forEach((className, index) => {
+    const notch = document.querySelector(`.${className}`);
+    if (notch) notch.classList.toggle("active", alarms[ALARM_KEYS[index]]);
+  });
+}
+
+function restoreHomepageState(): void {
+  for (const alarm of ALARM_KEYS) {
+    const button = document.getElementById(alarm);
+    if (button) {
+      button.classList.toggle("active", alarms[alarm]);
+      button.setAttribute("aria-pressed", String(alarms[alarm]));
     }
   }
 
   const remindUntilInput = document.getElementById(
     "remind-until",
-  ) as HTMLInputElement;
+  ) as HTMLInputElement | null;
   const remindUntilToggle = document.getElementById(
     "remind-until-toggle",
-  ) as HTMLInputElement;
+  ) as HTMLInputElement | null;
+  if (remindUntilInput) remindUntilInput.value = remindUntil.time;
+  if (remindUntilToggle) remindUntilToggle.checked = remindUntil.enabled;
 
-  if (remindUntilInput) {
-    remindUntilInput.value = remindUntil.time;
+  toggleNotches();
+  updateScheduleStatus();
+}
+
+function toggleAlarm(event: Event): void {
+  const button = event.currentTarget as HTMLButtonElement;
+  const alarmId = button.id as AlarmKey;
+  if (!ALARM_KEYS.includes(alarmId)) return;
+
+  alarms[alarmId] = !alarms[alarmId];
+  button.classList.toggle("active", alarms[alarmId]);
+  button.setAttribute("aria-pressed", String(alarms[alarmId]));
+  saveAlarms();
+  toggleNotches();
+  updateScheduleStatus();
+}
+
+function bindHomepageView(): void {
+  if (!document.getElementById("digital-clock")) return;
+
+  restoreHomepageState();
+
+  for (const alarm of ALARM_KEYS) {
+    const button = document.getElementById(alarm);
+    if (button?.dataset.timeReminderBound === "true") continue;
+    if (button) {
+      button.dataset.timeReminderBound = "true";
+      button.addEventListener("click", toggleAlarm);
+    }
   }
-  if (remindUntilToggle) {
-    remindUntilToggle.checked = remindUntil.enabled;
+
+  const remindUntilInput = document.getElementById(
+    "remind-until",
+  ) as HTMLInputElement | null;
+  if (remindUntilInput?.dataset.timeReminderBound !== "true") {
+    remindUntilInput?.addEventListener("change", (event) => {
+      remindUntil.time = (event.target as HTMLInputElement).value;
+      saveRemindUntil();
+      updateScheduleStatus();
+    });
+    if (remindUntilInput) remindUntilInput.dataset.timeReminderBound = "true";
+  }
+
+  const remindUntilToggle = document.getElementById(
+    "remind-until-toggle",
+  ) as HTMLInputElement | null;
+  if (remindUntilToggle?.dataset.timeReminderBound !== "true") {
+    remindUntilToggle?.addEventListener("change", (event) => {
+      remindUntil.enabled = (event.target as HTMLInputElement).checked;
+      saveRemindUntil();
+      updateScheduleStatus();
+    });
+    if (remindUntilToggle) remindUntilToggle.dataset.timeReminderBound = "true";
+  }
+
+  const volumeSlider = document.getElementById(
+    "volume",
+  ) as HTMLInputElement | null;
+  const volumeValueDisplay = document.getElementById("volume-value");
+  if (volumeSlider && volumeSlider.dataset.timeReminderBound !== "true") {
+    const updateVolume = (event: Event) => {
+      const volume = (event.target as HTMLInputElement).valueAsNumber;
+      alarmSound.volume = volume / 100;
+      endSound.volume = volume / 100;
+      if (volumeValueDisplay)
+        volumeValueDisplay.textContent = volume.toString();
+    };
+    alarmSound.volume = volumeSlider.valueAsNumber / 100;
+    endSound.volume = volumeSlider.valueAsNumber / 100;
+    volumeSlider.addEventListener("input", updateVolume);
+    volumeSlider.dataset.timeReminderBound = "true";
   }
 }
 
-// Save "Remind Until" settings to localStorage
-function saveRemindUntil() {
-  saveToLocalStorage("remindUntil", remindUntil);
-}
+function setAudioError(message = ""): void {
+  if (audioErrorTimeout !== null) clearTimeout(audioErrorTimeout);
+  audioErrorTimeout = null;
 
-let audioErrorTimeout: ReturnType<typeof setTimeout> | null = null;
-let audioPlaybackRequest = 0;
-
-function setAudioError(message = "") {
   const audioError = document.getElementById("audio-error");
-
-  if (audioErrorTimeout !== null) {
-    clearTimeout(audioErrorTimeout);
-    audioErrorTimeout = null;
-  }
-
   if (audioError) audioError.textContent = message;
 
   if (message) {
     audioErrorTimeout = setTimeout(() => {
-      if (audioError) audioError.textContent = "";
+      const currentAudioError = document.getElementById("audio-error");
+      if (currentAudioError) currentAudioError.textContent = "";
       audioErrorTimeout = null;
     }, 5000);
   }
 }
 
-function playReminderSound(sound: HTMLAudioElement) {
+function playReminderSound(sound: HTMLAudioElement): void {
   const playbackRequest = ++audioPlaybackRequest;
-
   try {
     const playPromise = sound.play();
     if (playPromise !== undefined) {
@@ -411,130 +309,111 @@ function playReminderSound(sound: HTMLAudioElement) {
           if (playbackRequest === audioPlaybackRequest) setAudioError();
         })
         .catch((error: unknown) => {
-          Logger.error("Error playing reminder sound:", error);
-          if (playbackRequest === audioPlaybackRequest) {
-            setAudioError(
-              "Unable to play reminder sound. Check your browser audio permission.",
-            );
-          }
+          if (playbackRequest !== audioPlaybackRequest) return;
+          const message =
+            "Unable to play reminder sound. Check your browser audio permission.";
+          setAudioError(message);
+          reportError(message, error);
         });
-    } else if (playbackRequest === audioPlaybackRequest) {
-      setAudioError();
     }
   } catch (error) {
-    Logger.error("Error playing reminder sound:", error);
-    if (playbackRequest === audioPlaybackRequest) {
-      setAudioError(
-        "Unable to play reminder sound. Check your browser audio permission.",
-      );
-    }
+    const message =
+      "Unable to play reminder sound. Check your browser audio permission.";
+    setAudioError(message);
+    reportError(message, error);
   }
 }
 
-// Check and handle "Remind Until" functionality
-function checkRemindUntil() {
+function triggerClockAlert(): void {
+  const clock = document.querySelector(".clock");
+  if (!clock) return;
+  clock.classList.add("alert");
+  setTimeout(() => clock.classList.remove("alert"), 3000);
+}
+
+function checkRemindUntil(): void {
   if (!remindUntil.enabled) return;
 
   const now = new Date();
-  const hour = now.getHours();
-  const currentTime = `${addZero(hour)}:${addZero(now.getMinutes())}`;
+  const currentTime = `${addZero(now.getHours())}:${addZero(now.getMinutes())}`;
+  if (currentTime !== remindUntil.time) return;
 
-  if (currentTime === remindUntil.time) {
-    ALARM_KEYS.forEach((alarmId) => {
-      alarms[alarmId] = false;
-    });
-    saveAlarms();
-    restoreAlarms();
-    playReminderSound(endSound);
-    remindUntil.enabled = false;
-    const remindUntilToggle = document.getElementById(
-      "remind-until-toggle",
-    ) as HTMLInputElement;
-    if (remindUntilToggle) remindUntilToggle.checked = false;
-    saveRemindUntil();
-    updateScheduleStatus();
+  for (const alarm of ALARM_KEYS) alarms[alarm] = false;
+  remindUntil.enabled = false;
+  saveAlarms();
+  saveRemindUntil();
+  playReminderSound(endSound);
+  notifyEndTime(currentTime);
+  restoreHomepageState();
+  triggerClockAlert();
+}
 
-    // Trigger the clock glow effect
-    const clock = document.querySelector(".clock");
-    if (clock) {
-      clock.classList.add("alert");
-      setTimeout(() => {
-        clock.classList.remove("alert");
-      }, 3000);
-    } else {
-      console.error(".clock element not found in the DOM!");
-    }
+function timeReminder(now: Date): void {
+  const currentTimeKey = `${now.getFullYear()}-${addZero(now.getMonth() + 1)}-${addZero(now.getDate())}-${addZero(now.getHours())}:${addZero(now.getMinutes())}`;
+  const decision = evaluateReminder(
+    now.getMinutes(),
+    currentTimeKey,
+    lastTriggeredMinute,
+    alarms,
+    CONFIG.REMINDER_INTERVALS,
+  );
+  lastTriggeredMinute = decision.nextLastTriggeredMinute;
+  if (!decision.triggered) return;
+
+  alarmSound.currentTime = 0;
+  if (alarmSound.paused) playReminderSound(alarmSound);
+  notifyReminder(addZero(now.getMinutes()));
+  triggerClockAlert();
+}
+
+function getTime(): void {
+  try {
+    const now = new Date();
+    let hour = now.getHours();
+    const minute = now.getMinutes();
+    const second = now.getSeconds();
+    const amPm = hour < 12 ? "AM" : "PM";
+    if (hour > 12) hour -= 12;
+    if (hour === 0) hour = 12;
+
+    const hourEl = document.querySelector(".needle.hour") as HTMLElement | null;
+    const minuteEl = document.querySelector(
+      ".needle.minute",
+    ) as HTMLElement | null;
+    const secondEl = document.querySelector(
+      ".needle.second",
+    ) as HTMLElement | null;
+    if (hourEl)
+      hourEl.style.transform = `translate(-50%, -100%) rotate(${scale(hour, 0, 12, 0, 360)}deg)`;
+    if (minuteEl)
+      minuteEl.style.transform = `translate(-50%, -100%) rotate(${scale(minute, 0, 60, 0, 360)}deg)`;
+    if (secondEl)
+      secondEl.style.transform = `translate(-50%, -100%) rotate(${scale(second, 0, 60, 0, 360)}deg)`;
+
+    const digitalClock = document.getElementById("digital-clock");
+    if (digitalClock)
+      digitalClock.textContent = `${addZero(hour)}:${addZero(minute)} ${amPm}`;
+
+    checkRemindUntil();
+    timeReminder(now);
+  } catch (error) {
+    reportError("Unable to process reminder state.", error);
   }
 }
 
-// Play reminders as activated
-function timeReminder(
-  minute: number,
-  currentTimeKey: string,
-  lastTriggeredMinute: string | null,
-  alarms: Record<string, boolean>,
-  alarmSound: HTMLAudioElement,
-): string | null {
-  const currentMinute = addZero(minute);
-
-  // console.log("Current minute:", currentMinute);
-  // console.log("Last triggered minute:", lastTriggeredMinute);
-
-  if (lastTriggeredMinute === currentTimeKey) {
-    // Skip processing if already triggered for this minute
-    Logger.log("Skipping, already triggered for this minute.", currentMinute);
-    return lastTriggeredMinute;
+function initializeRuntime(): void {
+  if (!runtimeStarted) {
+    runtimeStarted = true;
+    initializeAlarms();
+    initializeRemindUntil();
+    setInterval(getTime, 1000);
   }
 
-  // Cache the clock element
-  const clock = document.querySelector(".clock");
-  if (!clock) {
-    console.error(".clock element not found in the DOM!");
-    return lastTriggeredMinute;
-  }
-
-  // Process reminders
-  let alarmTriggered = false;
-
-  // Check all active alarms
-  CONFIG.REMINDER_INTERVALS.forEach((time, index) => {
-    const alarmKey = ALARM_KEYS[index];
-    // console.log(`Checking ${alarmKey} for ${time}:`, alarms[alarmKey]);
-
-    if (alarms[alarmKey] && currentMinute === time) {
-      Logger.log(`Playing alarm for ${alarmKey} at ${currentMinute}`);
-      try {
-        // Check if sound is not already playing
-        if (alarmSound.paused) {
-          alarmSound.currentTime = 0;
-          playReminderSound(alarmSound);
-        }
-      } catch (error) {
-        Logger.error("Error playing alarm sound:", error);
-        setAudioError(
-          "Unable to play reminder sound. Check your browser audio permission.",
-        );
-      }
-      alarmTriggered = true;
-
-      // Trigger combined visual effect
-
-      // console.log("Adding alert class to .clock");
-      clock.classList.add("alert");
-      setTimeout(() => {
-        // console.log("Removing alert class from .clock");
-        clock.classList.remove("alert"); // Remove effect after 3 seconds
-      }, 3000);
-    }
-  });
-
-  if (alarmTriggered) {
-    Logger.log(
-      "Alarms triggered. Updating lastTriggeredMinute:",
-      currentMinute,
-    );
-    return currentTimeKey;
-  }
-
-  return lastTriggeredMinute;
+  bindHomepageView();
+  getTime();
 }
+
+document.addEventListener("astro:page-load", initializeRuntime);
+document.addEventListener("DOMContentLoaded", initializeRuntime, {
+  once: true,
+});

@@ -5,18 +5,10 @@ interface Props {
 
 const { measurementId } = Astro.props;
 const initializationScript = `
-  window.gtag("js", new Date());
-  window.gtag("config", ${JSON.stringify(measurementId)});
-`;
----
-
-<script is:inline>
   window.dataLayer = window.dataLayer || [];
-  window.gtag =
-    window.gtag ||
-    function gtag(...args) {
-      window.dataLayer.push(args);
-    };
+  window.gtag = function gtag(...args) {
+    window.dataLayer.push(args);
+  };
   window.gtag("consent", "default", {
     ad_storage: "denied",
     ad_user_data: "denied",
@@ -26,7 +18,10 @@ const initializationScript = `
     security_storage: "granted",
     wait_for_update: 500,
   });
-</script>
+  window.gtag("js", new Date());
+  window.gtag("config", ${JSON.stringify(measurementId)});
+`;
+---
 
 <script
   is:inline
