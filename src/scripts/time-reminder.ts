@@ -221,6 +221,7 @@ function getTime() {
   checkRemindUntil();
   lastTriggeredMinute = timeReminder(
     minute,
+    `${now.getFullYear()}-${addZero(now.getMonth() + 1)}-${addZero(now.getDate())}-${addZero(now.getHours())}:${addZero(minute)}`,
     lastTriggeredMinute,
     alarms,
     alarmSound,
@@ -276,6 +277,7 @@ function restoreAlarms() {
     }
   }
   toggleNotches();
+  updateScheduleStatus();
 }
 
 // Toggle alarm state when a button is clicked
@@ -333,7 +335,8 @@ function initializeRemindUntil() {
     return timePattern.test(time);
   }
 
-  if (savedRemindUntil) {
+  // Unlike `if (savedRemindUntil)`, this also validates falsy persisted values.
+  if (savedRemindUntil !== null) {
     // validate time
     if (
       typeof savedRemindUntil === "object" &&
@@ -425,6 +428,7 @@ function checkRemindUntil() {
     ) as HTMLInputElement;
     if (remindUntilToggle) remindUntilToggle.checked = false;
     saveRemindUntil();
+    updateScheduleStatus();
 
     // Trigger the clock glow effect
     const clock = document.querySelector(".clock");
@@ -442,6 +446,7 @@ function checkRemindUntil() {
 // Play reminders as activated
 function timeReminder(
   minute: number,
+  currentTimeKey: string,
   lastTriggeredMinute: string | null,
   alarms: Record<string, boolean>,
   alarmSound: HTMLAudioElement,
@@ -451,7 +456,7 @@ function timeReminder(
   // console.log("Current minute:", currentMinute);
   // console.log("Last triggered minute:", lastTriggeredMinute);
 
-  if (lastTriggeredMinute === currentMinute) {
+  if (lastTriggeredMinute === currentTimeKey) {
     // Skip processing if already triggered for this minute
     Logger.log("Skipping, already triggered for this minute.", currentMinute);
     return lastTriggeredMinute;
@@ -504,7 +509,7 @@ function timeReminder(
       "Alarms triggered. Updating lastTriggeredMinute:",
       currentMinute,
     );
-    return currentMinute;
+    return currentTimeKey;
   }
 
   return lastTriggeredMinute;
