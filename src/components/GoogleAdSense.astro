@@ -1,14 +1,18 @@
 ---
 const publisherId = import.meta.env.PUBLIC_ADSENSE_CLIENT_ID;
+const adsenseScriptUrl = publisherId
+  ? `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${publisherId}`
+  : "";
+const loaderScript = `
+  if (!document.querySelector("script[data-time-reminder-adsense]")) {
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = ${JSON.stringify(adsenseScriptUrl)};
+    script.crossOrigin = "anonymous";
+    script.dataset.timeReminderAdsense = "true";
+    document.head.append(script);
+  }
+`;
 ---
 
-{
-  publisherId && (
-    <script
-      is:inline
-      async
-      src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${publisherId}`}
-      crossorigin="anonymous"
-    />
-  )
-}
+{publisherId && <script is:inline data-astro-rerun set:html={loaderScript} />}

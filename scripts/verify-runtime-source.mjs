@@ -7,6 +7,7 @@ const analytics = fs.readFileSync(
   "src/components/GoogleAnalytics.astro",
   "utf8",
 );
+const adsense = fs.readFileSync("src/components/GoogleAdSense.astro", "utf8");
 const netlifyConfig = fs.readFileSync("netlify.toml", "utf8");
 const componentMarkup = fs
   .readdirSync("src/components")
@@ -84,6 +85,20 @@ if (
 }
 if (!netlifyConfig.includes("https://*.adtrafficquality.google")) {
   throw new Error("CSP must allow AdSense SODAR connections");
+}
+if (
+  !adsense.includes("data-astro-rerun") ||
+  !adsense.includes('document.createElement("script")') ||
+  !adsense.includes("script.src =")
+) {
+  throw new Error(
+    "AdSense must load dynamically outside Astro script processing",
+  );
+}
+if (
+  !/script-src[^\n]*https:\/\/\*\.adtrafficquality\.google/.test(netlifyConfig)
+) {
+  throw new Error("CSP must allow AdSense SODAR scripts");
 }
 
 const digitalClockTags = [...componentMarkup.matchAll(/<[^>]+>/g)].filter(
