@@ -12,9 +12,11 @@ const initializationScript = `
 
 <script is:inline>
   window.dataLayer = window.dataLayer || [];
-  window.gtag = window.gtag || function gtag() {
-    window.dataLayer.push(arguments);
-  };
+  window.gtag =
+    window.gtag ||
+    function gtag(...args) {
+      window.dataLayer.push(args);
+    };
   window.gtag("consent", "default", {
     ad_storage: "denied",
     ad_user_data: "denied",
