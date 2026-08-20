@@ -1,0 +1,15 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Clock from "../components/Clock.astro";
+import RemindUntil from "../components/RemindUntil.astro";
+import TimeToggles from "../components/TimeToggles.astro";
+import Volume from "../components/Volume.astro";
+---
+
+<BaseLayout>
+  <Clock />
+  <TimeToggles />
+  <RemindUntil />
+  <Volume />
+  <script src="../scripts/time-reminder.ts"></script>
+</BaseLayout>

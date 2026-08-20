@@ -2,27 +2,6 @@
 / Global Styles and Variables /
 / ============================= */
 
-@font-face {
-  font-family: "Satoshi";
-  src: url("./src/fonts/satoshi-regular-webfont.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("./src/fonts/satoshi-bold-webfont.woff2") format("woff2");
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("./src/fonts/satoshi-light-webfont.woff2") format("woff2");
-  font-weight: light;
-  font-style: normal;
-}
-
 :root {
   /* Primary Colors */
   --primary-light: #0096c7;
@@ -48,6 +27,8 @@
   --spacing-medium: 16px;
   --spacing-large: 40px;
   --border-radius: 5px;
+
+  --font-body: "Satoshi", sans-serif;
 }
 
 *,
@@ -58,7 +39,7 @@
 }
 
 body {
-  font-family: Satoshi, sans-serif;
+  font-family: var(--font-body);
   line-height: 1.5;
   transition: background-color var(--transition-speed) ease;
   background-color: var(--grey-light-1);

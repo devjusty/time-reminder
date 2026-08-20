@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { Font } from "astro:assets";
 import { SEO } from "astro-seo";
 import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
 import GoogleAnalytics from "../components/GoogleAnalytics.astro";
 
 const googleAnalyticsId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
@@ -19,7 +20,7 @@ const {
   title = "TimeReminder | Keep track of time",
   description = "Keep track of time with an alternative to typical alarms and timers. Get audible reminders at the top of the hour, bottom of the hour, or the sides.",
   canonical,
-  socialImage = "/open-graph/home.png",
+  socialImage = "/time-reminder-screenshot.png",
   lang = "en",
 } = Astro.props;
 
@@ -35,7 +36,7 @@ const socialImageURL = new URL(socialImage, Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <Font cssVariable="--font-distant-galaxy" />
+    <Font cssVariable="--font-satoshi" />
     <SEO
       title={title}
       description={description}
@@ -50,12 +51,12 @@ const socialImageURL = new URL(socialImage, Astro.site);
         },
         image: {
           url: socialImageURL.href,
-          alt: "Sleep Time Reminder",
+          alt: "Time Reminder",
         },
         optional: {
           description,
           locale: "en_US",
-          siteName: "Sleep Time Reminder",
+          siteName: "Time Reminder",
         },
       }}
       twitter={{
@@ -63,13 +64,14 @@ const socialImageURL = new URL(socialImage, Astro.site);
         title,
         description,
         image: socialImageURL.href,
-        imageAlt: "Sleep Time Reminder bedtime calculator",
+        imageAlt: "Time Reminder | Keep track of time",
       }}
     />
     <slot name="head" />
     {googleAnalyticsId && <GoogleAnalytics measurementId={googleAnalyticsId} />}
   </head>
   <body>
+    <Header />
     <slot />
     <Footer />
   </body>

@@ -1,5 +1,6 @@
 // Shared variables for clock and reminders
-let minute, second, alarms;
+let minute: number, second: number
+let alarms: Record<string, boolean>
 let remindUntil = {
   time: "17:00", // Default to 5:00 PM
   enabled: false,
@@ -9,31 +10,40 @@ let lastTriggeredMinute = null;
 // Utility: Logger - Disable in Production
 const Logger = {
   DEBUG: false,
-  log(...args) {
+  log(...args: unknown[]): void {
     if (this.DEBUG) {
       console.log(...args);
     }
   },
-  error(...args) {
+
+  error(...args: unknown[]): void {
     console.error(...args);
   },
 };
 
 // Utility: Save data to localStorage with error handling
-function saveToLocalStorage(key, value) {
+function saveToLocalStorage(key: string, value: unknown) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
-    console.error(`Error saving to localStorage: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`Error saving to localStorage: ${errorMessage}`);
   }
 }
 
 // Utility: Load data from localStorage with error handling
-function loadFromLocalStorage(key) {
+function loadFromLocalStorage(key: string) {
   try {
-    return JSON.parse(localStorage.getItem(key)) || null;
+    const value = localStorage.getItem(key);
+
+    if (value === null) {
+      return null;
+    }
+
+    return JSON.parse(value);
   } catch (error) {
-    console.error(`Error loading from localStorage: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`Error loading from localStorage: ${errorMessage}`);
     return null;
   }
 }
@@ -46,8 +56,8 @@ const CONFIG = {
 
   // Sound Paths
   SOUNDS: {
-    ALARM_SOUND_PATH: "./src/chime1.mp3",
-    END_SOUND_PATH: "./src/double-chime.mp3",
+    ALARM_SOUND_PATH: "./src/assets/sounds/chime1.mp3",
+    END_SOUND_PATH: "./src/assets/sounds/double-chime.mp3",
   },
 
   // UI Configuration
@@ -73,13 +83,13 @@ document.addEventListener("DOMContentLoaded", () => {
   getTime();
   initializeRemindUntil();
 
-  const remindUntilInput = document.getElementById("remind-until");
-  const remindUntilToggle = document.getElementById("remind-until-toggle");
+  const remindUntilInput = document.getElementById("remind-until") as HTMLInputElement;
+  const remindUntilToggle = document.getElementById("remind-until-toggle") as HTMLInputElement;;
 
   if (remindUntilInput) {
     remindUntilInput.value = remindUntil.time;
     remindUntilInput.addEventListener("change", (e) => {
-      remindUntil.time = e.target.value;
+      remindUntil.time = (e.target as HTMLInputElement).value;
       saveRemindUntil();
     });
   }
@@ -87,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (remindUntilToggle) {
     remindUntilToggle.checked = remindUntil.enabled;
     remindUntilToggle.addEventListener("change", (e) => {
-      remindUntil.enabled = e.target.checked;
+      remindUntil.enabled = (e.target as HTMLInputElement).checked;
       saveRemindUntil();
     });
   }
@@ -98,32 +108,51 @@ setInterval(getTime, 1000);
 
 const alarmSound = new Audio(CONFIG.SOUNDS.ALARM_SOUND_PATH);
 const endSound = new Audio(CONFIG.SOUNDS.END_SOUND_PATH);
-const volumeSlider = document.getElementById("volume");
-volumeSlider.addEventListener("input", (e) => {
-  const volume = e.target.value;
-  alarmSound.volume = volume / 100; // Set volume between 0 and 1
-  endSound.volume = volume / 100; // Set volume between 0 and 1
-});
+const volumeSlider = document.querySelector<HTMLInputElement>("#volume");
+const volumeValueDisplay = document.getElementById("volume-value") as HTMLElement;
+
+if (volumeSlider) {
+  // Set initial volume
+  const initialVolume = volumeSlider.valueAsNumber || 50; // Default to 50 if not set
+
+  alarmSound.volume = initialVolume / 100;
+  endSound.volume = initialVolume / 100;
+
+  if (volumeValueDisplay) {
+    volumeValueDisplay.textContent = initialVolume.toString();
+  }
+
+  volumeSlider.addEventListener("input", (e) => {
+    const volume = (e.target as HTMLInputElement).valueAsNumber;
+
+    alarmSound.volume = volume / 100; // Set volume between 0 and 1
+    endSound.volume = volume / 100; // Set volume between 0 and 1
+
+    if (volumeValueDisplay) {
+      volumeValueDisplay.textContent = volume.toString(); // Update displayed volume value
+    }
+  });
+}
 
 // Utility function for scaling values (e.g., for clock rotation)
-const scale = (num, in_min, in_max, out_min, out_max) =>
+const scale = (num: number, in_min: number, in_max: number, out_min: number, out_max: number) =>
   ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
 
 function getTime() {
   // Get the current time
   const now = new Date();
   let hour = now.getHours();
-  minute = now.getMinutes();
-  second = now.getSeconds();
+  const minute: number = now.getMinutes();
+  const second: number = now.getSeconds();
   const am_pm = hour < 12 ? "AM" : "PM";
 
   if (hour > 12) hour -= 12;
   if (hour === 0) hour = 12;
 
   // Update the analog clock
-  const hourEl = document.querySelector(".needle.hour");
-  const minuteEl = document.querySelector(".needle.minute");
-  const secondEl = document.querySelector(".needle.second");
+  const hourEl = document.querySelector(".needle.hour") as HTMLElement;
+  const minuteEl = document.querySelector(".needle.minute") as HTMLElement;
+  const secondEl = document.querySelector(".needle.second") as HTMLElement;
 
   if (hourEl)
     hourEl.style.transform = `translate(-50%, -100%) rotate(${scale(
@@ -165,7 +194,7 @@ function getTime() {
 }
 
 // Add leading zeroes for time values
-const addZero = (time) => (time < 10 ? "0" + time : time);
+const addZero = (time: number) => (time < 10 ? "0" + time : time);
 
 // Initialize alarm settings
 function initializeAlarms() {
@@ -203,11 +232,11 @@ function restoreAlarms() {
 }
 
 // Toggle alarm state when a button is clicked
-function toggleAlarm(e) {
-  const alarmId = e.target.id;
+function toggleAlarm(event: Event) {
+  const alarmId = (event.target as HTMLElement).id;
   if (alarms[alarmId] !== undefined) {
     alarms[alarmId] = !alarms[alarmId];
-    e.target.classList.toggle("active");
+    (event.target as HTMLElement).classList.toggle("active");
     saveAlarms();
     toggleNotches();
   }
@@ -253,12 +282,12 @@ function initializeRemindUntil() {
         time: "17:00", // Default to 5:00 PM
         enabled: false,
       };
-      console.warm(
+      console.warn(
         "Invalid time format. Fallback to default remindUntil settings.",
       );
     }
-    const remindUntilInput = document.getElementById("remind-until");
-    const remindUntilToggle = document.getElementById("remind-until-toggle");
+    const remindUntilInput = document.getElementById("remind-until") as HTMLInputElement;
+    const remindUntilToggle = document.getElementById("remind-until-toggle") as HTMLInputElement;
 
     if (remindUntilInput) {
       remindUntilInput.value = savedRemindUntil.time;
@@ -290,7 +319,7 @@ function checkRemindUntil() {
     restoreAlarms();
     endSound.play();
     remindUntil.enabled = false;
-    const remindUntilToggle = document.getElementById("remind-until-toggle");
+    const remindUntilToggle = document.getElementById("remind-until-toggle") as HTMLInputElement;
     if (remindUntilToggle) remindUntilToggle.checked = false;
     saveRemindUntil();
 
@@ -350,20 +379,22 @@ function timeReminder(minute, lastTriggeredMinute, alarms, alarmSound) {
               .then(() => {
                 Logger.log("Alarm sound played successfully.");
               })
-              .catch((error) => {
-                console.error("Error playing alarm sound:", error);
+              .catch((error: unknown) => {
+                const errorMessage = error instanceof Error ? error.message : String(error);
+                console.error("Error playing alarm sound:", errorMessage);
               });
           }
         }
         alarmSound.play();
       } catch (error) {
-        console.error("Error playing alarm sound:", error);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        console.error("Error playing alarm sound:", errorMessage);
         // Display an error message to the user
-        const errorMessage = document.getElementById("error-message");
-        if (errorMessage) {
-          errorMessage.textContent = "Error playing the alarm sound!";
+        const errorMessageElement = document.getElementById("error-message");
+        if (errorMessageElement) {
+          errorMessageElement.textContent = "Error playing the alarm sound!";
           setTimeout(() => {
-            errorMessage.textContent = "";
+            errorMessageElement.textContent = "";
           }, 3000);
         }
       }
