@@ -21,6 +21,9 @@ for (const file of required) {
 const robots = fs.readFileSync(path.join(dist, "robots.txt"), "utf8");
 const sitemapPath = robots.match(/^Sitemap:\s+https?:\/\/[^/]+\/(.+)$/m)?.[1];
 if (!sitemapPath) throw new Error("robots.txt has no sitemap URL");
+if (path.isAbsolute(sitemapPath) || sitemapPath.split("/").includes("..")) {
+  throw new Error(`Invalid sitemap path: ${sitemapPath}`);
+}
 
 const sitemapFile = path.join(dist, sitemapPath);
 if (!fs.existsSync(sitemapFile)) {
@@ -28,9 +31,19 @@ if (!fs.existsSync(sitemapFile)) {
 }
 
 const sitemapIndex = fs.readFileSync(sitemapFile, "utf8");
-const childSitemaps = [
-  ...sitemapIndex.matchAll(/<loc>[^<]+\/(sitemap-[^<]+\.xml)<\/loc>/g),
-].map(([, file]) => file);
+const sitemapUrl = robots.match(/^Sitemap:\s+(https?:\/\/[^/]+)/m)?.[1];
+const sitemapOrigin = new URL(sitemapUrl).origin;
+const childSitemaps = [...sitemapIndex.matchAll(/<loc>([^<]+)<\/loc>/gi)]
+  .map(([, value]) => {
+    try {
+      const url = new URL(value, `${sitemapOrigin}/`);
+      if (url.origin !== sitemapOrigin) return null;
+      return url.pathname.replace(/^\//, "");
+    } catch {
+      return null;
+    }
+  })
+  .filter((file) => file?.startsWith("sitemap-") && file.endsWith(".xml"));
 const sitemap = [
   sitemapIndex,
   ...childSitemaps.map((file) => {
@@ -40,17 +53,87 @@ const sitemap = [
   }),
 ].join("\n");
 for (const route of ["/", "/about", "/contact", "/privacy", "/terms"]) {
-  if (!sitemap.includes(route)) throw new Error(`Sitemap missing ${route}`);
+  const sitemapRoutes = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/gi)].map(
+    ([, value]) => {
+      try {
+        const url = new URL(value, `${sitemapOrigin}/`);
+        if (url.origin !== sitemapOrigin) return "";
+        const pathname = url.pathname;
+        return pathname === "/" ? pathname : pathname.replace(/\/$/, "");
+      } catch {
+        return value === route ? value : "";
+      }
+    },
+  );
+  if (!sitemapRoutes.includes(route))
+    throw new Error(`Sitemap missing ${route}`);
 }
 
-const homepage = fs.readFileSync(path.join(dist, "index.html"), "utf8");
-for (const text of [
-  "Time Reminder | Audible reminders every quarter hour",
-  'href="/about"',
-  'href="/contact"',
+const homepage = fs
+  .readFileSync(path.join(dist, "index.html"), "utf8")
+  .replace(/<!--[\s\S]*?-->/g, "")
+  .replace(/<script\b[\s\S]*?<\/script>/gi, "");
+const normalizeText = (html) =>
+  html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+const parseAttributes = (attrs) =>
+  Object.fromEntries(
+    [...attrs.matchAll(/([:\w-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)].map(
+      ([, key, double, single]) => [key.toLowerCase(), double ?? single ?? ""],
+    ),
+  );
+const tags = [
+  ...homepage.matchAll(/<([a-z][a-z0-9-]*)([^>]*)>([\s\S]*?)<\/\1>/gi),
+];
+const controls = [
+  ...homepage.matchAll(
+    /<(input|button|select|textarea|output|meter|progress)\b([^>]*)>/gi,
+  ),
+].map(([, tag, attrs]) => ({
+  tag: tag.toLowerCase(),
+  attrs,
+  attributes: parseAttributes(attrs),
+  id: parseAttributes(attrs).id,
+}));
+const labels = tags
+  .filter(([, tag]) => tag.toLowerCase() === "label")
+  .map(([, , attrs, content]) => ({
+    text: normalizeText(content),
+    forId: parseAttributes(attrs).for,
+    content,
+  }));
+const requireAssociatedLabel = (text) => {
+  const label = labels.find((candidate) => candidate.text === text);
+  const associatedByFor =
+    label?.forId && controls.some(({ id }) => id === label.forId);
+  const associatedImplicitly =
+    label?.content &&
+    /<(?:input|button|select|textarea|output|meter|progress)\b/i.test(
+      label.content,
+    );
+  if (!label || (!associatedByFor && !associatedImplicitly)) {
+    throw new Error(`Homepage missing associated label: ${text}`);
+  }
+};
+for (const pattern of [
+  /<title>\s*Time Reminder \| Audible reminders every quarter hour\s*<\/title>/i,
 ]) {
-  if (!homepage.includes(text)) throw new Error(`Homepage missing ${text}`);
+  if (!pattern.test(homepage)) throw new Error(`Homepage missing ${pattern}`);
 }
+const links = [...homepage.matchAll(/<a\b([^>]*)>/gi)].map(([, attrs]) =>
+  parseAttributes(attrs),
+);
+for (const href of ["/about", "/contact", "#main-content"]) {
+  if (!links.some((attributes) => attributes.href === href)) {
+    throw new Error(`Homepage missing link: ${href}`);
+  }
+}
+requireAssociatedLabel("Remind me at");
+requireAssociatedLabel("Stop reminders at");
+requireAssociatedLabel("Enable end time");
 
 const llms = fs.readFileSync(path.join(dist, "llms.txt"), "utf8");
 if (!llms.includes("https://timeremind.info/")) {
