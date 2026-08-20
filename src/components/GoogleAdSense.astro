@@ -10,7 +10,7 @@ const loaderScript = `
     script.async = true;
     script.src = ${JSON.stringify(adsenseScriptUrl)};
     script.crossOrigin = "anonymous";
-    document.head.append(script);
+    document.body.append(script);
   }
 `;
 ---

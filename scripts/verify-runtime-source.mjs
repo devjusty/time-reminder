@@ -89,7 +89,8 @@ if (!netlifyConfig.includes("https://*.adtrafficquality.google")) {
 if (
   !adsense.includes("data-astro-rerun") ||
   !adsense.includes('document.createElement("script")') ||
-  !adsense.includes("script.src =")
+  !adsense.includes("script.src =") ||
+  !adsense.includes("document.body.append(script)")
 ) {
   throw new Error(
     "AdSense must load dynamically outside Astro script processing",
