@@ -1,6 +1,9 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "Time Reminder",
+  "short_name": "Time Reminder",
+  "description": "Audible reminders for the top, bottom, and sides of each hour.",
+  "start_url": "/",
+  "scope": "/",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -15,5 +18,6 @@
   ],
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "display": "standalone"
+  "display": "standalone",
+  "orientation": "portrait-primary"
 }

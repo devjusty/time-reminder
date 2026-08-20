@@ -1,21 +1,21 @@
 import type { APIRoute } from "astro";
 
-const getLlmsTxt = (siteURL: URL) => `# TimeReminder
+const getLlmsTxt = (siteURL: URL) => `# Time Reminder
 
-> TimeReminder is a free web app that provides audible reminders at regular quarter-hour intervals, offering a lightweight alternative to typical alarms and timers.
+> Time Reminder is a free web app that provides audible reminders at regular quarter-hour intervals, offering a lightweight alternative to typical alarms and timers.
 
-TimeReminder runs in a modern web browser and requires JavaScript and audio support. Users can choose reminders at the top of the hour (:00), quarter past (:15), half past (:30), or quarter to the hour (:45). They can also adjust the volume, set an optional time to stop reminders, and keep their reminder preferences between visits using local storage. No account or installation is required.
+Time Reminder runs in a modern web browser and requires JavaScript and audio support. Users can choose reminders at the top of the hour (:00), quarter past (:15), half past (:30), or quarter to the hour (:45). They can also adjust the volume, set an optional time to stop reminders, and keep their reminder preferences between visits using local storage. No account or installation is required.
 
 ## Product
 
-- [TimeReminder](https://timeremind.info): Use the live web app.
-- [TimeReminder source code](https://github.com/devjusty/TimeReminder): Read the open-source implementation and project documentation.
+- [Time Reminder](https://timeremind.info): Use the live web app.
+- [Time Reminder source code](https://github.com/devjusty/time-reminder): Read the open-source implementation and project documentation.
 
 ## Live Content
-- [About](${new URL("/about", siteURL).href}): Learn more about TimeReminder.
-- [Privacy Policy](${new URL("/privacy", siteURL).href}): Read the privacy policy for TimeReminder.
-- [Terms of Service](${new URL("/terms", siteURL).href}): Read the terms of service for TimeReminder.
-- [Contact](${new URL("/contact", siteURL).href}): Get in touch with the TimeReminder team.
+- [About](${new URL("/about", siteURL).href}): Learn more about Time Reminder.
+- [Privacy Policy](${new URL("/privacy", siteURL).href}): Read the privacy policy for Time Reminder.
+- [Terms of Service](${new URL("/terms", siteURL).href}): Read the terms of service for Time Reminder.
+- [Contact](${new URL("/contact", siteURL).href}): Get in touch with the Time Reminder team.
 
 ## Related tools
 
