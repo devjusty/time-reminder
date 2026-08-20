@@ -2,6 +2,7 @@
 import { defineConfig, fontProviders } from "astro/config";
 import astroMetaTags from "astro-meta-tags";
 import netlify from "@astrojs/netlify";
+import partytown from "@astrojs/partytown";
 import sitemap from "@astrojs/sitemap";
 // https://astro.build/config
 export default defineConfig({
@@ -33,5 +34,5 @@ export default defineConfig({
       },
     },
   ],
-  integrations: [astroMetaTags(), sitemap()],
+  integrations: [astroMetaTags(), partytown(), sitemap()],
 });

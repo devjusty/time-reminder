@@ -256,14 +256,10 @@ const lastUpdated = "August 19, 2026";
           AdSense, whose personalized advertising may be considered a "sale" or "sharing"
           of personal information under California (CPRA) and similar US state laws.
           You can opt out through our
-          <a
-            href="javascript:googlefc.callbackQueue.push(googlefc.showRevocationMessage)"
-            class="do-not-sell-link"
-            data-do-not-sell
-          >
+          <button type="button" class="do-not-sell-link" data-do-not-sell>
             Do Not Sell or Share My Personal Information
-          </a> link, which opens Google's opt-out dialog for applicable US state residents.
-          The link appears only where required by law.
+          </button> link, which opens Google's opt-out dialog for applicable US state
+          residents. The link appears only where required by law.
         </li>
         <li>
           <strong>Contact us:</strong> to exercise any right, use our <a
@@ -360,6 +356,26 @@ const lastUpdated = "August 19, 2026";
     </p>
   </main>
 </Layout>
+
+<script>
+  const doNotSellLink =
+    document.querySelector<HTMLButtonElement>("[data-do-not-sell]");
+
+  doNotSellLink?.addEventListener("click", () => {
+    const googlefc = (
+      window as Window & {
+        googlefc?: {
+          callbackQueue?: { push: (callback: () => void) => void };
+          showRevocationMessage?: () => void;
+        };
+      }
+    ).googlefc;
+
+    if (googlefc?.callbackQueue && googlefc.showRevocationMessage) {
+      googlefc.callbackQueue.push(googlefc.showRevocationMessage);
+    }
+  });
+</script>
 
 <style>
   .privacy-page {

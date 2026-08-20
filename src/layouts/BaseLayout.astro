@@ -70,6 +70,21 @@ const socialImageURL = Astro.site
         imageAlt: "Time Reminder | Keep track of time",
       }}
     />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        name: "TimeReminder",
+        url: canonicalURL?.href ?? Astro.url.href,
+        description,
+        applicationCategory: "UtilitiesApplication",
+        operatingSystem: "Any",
+        browserRequirements: "Requires JavaScript",
+        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      })}
+    />
     <slot name="head" />
     <GoogleAdSense />
     {googleAnalyticsId && <GoogleAnalytics measurementId={googleAnalyticsId} />}
