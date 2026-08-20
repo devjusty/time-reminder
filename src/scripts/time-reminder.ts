@@ -1,3 +1,6 @@
+import alarmSoundUrl from "../assets/sounds/chime1.mp3";
+import endSoundUrl from "../assets/sounds/double-chime.mp3";
+
 // Shared variables for clock and reminders
 let alarms: Record<string, boolean>
 let remindUntil = {
@@ -55,8 +58,8 @@ const CONFIG = {
 
   // Sound Paths
   SOUNDS: {
-    ALARM_SOUND_PATH: "./src/assets/sounds/chime1.mp3",
-    END_SOUND_PATH: "./src/assets/sounds/double-chime.mp3",
+    ALARM_SOUND_PATH: alarmSoundUrl,
+    END_SOUND_PATH: endSoundUrl,
   },
 
   // UI Configuration
@@ -389,7 +392,6 @@ function timeReminder(
               });
           }
         }
-        alarmSound.play();
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error);
         console.error("Error playing alarm sound:", errorMessage);
