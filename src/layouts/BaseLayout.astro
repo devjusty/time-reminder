@@ -17,7 +17,7 @@ interface Props {
 }
 
 const {
-  title = "TimeReminder | Keep track of time",
+  title = "Time Reminder | Keep track of time",
   description = "Keep track of time with an alternative to typical alarms and timers. Get audible reminders at the top of the hour, bottom of the hour, or the sides.",
   canonical,
   socialImage = "/time-reminder-screenshot.jpg",
@@ -72,7 +72,9 @@ const socialImageURL = new URL(socialImage, Astro.site);
   </head>
   <body>
     <Header />
-    <slot />
+    <div class="page-content">
+      <slot />
+    </div>
     <Footer />
   </body>
 </html>

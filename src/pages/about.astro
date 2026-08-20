@@ -1,0 +1,81 @@
+---
+import packageJson from "../../package.json";
+import Layout from "../layouts/BaseLayout.astro";
+
+const { version } = packageJson;
+---
+
+<Layout
+  title="About | Time Reminder"
+  description="Learn why TimeReminder exists, who created it, and where to find its source code."
+>
+  <main class="about-page">
+    <h1>About TimeReminder</h1>
+    <p>
+      After trying the
+      <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique"
+        >Pomodoro Technique</a
+      >, I found it hard to stick to set start and stop times once I entered a
+      flow state. I wanted a simple tool to remind me of the time, so I built
+      one to suit my needs.
+    </p>
+
+    <p>
+      This project is open source and available on
+      <a href="https://github.com/devjusty/time-reminder">GitHub</a>.
+    </p>
+
+    <p>
+      If you find this app useful and would like to show your appreciation, you
+      can <a href="https://buymeacoffee.com/justydev">buy me a coffee</a>.
+    </p>
+
+    <p class="about-meta">Version {version}</p>
+    <p class="about-meta">
+      Created by <a href="https://justy.dev">justy.dev</a>.
+    </p>
+  </main>
+</Layout>
+
+<style>
+  .about-page {
+    width: min(100%, 44rem);
+    padding: var(--spacing-large);
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow:
+      rgba(50, 50, 93, 0.15) 0 15px 30px -12px,
+      rgba(0, 0, 0, 0.15) 0 10px 20px -14px;
+  }
+
+  .about-page h1 {
+    color: var(--primary-dark);
+    margin-bottom: var(--spacing-medium);
+  }
+
+  .about-page p {
+    color: var(--primary-text);
+    line-height: 1.6;
+    margin-top: var(--spacing-medium);
+  }
+
+  .about-page a {
+    color: var(--primary);
+    text-underline-offset: 2px;
+  }
+
+  .about-page a:hover {
+    color: var(--primary-light);
+  }
+
+  .about-page .about-meta {
+    color: var(--secondary-text);
+    font-size: 0.875rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    .about-page {
+      padding: var(--spacing-medium);
+    }
+  }
+</style>

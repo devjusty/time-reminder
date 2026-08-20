@@ -1,7 +1,7 @@
 {
-  "name": "timereminder",
+  "name": "Time Reminder",
   "version": "0.1.0",
-  "description": "remind yourself of the time at regular intervals",
+  "description": "Remind yourself of the time at regular intervals",
   "main": "index.html",
   "scripts": {
     "dev": "astro dev",
