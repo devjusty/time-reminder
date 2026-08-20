@@ -85,9 +85,6 @@ const parseAttributes = (attrs) =>
       ([, key, double, single]) => [key.toLowerCase(), double ?? single ?? ""],
     ),
   );
-const tags = [
-  ...homepage.matchAll(/<([a-z][a-z0-9-]*)([^>]*)>([\s\S]*?)<\/\1>/gi),
-];
 const controls = [
   ...homepage.matchAll(
     /<(input|button|select|textarea|output|meter|progress)\b([^>]*)>/gi,
@@ -98,13 +95,13 @@ const controls = [
   attributes: parseAttributes(attrs),
   id: parseAttributes(attrs).id,
 }));
-const labels = tags
-  .filter(([, tag]) => tag.toLowerCase() === "label")
-  .map(([, , attrs, content]) => ({
-    text: normalizeText(content),
-    forId: parseAttributes(attrs).for,
-    content,
-  }));
+const labels = [
+  ...homepage.matchAll(/<label\b([^>]*)>([\s\S]*?)<\/label>/gi),
+].map(([, attrs, content]) => ({
+  text: normalizeText(content),
+  forId: parseAttributes(attrs).for,
+  content,
+}));
 const requireAssociatedLabel = (text) => {
   const label = labels.find((candidate) => candidate.text === text);
   const associatedByFor =
