@@ -31,7 +31,7 @@
     "@astrojs/netlify": "^8.2.3",
     "@astrojs/partytown": "^2.1.7",
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.2.4",
+    "astro": "^7.2.8",
     "astro-seo": "^1.1.0",
     "sonner-js": "^1.1.3"
   },
