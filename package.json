@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/devjusty/TimeReminder#readme",
   "dependencies": {
-    "@astrojs/netlify": "^8.2.3",
+    "@astrojs/netlify": "^8.2.4",
     "@astrojs/partytown": "^2.1.7",
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.2.4",
