@@ -7,8 +7,6 @@ const analytics = fs.readFileSync(
   "src/components/GoogleAnalytics.astro",
   "utf8",
 );
-const adsense = fs.readFileSync("src/components/GoogleAdSense.astro", "utf8");
-const netlifyConfig = fs.readFileSync("netlify.toml", "utf8");
 const componentMarkup = fs
   .readdirSync("src/components")
   .filter((file) => file.endsWith(".astro"))
@@ -82,35 +80,6 @@ if (
   throw new Error(
     "Partytown analytics initialization must define gtag in worker",
   );
-}
-if (!netlifyConfig.includes("https://*.adtrafficquality.google")) {
-  throw new Error("CSP must allow AdSense SODAR connections");
-}
-if (
-  !adsense.includes("data-astro-rerun") ||
-  !adsense.includes('document.createElement("script")') ||
-  !adsense.includes("script.src =") ||
-  !adsense.includes("document.body.append(script)")
-) {
-  throw new Error(
-    "AdSense must load dynamically outside Astro script processing",
-  );
-}
-if (
-  !/script-src[^\n]*https:\/\/\*\.adtrafficquality\.google/.test(netlifyConfig)
-) {
-  throw new Error("CSP must allow AdSense SODAR scripts");
-}
-if (
-  !/frame-src[^\n]*https:\/\/\*\.adtrafficquality\.google/.test(netlifyConfig)
-) {
-  throw new Error("CSP must allow AdSense SODAR frames");
-}
-if (adsense.includes("data-time-reminder-adsense")) {
-  throw new Error("AdSense script must not use custom data attributes");
-}
-if (layout.indexOf("<GoogleAdSense />") < layout.indexOf("</head>")) {
-  throw new Error("AdSense bootstrap must not be rendered in document head");
 }
 if (
   layout.indexOf('<script src="../scripts/time-reminder.ts"></script>') <

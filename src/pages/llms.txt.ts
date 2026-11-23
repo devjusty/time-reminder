@@ -13,8 +13,6 @@ Time Reminder runs in a modern web browser and requires JavaScript and audio sup
 
 ## Live Content
 - [About](${new URL("/about", siteURL).href}): Learn more about Time Reminder.
-- [Privacy Policy](${new URL("/privacy", siteURL).href}): Read the privacy policy for Time Reminder.
-- [Terms of Service](${new URL("/terms", siteURL).href}): Read the terms of service for Time Reminder.
 - [Contact](${new URL("/contact", siteURL).href}): Get in touch with the Time Reminder team.
 
 ## Related tools
